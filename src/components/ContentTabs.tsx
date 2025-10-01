@@ -5,6 +5,7 @@ import { Algorithm } from "@/types/algorithms";
 import { useEffect, useState } from "react";
 import { Callout } from "./Callout";
 import { TechTooltip } from "./TechTooltip";
+import { RichText } from "./RichText";
 
 interface ContentTabsProps {
   algorithm: Algorithm;
@@ -48,7 +49,9 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
           
           elements.push(
             <Callout key={i} type={type}>
-              <div className="whitespace-pre-wrap">{calloutContent.trim()}</div>
+              <div className="whitespace-pre-wrap">
+                <RichText content={calloutContent.trim()} />
+              </div>
             </Callout>
           );
           i++;
@@ -56,8 +59,8 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
         }
       }
 
-      // Handle bold headings
-      if (line.startsWith("**") && line.endsWith("**") && line.length > 4) {
+      // Handle bold headings (lines that are fully bold)
+      if (line.match(/^\*\*[^*]+\*\*$/) && line.length > 4) {
         elements.push(
           <h3 key={i} className="font-bold text-lg mt-4 mb-2">
             {line.replace(/\*\*/g, "")}
@@ -71,7 +74,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
       if (line.startsWith("- ")) {
         elements.push(
           <li key={i} className="ml-6 mb-1 list-disc">
-            {line.substring(2)}
+            <RichText content={line.substring(2)} />
           </li>
         );
         i++;
@@ -83,17 +86,17 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
       if (numberedMatch) {
         elements.push(
           <li key={i} className="ml-6 mb-1 list-decimal">
-            {line.substring(numberedMatch[0].length)}
+            <RichText content={line.substring(numberedMatch[0].length)} />
           </li>
         );
         i++;
         continue;
       }
 
-      // Regular paragraph with potential tooltips
+      // Regular paragraph with potential tooltips and inline formatting
       if (line.trim()) {
         const tooltips = algorithm.detailedExplanations?.filter(exp => exp.section === section) || [];
-        let content: React.ReactNode = line;
+        let content: React.ReactNode = <RichText content={line} />;
         
         // Check if line contains any tooltip triggers
         for (const tooltip of tooltips) {
@@ -101,7 +104,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
             const parts = line.split(tooltip.trigger);
             content = (
               <>
-                {parts[0]}
+                <RichText content={parts[0]} />
                 <TechTooltip 
                   triggerText={tooltip.trigger}
                   content={
@@ -110,7 +113,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                     </div>
                   }
                 />
-                {parts[1]}
+                <RichText content={parts[1] || ""} />
               </>
             );
             break;
@@ -137,25 +140,25 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
       <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto">
         <TabsTrigger 
           value="problem"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-4 py-2"
+          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
         >
           Problem
         </TabsTrigger>
         <TabsTrigger 
           value="algorithm"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-4 py-2"
+          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
         >
           Algorithm
         </TabsTrigger>
         <TabsTrigger 
           value="solution"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-4 py-2"
+          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
         >
           Solution
         </TabsTrigger>
         <TabsTrigger 
           value="improvements"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-4 py-2"
+          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
         >
           Improvements
         </TabsTrigger>
@@ -170,6 +173,25 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
       <TabsContent value="algorithm" className="mt-6 prose max-w-none">
         <div className="text-base leading-relaxed">
           {parseContent(algorithm.algorithm, "algorithm")}
+          
+          {algorithm.images && algorithm.images.length > 0 && (
+            <div className="my-6 space-y-4">
+              {algorithm.images.map((image, idx) => (
+                <figure key={idx} className="border border-border rounded-lg p-4 bg-card">
+                  <img 
+                    src={image.url} 
+                    alt={image.alt}
+                    className="w-full max-w-2xl mx-auto"
+                  />
+                  {image.caption && (
+                    <figcaption className="text-sm text-muted-foreground mt-3 text-center">
+                      {image.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          )}
         </div>
       </TabsContent>
 
@@ -178,8 +200,8 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
           {parseContent(algorithm.solution, "solution")}
         </div>
         
-        {algorithm.code && (
-          <div className="mt-6">
+        {algorithm.codeBlocks && algorithm.codeBlocks.length > 0 && (
+          <div className="mt-6 space-y-6">
             <h3 className="font-bold text-lg mb-3">Complexity</h3>
             <p className="mb-2">
               <strong>Time:</strong>{" "}
@@ -201,21 +223,29 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
               <strong>Space:</strong> O(V) — queue + visited set.
             </p>
             
-            <h3 className="font-bold text-lg mb-3 mt-6">Implementation</h3>
-            <div className="rounded-md overflow-hidden border border-border">
-              <SyntaxHighlighter
-                language="go"
-                style={isDark ? vscDarkPlus : vs}
-                customStyle={{
-                  margin: 0,
-                  padding: "1rem",
-                  fontSize: "0.875rem",
-                  lineHeight: "1.5",
-                }}
-              >
-                {algorithm.code}
-              </SyntaxHighlighter>
-            </div>
+            {algorithm.codeBlocks.map((block, idx) => (
+              <div key={idx} className="mt-6">
+                {block.description && (
+                  <div className="mb-3">
+                    <RichText content={block.description} />
+                  </div>
+                )}
+                <div className="rounded-md overflow-hidden border border-border">
+                  <SyntaxHighlighter
+                    language={block.language || "go"}
+                    style={isDark ? vscDarkPlus : vs}
+                    customStyle={{
+                      margin: 0,
+                      padding: "1rem",
+                      fontSize: "0.875rem",
+                      lineHeight: "1.5",
+                    }}
+                  >
+                    {block.code}
+                  </SyntaxHighlighter>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </TabsContent>

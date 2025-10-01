@@ -1,4 +1,5 @@
 import { Category } from "@/types/algorithms";
+import binaryTreeImg from "@/assets/binary-tree-example.png";
 
 export const algorithmCategories: Category[] = [
   {
@@ -37,7 +38,10 @@ export const algorithmCategories: Category[] = [
 **For Huge Graphs** (millions of nodes)
 → Ring buffer or container/list for stable O(1) operations
 [/CALLOUT]`,
-        code: `package main
+        codeBlocks: [
+          {
+            description: "**Basic BFS Implementation**",
+            code: `package main
 
 import "fmt"
 
@@ -67,9 +71,11 @@ func hasRoute(graph map[string][]string, start, end string) bool {
     }
     
     return false
-}
-
-func main() {
+}`,
+          },
+          {
+            description: "**Usage Example**",
+            code: `func main() {
     graph := map[string][]string{
         "A": {"B", "C"},
         "B": {"D"},
@@ -81,6 +87,8 @@ func main() {
     fmt.Println(hasRoute(graph, "A", "E")) // true
     fmt.Println(hasRoute(graph, "B", "A")) // false
 }`,
+          },
+        ],
         detailedExplanations: [
           {
             trigger: "queue = queue[1:]",
@@ -156,7 +164,10 @@ The correct general statement is O(V+E) because neighbor traversal dominates in 
 3. For each unvisited neighbor, recursively call DFS
 4. Return when no unvisited neighbors remain`,
         improvements: `[CALLOUT:TIP]Use iterative approach with explicit stack for very deep graphs to avoid stack overflow. Consider using pre-order, in-order, or post-order traversal based on use case.[/CALLOUT]`,
-        code: `package main
+        codeBlocks: [
+          {
+            description: "**Recursive DFS**",
+            code: `package main
 
 import "fmt"
 
@@ -169,9 +180,11 @@ func dfsRecursive(graph map[string][]string, node string, visited map[string]boo
             dfsRecursive(graph, neighbor, visited)
         }
     }
-}
-
-func dfsIterative(graph map[string][]string, start string) {
+}`,
+          },
+          {
+            description: "**Iterative DFS** (better for deep graphs)",
+            code: `func dfsIterative(graph map[string][]string, start string) {
     visited := make(map[string]bool)
     stack := []string{start}
     
@@ -191,6 +204,8 @@ func dfsIterative(graph map[string][]string, start string) {
         }
     }
 }`,
+          },
+        ],
       },
     ],
   },
@@ -204,6 +219,13 @@ func dfsIterative(graph map[string][]string, start string) {
         category: "trees",
         problem: "Implement in-order, pre-order, and post-order traversal of a binary tree.",
         algorithm: `[CALLOUT:ALGORITHM]**Tree Traversal** — Different orders of visiting nodes: In-order (left, root, right), Pre-order (root, left, right), Post-order (left, right, root).[/CALLOUT]`,
+        images: [
+          {
+            url: binaryTreeImg,
+            alt: "Binary tree example with nodes showing values",
+            caption: "Example binary tree structure with node values",
+          },
+        ],
         solution: `**Things to Watch Out For:**
 [CALLOUT:WARNING]Nil pointer checks are essential[/CALLOUT]
 - Recursive approach is most intuitive
@@ -222,7 +244,10 @@ func dfsIterative(graph map[string][]string, start string) {
 **Post-order**: Left → Right → Root (good for deletion)
 [/CALLOUT]`,
         improvements: `[CALLOUT:TIP]Implement iterative versions using stacks for better space efficiency in production. Morris traversal can achieve O(1) space complexity.[/CALLOUT]`,
-        code: `package main
+        codeBlocks: [
+          {
+            description: "**Tree Node Structure**",
+            code: `package main
 
 import "fmt"
 
@@ -230,10 +255,11 @@ type TreeNode struct {
     Val   int
     Left  *TreeNode
     Right *TreeNode
-}
-
-// In-order: Left -> Root -> Right
-func inorderTraversal(root *TreeNode) []int {
+}`,
+          },
+          {
+            description: "**In-order Traversal** (Left → Root → Right)",
+            code: `func inorderTraversal(root *TreeNode) []int {
     result := []int{}
     var traverse func(*TreeNode)
     traverse = func(node *TreeNode) {
@@ -246,10 +272,11 @@ func inorderTraversal(root *TreeNode) []int {
     }
     traverse(root)
     return result
-}
-
-// Pre-order: Root -> Left -> Right
-func preorderTraversal(root *TreeNode) []int {
+}`,
+          },
+          {
+            description: "**Pre-order Traversal** (Root → Left → Right)",
+            code: `func preorderTraversal(root *TreeNode) []int {
     result := []int{}
     var traverse func(*TreeNode)
     traverse = func(node *TreeNode) {
@@ -262,10 +289,11 @@ func preorderTraversal(root *TreeNode) []int {
     }
     traverse(root)
     return result
-}
-
-// Post-order: Left -> Right -> Root
-func postorderTraversal(root *TreeNode) []int {
+}`,
+          },
+          {
+            description: "**Post-order Traversal** (Left → Right → Root)",
+            code: `func postorderTraversal(root *TreeNode) []int {
     result := []int{}
     var traverse func(*TreeNode)
     traverse = func(node *TreeNode) {
@@ -279,6 +307,8 @@ func postorderTraversal(root *TreeNode) []int {
     traverse(root)
     return result
 }`,
+          },
+        ],
       },
       {
         id: "validate-bst",
@@ -304,7 +334,10 @@ func postorderTraversal(root *TreeNode) []int {
 4. Recursively validate right child with updated min bound
 5. Return false if any violation found`,
         improvements: `[CALLOUT:TIP]Can also use in-order traversal approach - for valid BST, in-order should produce sorted sequence. This may be more intuitive.[/CALLOUT]`,
-        code: `package main
+        codeBlocks: [
+          {
+            description: "**Range Checking Approach**",
+            code: `package main
 
 import "math"
 
@@ -329,10 +362,11 @@ func validate(node *TreeNode, min, max int) bool {
     
     return validate(node.Left, min, node.Val) && 
            validate(node.Right, node.Val, max)
-}
-
-// Alternative: In-order traversal approach
-func isValidBSTInorder(root *TreeNode) bool {
+}`,
+          },
+          {
+            description: "**Alternative: In-order Traversal Approach**",
+            code: `func isValidBSTInorder(root *TreeNode) bool {
     prev := math.MinInt64
     var inorder func(*TreeNode) bool
     
@@ -355,6 +389,8 @@ func isValidBSTInorder(root *TreeNode) bool {
     
     return inorder(root)
 }`,
+          },
+        ],
       },
     ],
   },

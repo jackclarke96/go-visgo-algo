@@ -1,3 +1,9 @@
+export interface CodeBlock {
+  code: string;
+  description?: string;
+  language?: string;
+}
+
 export interface Algorithm {
   id: string;
   title: string;
@@ -6,7 +12,12 @@ export interface Algorithm {
   algorithm: string;
   solution: string;
   improvements: string;
-  code?: string;
+  codeBlocks?: CodeBlock[];
+  images?: {
+    url: string;
+    alt: string;
+    caption?: string;
+  }[];
   detailedExplanations?: DetailedExplanation[];
 }
 
