@@ -200,7 +200,17 @@ export const PathSumVisualizer = () => {
         onReset={handleReset}
         onSpeedChange={setSpeed}
         description={currentStepData.description}
-        variables={{}}
+        variables={{
+          "Current Node": currentStepData.currentNode || "null",
+          "Target Sum": currentStepData.targetSum.toString(),
+          "Cumulative": currentStepData.cumulative.toString(),
+          "Path Count": currentStepData.pathCount.toString(),
+          "Frequency Map": `{${Object.entries(currentStepData.frequencyMap).map(([k, v]) => `${k}: ${v}`).join(", ")}}`,
+          "Call Stack Depth": currentStepData.callStack.length.toString(),
+          ...(currentStepData.checkingValue !== undefined && {
+            "Checking": `${currentStepData.cumulative} - ${currentStepData.targetSum} = ${currentStepData.checkingValue}`
+          })
+        }}
       />
     </div>
   );

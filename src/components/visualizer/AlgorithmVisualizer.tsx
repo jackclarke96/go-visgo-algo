@@ -149,7 +149,12 @@ export const AlgorithmVisualizer = () => {
         onReset={handleReset}
         onSpeedChange={setSpeed}
         description={currentStepData.description}
-        variables={currentStepData.variables}
+        variables={{
+          "Current Node": currentStepData.currentNode || "null",
+          "Queue": `[${currentStepData.queue.join(", ")}]`,
+          "Visited": `{${Array.from(currentStepData.visited).join(", ")}}`,
+          ...currentStepData.variables,
+        }}
       />
     </div>
   );
