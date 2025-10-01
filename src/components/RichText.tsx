@@ -25,7 +25,7 @@ export const RichText = ({ content }: RichTextProps) => {
         parts.push(
           <code 
             key={match.index} 
-            className="px-1.5 py-0.5 rounded bg-code-background text-accent-foreground font-mono text-sm"
+            className="px-1.5 py-0.5 rounded bg-muted text-foreground font-mono text-sm border border-border"
           >
             {match[3]}
           </code>
