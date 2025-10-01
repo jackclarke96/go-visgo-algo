@@ -8,6 +8,7 @@ import { TechTooltip } from "./TechTooltip";
 import { RichText } from "./RichText";
 import { DeepDiveModal } from "./DeepDiveModal";
 import { AlgorithmVisualizer } from "./visualizer/AlgorithmVisualizer";
+import { PathSumVisualizer } from "./visualizer/PathSumVisualizer";
 
 interface ContentTabsProps {
   algorithm: Algorithm;
@@ -219,8 +220,10 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     return elements;
   };
 
-  // Show visualizer for BFS algorithm
-  const showVisualizer = algorithm.id === "route-between-nodes";
+  // Show visualizer for specific algorithms
+  const showBFSVisualizer = algorithm.id === "route-between-nodes";
+  const showPathSumVisualizer = algorithm.id === "path-sum";
+  const showVisualizer = showBFSVisualizer || showPathSumVisualizer;
 
   return (
     <Tabs defaultValue="problem" className="w-full">
@@ -353,7 +356,8 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
       {showVisualizer && (
         <TabsContent value="visualizer" className="mt-6">
-          <AlgorithmVisualizer />
+          {showBFSVisualizer && <AlgorithmVisualizer />}
+          {showPathSumVisualizer && <PathSumVisualizer />}
         </TabsContent>
       )}
     </Tabs>

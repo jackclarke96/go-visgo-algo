@@ -510,6 +510,75 @@ func validate(node *TreeNode, min, max int) bool {
           },
         ],
       },
+      {
+        id: "path-sum",
+        title: "4.5 Path Sum (Paths Summing to Target)",
+        category: "trees",
+        problem: "Find the number of paths in a binary tree that sum to a given target value. A path can start and end at any node in the tree.",
+        algorithm: `[CALLOUT:ALGORITHM]**Path Sum with Frequency Map** — Use DFS with cumulative sum tracking. At each node, check if (cumulative - target) exists in a frequency map. The key insight: if path from root to j sums to T, and path from root to i sums to S, then the subpath from j+1 to i sums to S-T.[/CALLOUT]`,
+        solution: `**Things to Watch Out For:**
+[CALLOUT:WARNING]Must increment frequency map BEFORE visiting children (on the way up the recursion)[/CALLOUT]
+[CALLOUT:WARNING]Must decrement frequency map AFTER visiting children (on the way down - backtracking)[/CALLOUT]
+- Initialize frequency map with {0: 1} to handle paths starting from root
+- The frequency map tracks how many times each cumulative sum has been seen
+
+**Data Structures:**
+[CALLOUT:DEFINITION]
+\`\`\`go
+TreeNode: struct with value, left, right
+FrequencyMap: map[int]int  // cumulative sum -> count
+PathCount: int             // running total of valid paths
+\`\`\`
+[/CALLOUT]
+
+**Steps:**
+1. Initialize frequency map with {0: 1}
+2. At each node: add current value to cumulative sum
+3. Check if (cumulative - target) exists in map → add its frequency to path count
+4. Increment frequency[cumulative] before recursing
+5. Recurse on left and right children
+6. Decrement frequency[cumulative] after recursing (backtrack)`,
+        improvements: `[CALLOUT:TIP]This algorithm runs in O(n) time and O(h) space where h is the height of the tree. The frequency map never grows beyond O(h) because we backtrack and remove values as we return from recursion.[/CALLOUT]
+
+[CALLOUT:ALGORITHM]
+**Why the Frequency Map Works**
+
+If we have a cumulative sum of 15 at node i, and we're looking for paths that sum to 8, we need to find if there's an ancestor node j where the cumulative sum was 7 (because 15 - 8 = 7).
+
+The frequency map tells us how many such ancestor nodes exist on the current path from root to i.
+[/CALLOUT]`,
+        codeBlocks: [
+          {
+            description: "**Path Sum Implementation**",
+            code: `package main
+
+func numberOfPathsSummingToS(root *binaryTreeNode, S int) int {
+    var dfs func(n *binaryTreeNode, cumulative int)
+    pathCount := 0
+    frequencyMap := map[int]int{0: 1}
+    
+    dfs = func(n *binaryTreeNode, cumulative int) {
+        if n == nil {
+            return
+        }
+        
+        cumulative += n.value
+        if count, ok := frequencyMap[cumulative-S]; ok {
+            pathCount += count
+        }
+
+        frequencyMap[cumulative]++
+        dfs(n.left, cumulative)
+        dfs(n.right, cumulative)
+        frequencyMap[cumulative]--
+    }
+    
+    dfs(root, 0)
+    return pathCount
+}`,
+          },
+        ],
+      },
     ],
   },
 ];
