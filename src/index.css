@@ -49,6 +49,26 @@ All colors MUST be HSL.
 
     --code-background: 0 0% 97%;
     --tab-border: 0 0% 85%;
+    
+    --callout-info: 210 100% 97%;
+    --callout-info-border: 210 100% 80%;
+    --callout-info-text: 210 100% 30%;
+    
+    --callout-warning: 38 100% 97%;
+    --callout-warning-border: 38 100% 75%;
+    --callout-warning-text: 38 100% 25%;
+    
+    --callout-tip: 142 76% 96%;
+    --callout-tip-border: 142 76% 70%;
+    --callout-tip-text: 142 76% 25%;
+    
+    --callout-definition: 280 65% 97%;
+    --callout-definition-border: 280 65% 75%;
+    --callout-definition-text: 280 65% 30%;
+    
+    --callout-algorithm: 0 0% 96%;
+    --callout-algorithm-border: 0 0% 75%;
+    --callout-algorithm-text: 0 0% 20%;
   }
 
   .dark {
@@ -91,6 +111,26 @@ All colors MUST be HSL.
 
     --code-background: 0 0% 8%;
     --tab-border: 0 0% 25%;
+    
+    --callout-info: 210 100% 15%;
+    --callout-info-border: 210 100% 35%;
+    --callout-info-text: 210 100% 85%;
+    
+    --callout-warning: 38 100% 15%;
+    --callout-warning-border: 38 100% 40%;
+    --callout-warning-text: 38 100% 85%;
+    
+    --callout-tip: 142 76% 15%;
+    --callout-tip-border: 142 76% 40%;
+    --callout-tip-text: 142 76% 85%;
+    
+    --callout-definition: 280 65% 15%;
+    --callout-definition-border: 280 65% 40%;
+    --callout-definition-text: 280 65% 85%;
+    
+    --callout-algorithm: 0 0% 15%;
+    --callout-algorithm-border: 0 0% 35%;
+    --callout-algorithm-text: 0 0% 85%;
   }
 }
 

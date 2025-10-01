@@ -57,6 +57,33 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        callout: {
+          info: {
+            DEFAULT: "hsl(var(--callout-info))",
+            border: "hsl(var(--callout-info-border))",
+            text: "hsl(var(--callout-info-text))",
+          },
+          warning: {
+            DEFAULT: "hsl(var(--callout-warning))",
+            border: "hsl(var(--callout-warning-border))",
+            text: "hsl(var(--callout-warning-text))",
+          },
+          tip: {
+            DEFAULT: "hsl(var(--callout-tip))",
+            border: "hsl(var(--callout-tip-border))",
+            text: "hsl(var(--callout-tip-text))",
+          },
+          definition: {
+            DEFAULT: "hsl(var(--callout-definition))",
+            border: "hsl(var(--callout-definition-border))",
+            text: "hsl(var(--callout-definition-text))",
+          },
+          algorithm: {
+            DEFAULT: "hsl(var(--callout-algorithm))",
+            border: "hsl(var(--callout-algorithm-border))",
+            text: "hsl(var(--callout-algorithm-text))",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

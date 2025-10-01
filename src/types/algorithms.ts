@@ -7,6 +7,13 @@ export interface Algorithm {
   solution: string;
   improvements: string;
   code?: string;
+  detailedExplanations?: DetailedExplanation[];
+}
+
+export interface DetailedExplanation {
+  trigger: string;
+  content: string;
+  section: "problem" | "algorithm" | "solution" | "improvements";
 }
 
 export interface Category {
