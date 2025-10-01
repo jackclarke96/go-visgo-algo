@@ -32,11 +32,16 @@ export const algorithmCategories: Category[] = [
         improvements: `[CALLOUT:TIP]Consider using a bidirectional BFS for improved performance on large graphs. This searches from both start and end simultaneously, reducing the search space.[/CALLOUT]
 
 [CALLOUT:ALGORITHM]
+**Queue Implementation Recommendations**
+
 **For Small to Medium Graphs** (hundreds / low thousands of nodes)
 → Slices win (simpler, faster, cache-friendly)
 
 **For Huge Graphs** (millions of nodes)
-→ Ring buffer or container/list for stable O(1) operations
+→ Ring buffer or \`container/list\` for stable O(1) operations
+
+**For General-Purpose Libraries**
+→ Ring buffer is the most robust choice
 [/CALLOUT]`,
         codeBlocks: [
           {
@@ -93,28 +98,78 @@ func hasRoute(graph map[string][]string, start, end string) bool {
           {
             trigger: "queue = queue[1:]",
             section: "solution",
-            content: `**Why queue[1:] is inefficient for huge queues:**
+            content: `**Why \`queue = queue[1:]\` is inefficient for huge queues**
 
-Go slices have a hidden structure:
-- ptr: pointer to first element (can point mid-array)
-- len: accessible elements
-- cap: total capacity before reallocation
+[CALLOUT:DEFINITION]
+**Go Slice Internal Structure**
 
-When you do queue[1:]:
-• Element [0] logically dropped but stays in memory
-• ptr moves forward, len and cap shrink
-• Old elements not garbage collected while slice exists
-• Memory "leaks forward" as queue grows
+\`\`\`go
+type slice struct {
+    ptr *ElementType  // pointer to first element
+    len int           // number of elements in slice
+    cap int           // capacity from ptr to end of backing array
+}
+\`\`\`
 
-**If capacity exceeded:**
-• New array allocated (2× size initially)
-• All elements copied → O(n) operation
-• Average is amortized O(1), but spikes occur
+• **ptr** doesn't have to point to the start of the backing array — it can point into the middle
+• **len** is how many elements you can access
+• **cap** is how many elements you can append before you need a new backing array
+[/CALLOUT]
 
-**Better alternatives:**
-• Ring buffer for O(1) enqueue/dequeue
-• container/list for stable operations
-• Slices OK for small/medium graphs (simpler, cache-friendly)`,
+**What happens when you do \`queue = queue[1:]\`:**
+
+Initial state:
+\`\`\`
+[1][2][3][4]
+ ^
+ ptr (len=4, cap=4)
+\`\`\`
+
+After \`queue = queue[1:]\`:
+\`\`\`
+[1][2][3][4]
+    ^
+    ptr (len=3, cap=3)
+\`\`\`
+
+[CALLOUT:WARNING]
+**The Memory Leak Problem**
+
+• Element \`[1]\` is logically dropped, but **still exists in the backing array**
+• As long as the slice (or any copy) exists, the garbage collector won't free the array because it's still referenced
+• Memory "leaks forward" as the queue keeps walking through the array
+• Capacity keeps shrinking from the front
+• If you keep appending, Go might allocate new arrays again and again → reallocations
+[/CALLOUT]
+
+**What happens when capacity is exceeded:**
+
+1. **New backing array allocated**
+   • Typically 2× the old capacity (initially)
+   • Then grows more slowly for larger slices
+   • See: Go slice growth rule
+
+2. **All elements copied over**
+   • That's **O(n)** where n = len(old slice)
+   • The slice header now points to the new array with larger cap
+
+3. **Amortized complexity**
+   • We say append is amortized **O(1)**
+   • The occasional resize costs O(n)
+   • But across many appends, geometric growth ensures average stays constant
+
+[CALLOUT:TIP]
+**Better Alternatives**
+
+**For Small to Medium Graphs** (hundreds / low thousands of nodes)
+→ Slices win (simpler, faster, cache-friendly)
+
+**For Huge Graphs** (millions of nodes)
+→ Ring buffer or \`container/list\` for stable O(1) operations
+
+**For General-Purpose Graph Libraries**
+→ Ring buffer queue is the most robust choice
+[/CALLOUT]`,
           },
           {
             trigger: "O(V + E)",
