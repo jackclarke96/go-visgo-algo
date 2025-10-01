@@ -7,6 +7,7 @@ import { Callout } from "./Callout";
 import { TechTooltip } from "./TechTooltip";
 import { RichText } from "./RichText";
 import { DeepDiveModal } from "./DeepDiveModal";
+import { AlgorithmVisualizer } from "./visualizer/AlgorithmVisualizer";
 
 interface ContentTabsProps {
   algorithm: Algorithm;
@@ -218,6 +219,9 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     return elements;
   };
 
+  // Show visualizer for BFS algorithm
+  const showVisualizer = algorithm.id === "route-between-nodes";
+
   return (
     <Tabs defaultValue="problem" className="w-full">
       <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto">
@@ -245,6 +249,14 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
         >
           Improvements
         </TabsTrigger>
+        {showVisualizer && (
+          <TabsTrigger 
+            value="visualizer"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
+          >
+            Visualizer
+          </TabsTrigger>
+        )}
       </TabsList>
 
       <TabsContent value="problem" className="mt-6 prose max-w-none">
@@ -338,6 +350,12 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
           {parseContent(algorithm.improvements, "improvements")}
         </div>
       </TabsContent>
+
+      {showVisualizer && (
+        <TabsContent value="visualizer" className="mt-6">
+          <AlgorithmVisualizer />
+        </TabsContent>
+      )}
     </Tabs>
   );
 };
