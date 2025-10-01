@@ -18,9 +18,9 @@ export const algorithmCategories: Category[] = [
 
 **Data Structures:**
 [CALLOUT:DEFINITION]
-**Graph**: map[string][]string
+**Graph**: \`map[string][]string\`
 **Queue**: slice or ring buffer
-**Visited**: map[string]bool
+**Visited**: \`map[string]bool\`
 [/CALLOUT]
 
 **Steps:**

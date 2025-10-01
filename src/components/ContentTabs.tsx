@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Callout } from "./Callout";
 import { TechTooltip } from "./TechTooltip";
 import { RichText } from "./RichText";
+import { DeepDiveModal } from "./DeepDiveModal";
 
 interface ContentTabsProps {
   algorithm: Algorithm;
@@ -95,33 +96,51 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
       // Regular paragraph with potential tooltips and inline formatting
       if (line.trim()) {
-        const tooltips = algorithm.detailedExplanations?.filter(exp => exp.section === section) || [];
+        const explanations = algorithm.detailedExplanations?.filter(exp => exp.section === section) || [];
+        let hasDeepDive = false;
         let content: React.ReactNode = <RichText content={line} />;
         
-        // Check if line contains any tooltip triggers
-        for (const tooltip of tooltips) {
-          if (line.includes(tooltip.trigger)) {
-            const parts = line.split(tooltip.trigger);
-            content = (
-              <>
-                <RichText content={parts[0]} />
-                <TechTooltip 
-                  triggerText={tooltip.trigger}
-                  content={
-                    <div className="whitespace-pre-wrap font-mono text-xs">
-                      {tooltip.content}
-                    </div>
-                  }
-                />
-                <RichText content={parts[1] || ""} />
-              </>
-            );
+        // Check for deep dive modals and tooltips
+        for (const explanation of explanations) {
+          if (line.includes(explanation.trigger)) {
+            const parts = line.split(explanation.trigger);
+            
+            // Use modal for longer explanations (more than 500 chars), tooltip for shorter
+            if (explanation.content.length > 500) {
+              content = (
+                <>
+                  <RichText content={parts[0]} />
+                  <DeepDiveModal 
+                    trigger={explanation.trigger}
+                    title={explanation.trigger}
+                    content={explanation.content}
+                  />
+                  {parts[1] && <RichText content={parts[1]} />}
+                </>
+              );
+              hasDeepDive = true;
+            } else {
+              content = (
+                <>
+                  <RichText content={parts[0]} />
+                  <TechTooltip 
+                    triggerText={explanation.trigger}
+                    content={
+                      <div className="whitespace-pre-wrap font-mono text-xs">
+                        {explanation.content}
+                      </div>
+                    }
+                  />
+                  <RichText content={parts[1] || ""} />
+                </>
+              );
+            }
             break;
           }
         }
         
         elements.push(
-          <p key={i} className="mb-2">
+          <p key={i} className={`mb-2 ${hasDeepDive ? 'flex items-center flex-wrap gap-1' : ''}`}>
             {content}
           </p>
         );
