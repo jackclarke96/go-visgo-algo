@@ -1,12 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { AlgorithmSidebar } from "@/components/AlgorithmSidebar";
+import { ContentTabs } from "@/components/ContentTabs";
+import { algorithmCategories } from "@/data/algorithms";
 
 const Index = () => {
+  const [selectedAlgorithmId, setSelectedAlgorithmId] = useState("route-between-nodes");
+
+  const selectedAlgorithm = algorithmCategories
+    .flatMap((cat) => cat.algorithms)
+    .find((alg) => alg.id === selectedAlgorithmId);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="flex min-h-screen w-full bg-background">
+      <AlgorithmSidebar
+        selectedId={selectedAlgorithmId}
+        onSelect={setSelectedAlgorithmId}
+      />
+      
+      <main className="flex-1 p-8 overflow-y-auto">
+        {selectedAlgorithm && (
+          <article>
+            <h1 className="text-4xl font-bold mb-6 text-foreground">
+              {selectedAlgorithm.title}
+            </h1>
+            <ContentTabs algorithm={selectedAlgorithm} />
+          </article>
+        )}
+      </main>
     </div>
   );
 };
