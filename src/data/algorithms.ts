@@ -18,9 +18,11 @@ export const algorithmCategories: Category[] = [
 
 **Data Structures:**
 [CALLOUT:DEFINITION]
-**Graph**: \`map[string][]string\`
-**Queue**: slice or ring buffer
-**Visited**: \`map[string]bool\`
+\`\`\`go
+Graph: map[string][]string
+Queue: slice or ring buffer
+Visited: map[string]bool
+\`\`\`
 [/CALLOUT]
 
 **Steps:**
@@ -42,7 +44,10 @@ export const algorithmCategories: Category[] = [
 
 **For General-Purpose Libraries**
 → Ring buffer is the most robust choice
-[/CALLOUT]`,
+[/CALLOUT]
+
+**Advanced Optimization:**
+Learn more about bidirectional search to understand how searching from both ends can dramatically improve performance in many scenarios.`,
         codeBlocks: [
           {
             description: "**Basic BFS Implementation**",
@@ -95,6 +100,64 @@ func hasRoute(graph map[string][]string, start, end string) bool {
           },
         ],
         detailedExplanations: [
+          {
+            trigger: "bidirectional search",
+            section: "improvements",
+            content: `**Understanding Bidirectional Search**
+
+[CALLOUT:ALGORITHM]
+Bidirectional search is an optimization technique that runs two simultaneous searches:
+• One forward from the initial state
+• One backward from the goal state
+• The search terminates when the two searches meet
+[/CALLOUT]
+
+**Performance Benefits**
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. The key advantage is reducing the search space exponentially. Instead of exploring b^d nodes (where b is branching factor and d is depth), bidirectional search explores 2*b^(d/2) nodes.
+
+[CALLOUT:DEFINITION]
+\`\`\`
+Traditional BFS: O(b^d)
+Bidirectional BFS: O(2*b^(d/2))
+
+Example with b=10, d=6:
+Traditional: 1,000,000 nodes
+Bidirectional: 2,000 nodes
+\`\`\`
+[/CALLOUT]
+
+**Implementation Considerations**
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua:
+
+1. **Two Queues**: Maintain separate queues for forward and backward search
+2. **Two Visited Sets**: Track visited nodes from each direction separately
+3. **Intersection Check**: After each step, check if the frontiers have met
+4. **Path Reconstruction**: When searches meet, combine paths from both directions
+
+[CALLOUT:WARNING]
+**Trade-offs to Consider**
+
+• Requires the graph to be bidirectional (edges work both ways)
+• More complex implementation and debugging
+• Path reconstruction is more involved
+• Memory overhead of maintaining two search frontiers
+[/CALLOUT]
+
+**Code Structure Example**
+
+\`\`\`go
+type BiDiBFS struct {
+    forwardQueue []string
+    backwardQueue []string
+    forwardVisited map[string]string
+    backwardVisited map[string]string
+}
+\`\`\`
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.`,
+          },
           {
             trigger: "queue = queue[1:]",
             section: "solution",

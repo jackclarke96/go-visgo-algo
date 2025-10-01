@@ -27,6 +27,70 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     return () => observer.disconnect();
   }, []);
 
+  const parseCalloutContent = (text: string) => {
+    const lines = text.split("\n");
+    const elements: JSX.Element[] = [];
+    let i = 0;
+    
+    while (i < lines.length) {
+      const line = lines[i];
+      
+      // Handle code blocks within callouts
+      if (line.startsWith("```")) {
+        const language = line.substring(3).trim() || "go";
+        let codeContent = "";
+        i++;
+        
+        while (i < lines.length && !lines[i].startsWith("```")) {
+          codeContent += lines[i] + "\n";
+          i++;
+        }
+        
+        elements.push(
+          <div key={i} className="rounded-md overflow-hidden border border-border my-2">
+            <SyntaxHighlighter
+              language={language}
+              style={isDark ? vscDarkPlus : vs}
+              customStyle={{
+                margin: 0,
+                padding: "0.75rem",
+                fontSize: "0.8rem",
+                lineHeight: "1.4",
+              }}
+            >
+              {codeContent.trim()}
+            </SyntaxHighlighter>
+          </div>
+        );
+        i++;
+        continue;
+      }
+
+      // Handle bullet points
+      if (line.startsWith("• ") || line.startsWith("- ")) {
+        elements.push(
+          <div key={i} className="mb-1">
+            <RichText content={line} />
+          </div>
+        );
+        i++;
+        continue;
+      }
+
+      if (line.trim()) {
+        elements.push(
+          <div key={i} className="mb-1">
+            <RichText content={line} />
+          </div>
+        );
+      }
+      
+      i++;
+    }
+    
+    return elements;
+  };
+
   const parseContent = (text: string, section: "problem" | "algorithm" | "solution" | "improvements") => {
     const lines = text.split("\n");
     const elements: JSX.Element[] = [];
@@ -51,7 +115,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
           elements.push(
             <Callout key={i} type={type}>
               <div className="whitespace-pre-wrap">
-                <RichText content={calloutContent.trim()} />
+                {parseCalloutContent(calloutContent.trim())}
               </div>
             </Callout>
           );
