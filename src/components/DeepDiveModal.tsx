@@ -3,14 +3,14 @@ import { Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RichText } from "./RichText";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vs, vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vs, vscDarkPlus, oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useEffect, useState } from "react";
 import { Callout } from "./Callout";
 
 interface DeepDiveModalProps {
   trigger: string;
   title: string;
-  content: string;
+  content: React.ReactNode;
 }
 
 export const DeepDiveModal = ({ trigger, title, content }: DeepDiveModalProps) => {
@@ -28,32 +28,43 @@ export const DeepDiveModal = ({ trigger, title, content }: DeepDiveModalProps) =
     return () => observer.disconnect();
   }, []);
 
-  const parseContent = () => {
-    const lines = content.split("\n");
-    const elements: JSX.Element[] = [];
+  const renderContent = () => {
+    // If content is already a ReactNode, just return it
+    if (typeof content !== "string") {
+      return content;
+    }
+
+    // Otherwise parse the legacy string format
+    return parseLegacyContent(content);
+  };
+
+  const parseLegacyContent = (text: string) => {
+    const lines = text.split("\n");
+    const elements: React.ReactNode[] = [];
     let i = 0;
+    let key = 0;
 
     while (i < lines.length) {
       const line = lines[i];
 
-      // Handle callout blocks
       if (line.startsWith("[CALLOUT:")) {
         const typeMatch = line.match(/\[CALLOUT:(\w+)\]/);
         if (typeMatch) {
-          const type = typeMatch[1].toLowerCase() as "info" | "warning" | "tip" | "definition" | "algorithm";
-          let calloutContent = "";
+          const type = typeMatch[1].toLowerCase() as
+            | "info"
+            | "warning"
+            | "tip"
+            | "definition"
+            | "algorithm";
+          let content = "";
           i++;
-          
           while (i < lines.length && !lines[i].includes("[/CALLOUT]")) {
-            calloutContent += lines[i] + "\n";
+            content += lines[i] + "\n";
             i++;
           }
-          
           elements.push(
-            <Callout key={i} type={type}>
-              <div className="whitespace-pre-wrap">
-                {parseCalloutContent(calloutContent.trim())}
-              </div>
+            <Callout key={key++} type={type}>
+              {parseCalloutContent(content.trim())}
             </Callout>
           );
           i++;
@@ -61,82 +72,80 @@ export const DeepDiveModal = ({ trigger, title, content }: DeepDiveModalProps) =
         }
       }
 
-      // Handle code blocks
       if (line.startsWith("```")) {
-        const language = line.substring(3).trim() || "go";
-        let codeContent = "";
+        const language = line.slice(3).trim() || "go";
+        let code = "";
         i++;
-        
         while (i < lines.length && !lines[i].startsWith("```")) {
-          codeContent += lines[i] + "\n";
+          code += lines[i] + "\n";
           i++;
         }
-        
         elements.push(
-          <div key={i} className="rounded-md overflow-hidden border border-border my-4">
-            <SyntaxHighlighter
-              language={language}
-              style={isDark ? vscDarkPlus : vs}
-              customStyle={{
-                margin: 0,
-                padding: "1rem",
-                fontSize: "0.875rem",
-                lineHeight: "1.5",
-              }}
-            >
-              {codeContent.trim()}
-            </SyntaxHighlighter>
-          </div>
+          <SyntaxHighlighter
+            key={key++}
+            language={language}
+            style={isDark ? vscDarkPlus : oneDark}
+            customStyle={{
+              borderRadius: "0.5rem",
+              padding: "1rem",
+              fontSize: "0.875rem",
+              margin: "1rem 0",
+            }}
+          >
+            {code.trim()}
+          </SyntaxHighlighter>
         );
         i++;
         continue;
       }
 
-      // Handle bold headings
-      if (line.match(/^\*\*[^*]+\*\*$/) && line.length > 4) {
+      if (line.startsWith("**") && line.endsWith("**")) {
+        const text = line.slice(2, -2);
         elements.push(
-          <h3 key={i} className="font-bold text-lg mt-4 mb-2">
-            {line.replace(/\*\*/g, "")}
-          </h3>
+          <h4 key={key++} className="font-semibold mb-2 mt-4">
+            {text}
+          </h4>
         );
-        i++;
-        continue;
-      }
-
-      // Handle bullet points
-      if (line.startsWith("• ") || line.startsWith("- ")) {
+      } else if (line.match(/^[•-]\s/)) {
+        const items: string[] = [];
+        while (i < lines.length && lines[i].match(/^[•-]\s/)) {
+          items.push(lines[i].replace(/^[•-]\s/, ""));
+          i++;
+        }
         elements.push(
-          <li key={i} className="ml-6 mb-1 list-disc">
-            <RichText content={line.substring(2)} />
-          </li>
+          <ul key={key++} className="list-disc list-inside space-y-2 ml-4">
+            {items.map((item, idx) => (
+              <li key={idx} className="text-sm leading-relaxed">
+                <RichText content={item} />
+              </li>
+            ))}
+          </ul>
         );
-        i++;
         continue;
-      }
-
-      // Handle numbered lists
-      const numberedMatch = line.match(/^(\d+)\.\s/);
-      if (numberedMatch) {
+      } else if (line.match(/^\d+\.\s/)) {
+        const items: string[] = [];
+        while (i < lines.length && lines[i].match(/^\d+\.\s/)) {
+          items.push(lines[i].replace(/^\d+\.\s/, ""));
+          i++;
+        }
         elements.push(
-          <li key={i} className="ml-6 mb-1 list-decimal">
-            <RichText content={line.substring(numberedMatch[0].length)} />
-          </li>
+          <ol key={key++} className="list-decimal list-inside space-y-2 ml-4">
+            {items.map((item, idx) => (
+              <li key={idx} className="text-sm leading-relaxed">
+                <RichText content={item} />
+              </li>
+            ))}
+          </ol>
         );
-        i++;
         continue;
-      }
-
-      // Regular paragraph
-      if (line.trim()) {
+      } else if (line.trim()) {
         elements.push(
-          <p key={i} className="mb-2">
+          <p key={key++} className="text-sm leading-relaxed mb-4">
             <RichText content={line} />
           </p>
         );
-      } else {
-        elements.push(<br key={i} />);
       }
-      
+
       i++;
     }
 
@@ -220,7 +229,7 @@ export const DeepDiveModal = ({ trigger, title, content }: DeepDiveModalProps) =
         </DialogHeader>
         <DialogDescription asChild>
           <div className="mt-4 space-y-2 text-foreground">
-            {parseContent()}
+            {renderContent()}
           </div>
         </DialogDescription>
       </DialogContent>

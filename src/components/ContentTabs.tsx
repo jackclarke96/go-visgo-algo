@@ -93,7 +93,17 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     return elements;
   };
 
-  const parseContent = (text: string, section: "problem" | "algorithm" | "solution" | "improvements") => {
+  const renderContent = (content: React.ReactNode, section: "problem" | "algorithm" | "solution" | "improvements") => {
+    // If it's a ReactNode (not a string), just return it
+    if (typeof content !== "string") {
+      return content;
+    }
+    
+    // Otherwise parse the legacy string format
+    return parseLegacyContent(content, section);
+  };
+
+  const parseLegacyContent = (text: string, section: "problem" | "algorithm" | "solution" | "improvements") => {
     const lines = text.split("\n");
     const elements: JSX.Element[] = [];
     let i = 0;
@@ -168,11 +178,12 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
         
         // Check for deep dive modals and tooltips
         for (const explanation of explanations) {
+          const explanationContent = typeof explanation.content === "string" ? explanation.content : "";
           if (line.includes(explanation.trigger)) {
             const parts = line.split(explanation.trigger);
             
             // Use modal for longer explanations (more than 500 chars), tooltip for shorter
-            if (explanation.content.length > 500) {
+            if (explanationContent.length > 500) {
               content = (
                 <>
                   <RichText content={parts[0]} />
@@ -185,7 +196,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                 </>
               );
               hasDeepDive = true;
-            } else {
+            } else if (explanationContent) {
               content = (
                 <>
                   <RichText content={parts[0]} />
@@ -193,7 +204,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                     triggerText={explanation.trigger}
                     content={
                       <div className="whitespace-pre-wrap font-mono text-xs">
-                        {explanation.content}
+                        {explanationContent}
                       </div>
                     }
                   />
@@ -264,13 +275,13 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
       <TabsContent value="problem" className="mt-6 prose max-w-none">
         <div className="text-base leading-relaxed">
-          {parseContent(algorithm.problem, "problem")}
+          {renderContent(algorithm.problem, "problem")}
         </div>
       </TabsContent>
 
       <TabsContent value="algorithm" className="mt-6 prose max-w-none">
         <div className="text-base leading-relaxed">
-          {parseContent(algorithm.algorithm, "algorithm")}
+          {renderContent(algorithm.algorithm, "algorithm")}
           
           {algorithm.images && algorithm.images.length > 0 && (
             <div className="my-6 space-y-4">
@@ -295,7 +306,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
       <TabsContent value="solution" className="mt-6 prose max-w-none">
         <div className="text-base leading-relaxed mb-6">
-          {parseContent(algorithm.solution, "solution")}
+          {renderContent(algorithm.solution, "solution")}
         </div>
         
         {algorithm.codeBlocks && algorithm.codeBlocks.length > 0 && (
@@ -308,7 +319,9 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                   triggerText="O(V + E)"
                   content={
                     <div className="whitespace-pre-wrap font-mono text-xs">
-                      {algorithm.detailedExplanations.find(exp => exp.trigger.includes("O("))?.content}
+                      {typeof algorithm.detailedExplanations.find(exp => exp.trigger.includes("O("))?.content === "string" 
+                        ? algorithm.detailedExplanations.find(exp => exp.trigger.includes("O("))?.content 
+                        : ""}
                     </div>
                   }
                 />
@@ -325,7 +338,11 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
               <div key={idx} className="mt-6">
                 {block.description && (
                   <div className="mb-3">
-                    <RichText content={block.description} />
+                    {typeof block.description === "string" ? (
+                      <RichText content={block.description} />
+                    ) : (
+                      block.description
+                    )}
                   </div>
                 )}
                 <div className="rounded-md overflow-hidden border border-border">
@@ -350,7 +367,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
       <TabsContent value="improvements" className="mt-6 prose max-w-none">
         <div className="text-base leading-relaxed">
-          {parseContent(algorithm.improvements, "improvements")}
+          {renderContent(algorithm.improvements, "improvements")}
         </div>
       </TabsContent>
 

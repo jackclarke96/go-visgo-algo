@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 export interface CodeBlock {
   code: string;
-  description?: string;
+  description?: ReactNode;
   language?: string;
 }
 
@@ -8,10 +10,10 @@ export interface Algorithm {
   id: string;
   title: string;
   category: string;
-  problem: string;
-  algorithm: string;
-  solution: string;
-  improvements: string;
+  problem: ReactNode;
+  algorithm: ReactNode;
+  solution: ReactNode;
+  improvements: ReactNode;
   codeBlocks?: CodeBlock[];
   images?: {
     url: string;
@@ -23,7 +25,7 @@ export interface Algorithm {
 
 export interface DetailedExplanation {
   trigger: string;
-  content: string;
+  content: ReactNode;
   section: "problem" | "algorithm" | "solution" | "improvements";
 }
 
