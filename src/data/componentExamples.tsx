@@ -1,5 +1,18 @@
 import { Algorithm } from "@/types/algorithms";
-import { Callout, Section, List, ListItem, Paragraph, Heading, Code } from "@/components/AlgorithmContent";
+import { 
+  Callout, 
+  Section, 
+  List, 
+  ListItem, 
+  Paragraph, 
+  Heading, 
+  Code,
+  GraphDiagram,
+  TreeDiagram,
+  LinkedListDiagram,
+  ArrayDiagram,
+  MapDiagram
+} from "@/components/AlgorithmContent";
 
 /**
  * This file demonstrates how to use all available components for creating algorithm content.
@@ -33,6 +46,104 @@ export const componentShowcase: Algorithm = {
       <Callout type="tip">
         This is a <strong>tip Callout</strong>. Use it for optimization suggestions or best practices.
       </Callout>
+
+      <Heading>Data Structure Diagrams</Heading>
+      
+      <Paragraph>
+        <strong>GraphDiagram</strong> - Visualize directed graphs with configurable node states:
+      </Paragraph>
+      <GraphDiagram
+        graphData={{
+          nodes: [
+            { id: "A", label: "A", x: 100, y: 100 },
+            { id: "B", label: "B", x: 250, y: 50 },
+            { id: "C", label: "C", x: 250, y: 150 },
+            { id: "D", label: "D", x: 400, y: 100 },
+          ],
+          edges: [
+            { from: "A", to: "B" },
+            { from: "A", to: "C" },
+            { from: "B", to: "D" },
+            { from: "C", to: "D" },
+          ],
+        }}
+        nodeStates={{
+          A: "current",
+          B: "queued",
+          C: "visited",
+          D: "unvisited",
+        }}
+        highlightEdge={{ from: "A", to: "B" }}
+        showLegend={true}
+      />
+
+      <Paragraph>
+        <strong>TreeDiagram</strong> - Display binary trees with node state highlighting:
+      </Paragraph>
+      <TreeDiagram
+        root={{
+          value: 10,
+          state: "visited",
+          left: {
+            value: 5,
+            state: "current",
+            left: { value: 3, state: "visited" },
+            right: { value: 7, state: "unvisited" },
+          },
+          right: {
+            value: 15,
+            state: "highlighted",
+            left: { value: 12, state: "unvisited" },
+            right: { value: 20, state: "unvisited" },
+          },
+        }}
+        showLegend={true}
+      />
+
+      <Paragraph>
+        <strong>LinkedListDiagram</strong> - Show linked lists (singly or doubly):
+      </Paragraph>
+      <LinkedListDiagram
+        nodes={[
+          { value: 1, state: "visited" },
+          { value: 2, state: "current" },
+          { value: 3, state: "highlighted" },
+          { value: 4, state: "unvisited" },
+          { value: 5, state: "unvisited" },
+        ]}
+        doublyLinked={true}
+        showLegend={true}
+      />
+
+      <Paragraph>
+        <strong>ArrayDiagram</strong> - Visualize arrays with indices and cell states:
+      </Paragraph>
+      <ArrayDiagram
+        cells={[
+          { value: 5, state: "sorted" },
+          { value: 3, state: "sorted" },
+          { value: 8, state: "current" },
+          { value: 1, state: "highlighted" },
+          { value: 9, state: "unvisited" },
+          { value: 2, state: "unvisited" },
+        ]}
+        showIndices={true}
+        showLegend={true}
+      />
+
+      <Paragraph>
+        <strong>MapDiagram</strong> - Display hash maps / dictionaries:
+      </Paragraph>
+      <MapDiagram
+        entries={[
+          { key: "name", value: "Alice", state: "visited" },
+          { key: "age", value: 30, state: "current" },
+          { key: "city", value: "NYC", state: "highlighted" },
+          { key: "role", value: "Dev", state: "unvisited" },
+        ]}
+        title="User Info Map"
+        showLegend={true}
+      />
     </>
   ),
   
