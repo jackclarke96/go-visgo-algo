@@ -5,12 +5,14 @@ import { TreeDiagram } from "./TreeDiagram";
 import { LinkedListDiagram } from "./LinkedListDiagram";
 import { ArrayDiagram } from "./ArrayDiagram";
 import { MapDiagram } from "./MapDiagram";
+import { StackDiagram } from "./StackDiagram";
+import { QueueDiagram } from "./QueueDiagram";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // Re-export components that users will need
-export { Callout, GraphDiagram, TreeDiagram, LinkedListDiagram, ArrayDiagram, MapDiagram };
+export { Callout, GraphDiagram, TreeDiagram, LinkedListDiagram, ArrayDiagram, MapDiagram, StackDiagram, QueueDiagram };
 
 interface CodeProps {
   children: string;

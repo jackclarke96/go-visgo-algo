@@ -11,7 +11,9 @@ import {
   TreeDiagram,
   LinkedListDiagram,
   ArrayDiagram,
-  MapDiagram
+  MapDiagram,
+  StackDiagram,
+  QueueDiagram
 } from "@/components/AlgorithmContent";
 
 /**
@@ -144,9 +146,35 @@ export const componentShowcase: Algorithm = {
         title="User Info Map"
         showLegend={true}
       />
+
+      <Paragraph>
+        <strong>StackDiagram</strong> - Show stack data structure (LIFO):
+      </Paragraph>
+      <StackDiagram
+        items={[
+          { value: 10, state: "unvisited" },
+          { value: 20, state: "visited" },
+          { value: 30, state: "current" },
+        ]}
+        title="Call Stack"
+        showLegend={true}
+      />
+
+      <Paragraph>
+        <strong>QueueDiagram</strong> - Show queue data structure (FIFO):
+      </Paragraph>
+      <QueueDiagram
+        items={[
+          { value: "A", state: "visited" },
+          { value: "B", state: "current" },
+          { value: "C", state: "highlighted" },
+          { value: "D", state: "unvisited" },
+        ]}
+        title="BFS Queue"
+        showLegend={true}
+      />
     </>
   ),
-  
   algorithm: (
     <>
       <Callout type="algorithm">

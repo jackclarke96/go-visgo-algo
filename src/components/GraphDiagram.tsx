@@ -11,7 +11,7 @@ interface GraphDiagramProps {
 }
 
 const nodeStateColors = {
-  unvisited: "fill-muted stroke-border",
+  unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
   queued: "fill-info/30 stroke-info",
@@ -128,19 +128,19 @@ export const GraphDiagram = ({
       {showLegend && (
         <div className="flex gap-4 justify-center mt-3 text-xs flex-wrap">
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-muted border-2 border-border" />
+            <div className="w-4 h-4 rounded-full bg-card border-2 border-border" />
             <span>Unvisited</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-info/30 border-2 border-info" />
-            <span>Queued</span>
+            <div className="w-4 h-4 rounded-full bg-info/30 border-2 border-info" />
+            <span>In Queue</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-primary border-2 border-primary" />
+            <div className="w-4 h-4 rounded-full bg-primary border-2 border-primary" />
             <span>Current</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-accent border-2 border-accent-foreground" />
+            <div className="w-4 h-4 rounded-full bg-accent border-2 border-accent-foreground" />
             <span>Visited</span>
           </div>
         </div>

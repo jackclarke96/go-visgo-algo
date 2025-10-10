@@ -17,7 +17,7 @@ interface TreeDiagramProps {
 }
 
 const nodeStateColors = {
-  unvisited: "fill-muted stroke-border",
+  unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
   highlighted: "fill-info/30 stroke-info",
@@ -151,7 +151,7 @@ export const TreeDiagram = ({
       {showLegend && (
         <div className="flex gap-4 justify-center mt-3 text-xs flex-wrap">
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-muted border-2 border-border" />
+            <div className="w-3 h-3 rounded-full bg-card border-2 border-border" />
             <span>Unvisited</span>
           </div>
           <div className="flex items-center gap-1.5">

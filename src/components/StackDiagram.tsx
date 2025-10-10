@@ -1,94 +1,100 @@
 import { cn } from "@/lib/utils";
 
-export type ArrayCellState = "unvisited" | "current" | "visited" | "highlighted" | "sorted";
+export type StackItemState = "unvisited" | "current" | "visited" | "highlighted";
 
-export interface ArrayCell {
+export interface StackItem {
   value: string | number;
-  state?: ArrayCellState;
-  index?: number;
+  state?: StackItemState;
 }
 
-interface ArrayDiagramProps {
-  cells: ArrayCell[];
+interface StackDiagramProps {
+  items: StackItem[];
   width?: number;
   height?: number;
   showLegend?: boolean;
-  showIndices?: boolean;
+  title?: string;
 }
 
-const cellStateColors = {
+const itemStateColors = {
   unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
   highlighted: "fill-info/30 stroke-info",
-  sorted: "fill-green-500/20 stroke-green-500",
 };
 
-const cellStateTextColors = {
+const itemStateTextColors = {
   unvisited: "fill-foreground",
   current: "fill-primary-foreground font-bold",
   visited: "fill-accent-foreground",
   highlighted: "fill-foreground",
-  sorted: "fill-green-700 dark:fill-green-300",
 };
 
-export const ArrayDiagram = ({
-  cells,
-  width = 600,
-  height = 150,
+export const StackDiagram = ({
+  items,
+  width = 300,
+  height = 400,
   showLegend = false,
-  showIndices = true,
-}: ArrayDiagramProps) => {
-  const cellWidth = 50;
-  const cellHeight = 50;
+  title = "Stack",
+}: StackDiagramProps) => {
+  const itemWidth = 150;
+  const itemHeight = 40;
   const gap = 4;
-  const totalWidth = cells.length * (cellWidth + gap) - gap;
-  const startX = (width - totalWidth) / 2;
-  const centerY = height / 2;
+  const startX = (width - itemWidth) / 2;
+  const startY = height - 80; // Start from bottom
 
   return (
     <div className="w-full bg-card border border-border rounded-lg p-4 my-4">
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+        {/* Title */}
+        <text x={width / 2} y={25} textAnchor="middle" className="text-sm font-semibold fill-foreground">
+          {title}
+        </text>
+
+        {/* Top label */}
+        <text x={width / 2} y={50} textAnchor="middle" className="text-xs fill-muted-foreground">
+          ← Top
+        </text>
+
+        {/* Stack items (bottom to top) */}
         <g>
-          {cells.map((cell, idx) => {
-            const x = startX + idx * (cellWidth + gap);
-            const state = cell.state || "unvisited";
-            const colorClass = cellStateColors[state];
-            const textColorClass = cellStateTextColors[state];
+          {items.map((item, idx) => {
+            const y = startY - idx * (itemHeight + gap);
+            const state = item.state || "unvisited";
+            const colorClass = itemStateColors[state];
+            const textColorClass = itemStateTextColors[state];
 
             return (
-              <g key={`cell-${idx}`}>
+              <g key={`item-${idx}`}>
                 <rect
-                  x={x}
-                  y={centerY - cellHeight / 2}
-                  width={cellWidth}
-                  height={cellHeight}
+                  x={startX}
+                  y={y}
+                  width={itemWidth}
+                  height={itemHeight}
                   rx="4"
                   className={cn(colorClass, "stroke-[2.5] transition-all duration-300")}
                 />
                 <text
-                  x={x + cellWidth / 2}
-                  y={centerY}
+                  x={startX + itemWidth / 2}
+                  y={y + itemHeight / 2}
                   textAnchor="middle"
                   dominantBaseline="central"
                   className={cn(textColorClass, "text-sm font-semibold transition-all duration-300")}
                 >
-                  {cell.value}
+                  {item.value}
                 </text>
-                {showIndices && (
-                  <text
-                    x={x + cellWidth / 2}
-                    y={centerY + cellHeight / 2 + 15}
-                    textAnchor="middle"
-                    className="text-xs fill-muted-foreground"
-                  >
-                    {cell.index ?? idx}
-                  </text>
-                )}
               </g>
             );
           })}
         </g>
+
+        {/* Base line */}
+        <line
+          x1={startX - 10}
+          y1={startY + itemHeight + 5}
+          x2={startX + itemWidth + 10}
+          y2={startY + itemHeight + 5}
+          className="stroke-border stroke-[3]"
+        />
       </svg>
 
       {showLegend && (
@@ -108,10 +114,6 @@ export const ArrayDiagram = ({
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded bg-accent border-2 border-accent-foreground" />
             <span>Visited</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded bg-green-500/20 border-2 border-green-500" />
-            <span>Sorted</span>
           </div>
         </div>
       )}
