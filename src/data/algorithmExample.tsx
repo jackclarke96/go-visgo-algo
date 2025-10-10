@@ -1,5 +1,5 @@
 import { Algorithm } from "@/types/algorithms";
-import { Callout, Section, List, ListItem, Paragraph, Heading, Code } from "@/components/AlgorithmContent";
+import { Callout, Section, List, ListItem, Paragraph, Heading, Code, GraphDiagram } from "@/components/AlgorithmContent";
 
 // This is an example showing how to write algorithm content using components
 export const exampleAlgorithm: Algorithm = {
@@ -11,6 +11,35 @@ export const exampleAlgorithm: Algorithm = {
     <>
       <Paragraph>
         Given a directed graph and two nodes (S and E), determine if there exists a route from S to E.
+      </Paragraph>
+      
+      <GraphDiagram
+        graphData={{
+          nodes: [
+            { id: "A", label: "A", x: 100, y: 100 },
+            { id: "B", label: "B", x: 250, y: 50 },
+            { id: "C", label: "C", x: 250, y: 150 },
+            { id: "D", label: "D", x: 400, y: 100 },
+          ],
+          edges: [
+            { from: "A", to: "B" },
+            { from: "A", to: "C" },
+            { from: "B", to: "D" },
+            { from: "C", to: "D" },
+          ],
+        }}
+        nodeStates={{
+          A: "current",
+          B: "queued",
+          C: "visited",
+          D: "unvisited",
+        }}
+        highlightEdge={{ from: "A", to: "B" }}
+        showLegend={true}
+      />
+      
+      <Paragraph>
+        In this example, we need to find if there's a path from node A to node D.
       </Paragraph>
     </>
   ),

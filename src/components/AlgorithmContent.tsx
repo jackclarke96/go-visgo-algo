@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { Callout } from "./Callout";
+import { GraphDiagram } from "./GraphDiagram";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // Re-export components that users will need
-export { Callout };
+export { Callout, GraphDiagram };
 
 interface CodeProps {
   children: string;
