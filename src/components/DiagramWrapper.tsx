@@ -30,7 +30,7 @@ export const DiagramWrapper = ({
           {title}
         </div>
       )}
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center w-full h-full [&>svg]:max-w-full [&>svg]:h-auto">
         {children}
       </div>
       {caption && (
