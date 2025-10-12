@@ -13,7 +13,9 @@ import {
   ArrayDiagram,
   MapDiagram,
   StackDiagram,
-  QueueDiagram
+  QueueDiagram,
+  DiagramColumn,
+  DiagramWrapper
 } from "@/components/AlgorithmContent";
 
 /**
@@ -90,13 +92,44 @@ export const alg4: Algorithm = {
       <Paragraph>
         <strong>GraphDiagram</strong> - Visualize directed graphs with configurable node states:
       </Paragraph>
-      <GraphDiagram
-        graphData={BASE_GRAPH}
-        nodeStates={{}}
-        // highlightEdge={{ }}
-        showLegend
-        width={2000}
-      />
+      <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <Paragraph>
+                  <strong>BFS Algorithm Walkthrough</strong>
+                </Paragraph>
+                <Paragraph>
+                  Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+                </Paragraph>
+                <Callout type="info">
+                  Notice how the graph state and queue update together as we process each node.
+                </Callout>
+                <Paragraph>
+                  The current node (B) is being explored, while C is queued for later processing.
+                </Paragraph>
+              </div>
+              
+              <DiagramColumn>
+                <DiagramWrapper title="Step 1: Graph" compact>
+                  <GraphDiagram
+                    graphData={BASE_GRAPH}
+                    nodeStates={{}}
+                    width={800}
+                    height={300}
+                  />
+                </DiagramWrapper>
+                
+                <DiagramWrapper title="Step 1: Queue" compact>
+                  <QueueDiagram
+                    items={[
+                      { value: "C", state: "unvisited" },
+                      { value: "D", state: "highlighted" },
+                    ]}
+                    width={800}
+                    height={200}
+                  />
+                </DiagramWrapper>
+              </DiagramColumn>
+            </div>
 
       <Paragraph>
         <strong>TreeDiagram</strong> - Display binary trees with node state highlighting:
