@@ -37,7 +37,7 @@ export const GraphDiagram = ({
   };
 
   return (
-    <div className="w-full bg-card border border-border rounded-lg p-4 my-4">
+    <>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
         {/* Draw edges */}
         <g>
@@ -145,6 +145,6 @@ export const GraphDiagram = ({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
