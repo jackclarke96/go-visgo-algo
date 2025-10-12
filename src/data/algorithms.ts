@@ -1,12 +1,19 @@
 import { Category } from "@/types/algorithms";
 import binaryTreeImg from "@/assets/binary-tree-example.png";
 import { componentShowcase } from "./componentExamples";
+import { alg4 } from "./4.3-test-algorithm";
 
 export const algorithmCategories: Category[] = [
   {
     id: "graphs",
     name: "Graphs",
     algorithms: [
+      {
+        ...alg4,
+        id: "route-between-nodes-2",
+        title: "4.3 Example - Component Showcase",
+        category: "graphs",
+      },
       {
         ...componentShowcase,
         id: "example-components",
