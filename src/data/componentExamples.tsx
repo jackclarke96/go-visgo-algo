@@ -58,15 +58,19 @@ export const componentShowcase: Algorithm = {
         graphData={{
           nodes: [
             { id: "A", label: "A", x: 100, y: 100 },
-            { id: "B", label: "B", x: 250, y: 50 },
-            { id: "C", label: "C", x: 250, y: 150 },
-            { id: "D", label: "D", x: 400, y: 100 },
+            { id: "B", label: "B", x: 200, y: 100 },
+            { id: "C", label: "C", x: 300, y: 100 },
+            { id: "D", label: "D", x: 100, y: 200 },
+            { id: "E", label: "E", x: 200, y: 200 },
+            { id: "F", label: "F", x: 300, y: 200 },
           ],
           edges: [
             { from: "A", to: "B" },
-            { from: "A", to: "C" },
-            { from: "B", to: "D" },
-            { from: "C", to: "D" },
+            { from: "A", to: "D" },
+            { from: "B", to: "C" },
+            { from: "B", to: "E" },
+            { from: "E", to: "F" },
+            { from: "E", to: "D" },
           ],
         }}
         nodeStates={{
