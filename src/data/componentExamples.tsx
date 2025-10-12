@@ -13,7 +13,9 @@ import {
   ArrayDiagram,
   MapDiagram,
   StackDiagram,
-  QueueDiagram
+  QueueDiagram,
+  DiagramWrapper,
+  DiagramColumn,
 } from "@/components/AlgorithmContent";
 
 /**
@@ -82,6 +84,118 @@ export const componentShowcase: Algorithm = {
         highlightEdge={{ from: "A", to: "B" }}
         showLegend={true}
       />
+
+      <Heading>Combining Diagrams (Queue + Graph)</Heading>
+      <Paragraph>
+        Use <strong>DiagramWrapper</strong> with a grid layout to show multiple diagrams side-by-side. 
+        Perfect for visualizing algorithms like BFS where you need to see both the graph state and the queue.
+      </Paragraph>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <DiagramWrapper title="Graph State" compact>
+          <GraphDiagram
+            graphData={{
+              nodes: [
+                { id: "A", label: "A", x: 80, y: 80 },
+                { id: "B", label: "B", x: 200, y: 40 },
+                { id: "C", label: "C", x: 200, y: 120 },
+                { id: "D", label: "D", x: 320, y: 80 },
+              ],
+              edges: [
+                { from: "A", to: "B" },
+                { from: "A", to: "C" },
+                { from: "B", to: "D" },
+                { from: "C", to: "D" },
+              ],
+            }}
+            nodeStates={{
+              A: "visited",
+              B: "current",
+              C: "queued",
+              D: "unvisited",
+            }}
+            highlightEdge={{ from: "B", to: "D" }}
+            width={380}
+            height={180}
+          />
+        </DiagramWrapper>
+
+        <DiagramWrapper title="BFS Queue" compact>
+          <QueueDiagram
+            items={[
+              { value: "C", state: "unvisited" },
+              { value: "D", state: "highlighted" },
+            ]}
+            width={380}
+            height={180}
+          />
+        </DiagramWrapper>
+      </div>
+
+      <Paragraph>
+        The <code>compact</code> prop on DiagramWrapper reduces padding for smaller diagrams.
+      </Paragraph>
+
+      <Heading>Stacked Diagrams with Text Column</Heading>
+      <Paragraph>
+        Use <strong>DiagramColumn</strong> to stack diagrams vertically alongside explanatory text.
+      </Paragraph>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <Paragraph>
+            <strong>BFS Algorithm Walkthrough</strong>
+          </Paragraph>
+          <Paragraph>
+            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+          </Paragraph>
+          <Callout type="info">
+            Notice how the graph state and queue update together as we process each node.
+          </Callout>
+          <Paragraph>
+            The current node (B) is being explored, while C is queued for later processing.
+          </Paragraph>
+        </div>
+        
+        <DiagramColumn>
+          <DiagramWrapper title="Step 1: Graph" compact>
+            <GraphDiagram
+              graphData={{
+                nodes: [
+                  { id: "A", label: "A", x: 80, y: 80 },
+                  { id: "B", label: "B", x: 200, y: 40 },
+                  { id: "C", label: "C", x: 200, y: 120 },
+                  { id: "D", label: "D", x: 320, y: 80 },
+                ],
+                edges: [
+                  { from: "A", to: "B" },
+                  { from: "A", to: "C" },
+                  { from: "B", to: "D" },
+                ],
+              }}
+              nodeStates={{
+                A: "visited",
+                B: "current",
+                C: "queued",
+                D: "unvisited",
+              }}
+              width={380}
+              height={160}
+            />
+          </DiagramWrapper>
+          
+          <DiagramWrapper title="Step 1: Queue" compact>
+            <QueueDiagram
+              items={[
+                { value: "C", state: "unvisited" },
+                { value: "D", state: "highlighted" },
+              ]}
+              width={380}
+              height={120}
+            />
+          </DiagramWrapper>
+        </DiagramColumn>
+      </div>
 
       <Paragraph>
         <strong>TreeDiagram</strong> - Display binary trees with node state highlighting:

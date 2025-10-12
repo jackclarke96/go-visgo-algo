@@ -13,6 +13,7 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // Re-export components that users will need
 export { Callout, GraphDiagram, TreeDiagram, LinkedListDiagram, ArrayDiagram, MapDiagram, StackDiagram, QueueDiagram };
+export { DiagramWrapper, DiagramColumn } from "./DiagramWrapper";
 
 interface CodeProps {
   children: string;
