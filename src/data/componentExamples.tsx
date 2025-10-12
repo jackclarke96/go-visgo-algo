@@ -13,7 +13,8 @@ import {
   ArrayDiagram,
   MapDiagram,
   StackDiagram,
-  QueueDiagram
+  QueueDiagram,
+  DiagramWrapper,
 } from "@/components/AlgorithmContent";
 
 /**
@@ -78,6 +79,57 @@ export const componentShowcase: Algorithm = {
         highlightEdge={{ from: "A", to: "B" }}
         showLegend={true}
       />
+
+      <Heading>Combining Diagrams (Queue + Graph)</Heading>
+      <Paragraph>
+        Use <strong>DiagramWrapper</strong> with a grid layout to show multiple diagrams side-by-side. 
+        Perfect for visualizing algorithms like BFS where you need to see both the graph state and the queue.
+      </Paragraph>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <DiagramWrapper title="Graph State" compact>
+          <GraphDiagram
+            graphData={{
+              nodes: [
+                { id: "A", label: "A", x: 80, y: 80 },
+                { id: "B", label: "B", x: 200, y: 40 },
+                { id: "C", label: "C", x: 200, y: 120 },
+                { id: "D", label: "D", x: 320, y: 80 },
+              ],
+              edges: [
+                { from: "A", to: "B" },
+                { from: "A", to: "C" },
+                { from: "B", to: "D" },
+                { from: "C", to: "D" },
+              ],
+            }}
+            nodeStates={{
+              A: "visited",
+              B: "current",
+              C: "queued",
+              D: "unvisited",
+            }}
+            highlightEdge={{ from: "B", to: "D" }}
+            width={380}
+            height={180}
+          />
+        </DiagramWrapper>
+
+        <DiagramWrapper title="BFS Queue" compact>
+          <QueueDiagram
+            items={[
+              { value: "C", state: "unvisited" },
+              { value: "D", state: "highlighted" },
+            ]}
+            width={380}
+            height={180}
+          />
+        </DiagramWrapper>
+      </div>
+
+      <Paragraph>
+        The <code>compact</code> prop on DiagramWrapper reduces padding for smaller diagrams.
+      </Paragraph>
 
       <Paragraph>
         <strong>TreeDiagram</strong> - Display binary trees with node state highlighting:
