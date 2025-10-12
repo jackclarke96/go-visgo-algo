@@ -44,3 +44,16 @@ export const DiagramWrapper = ({
     </div>
   );
 };
+
+interface DiagramColumnProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export const DiagramColumn = ({ children, className }: DiagramColumnProps) => {
+  return (
+    <div className={cn("space-y-4", className)}>
+      {children}
+    </div>
+  );
+};
