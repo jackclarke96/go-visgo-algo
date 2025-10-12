@@ -112,8 +112,9 @@ export const alg4: Algorithm = {
           <GraphDiagram
             graphData={BASE_GRAPH}
             nodeStates={{}}
-            width={800}
-            height={300}
+            width={300}
+            height={200}
+            contentOffset={{ y: -50, x: -50 }}
           />
         </DiagramWrapper>
         
@@ -123,7 +124,7 @@ export const alg4: Algorithm = {
               { value: "C", state: "unvisited" },
               { value: "D", state: "highlighted" },
             ]}
-            width={800}
+            width={400}
             height={200}
           />
         </DiagramWrapper>
