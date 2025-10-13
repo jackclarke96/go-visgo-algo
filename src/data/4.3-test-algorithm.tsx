@@ -7,16 +7,8 @@ import {
   Paragraph, 
   Heading, 
   Code,
-  GraphDiagram,
-  TreeDiagram,
-  LinkedListDiagram,
-  ArrayDiagram,
-  MapDiagram,
-  StackDiagram,
-  QueueDiagram,
-  DiagramColumn,
-  DiagramWrapper
 } from "@/components/AlgorithmContent";
+import { VisualizationStep } from "@/components/algorithm-content/VisualizationStepTwoOfThreeCols";
 
 /**
  * This file demonstrates how to use all available components for creating algorithm content.
@@ -67,298 +59,235 @@ export const alg4: Algorithm = {
   problem: (
     <>
       <Paragraph>
-        This is a <strong>Paragraph</strong> component. Use it for regular text content.
-        You can include <strong>bold text</strong>, <em>italics</em>, and inline code like <code>functionName()</code>.
+        To solve this problem, we need to find the shortest path (or reachability) from a starting node <strong>S</strong> to a target node <strong>D</strong> in a graph. 
+        Breadth-First Search (BFS) is an ideal choice for this kind of problem because it explores the graph level by level, guaranteeing that the first time we reach the target node, we have found the shortest path.
       </Paragraph>
-      
+
+      <Heading>Algorithm Overview</Heading>
+
+      <Callout type="definition">
+        <Paragraph>
+          <strong>Breadth-First Search (BFS)</strong> systematically explores all nodes at the current depth before moving deeper into the graph. 
+          It uses a <strong>queue</strong> to track the order in which nodes are visited, ensuring that we visit every neighbor of a node before progressing to the next level.
+        </Paragraph>
+
       <Paragraph>
-        Multiple paragraphs automatically get proper spacing between them.
+        The key idea is to:
       </Paragraph>
+
+      <List>
+        <ListItem>Start from a source node and enqueue it.</ListItem>
+        <ListItem>Dequeue nodes one by one and explore all their unvisited neighbors.</ListItem>
+        <ListItem>Mark neighbors as visited and enqueue them for later exploration.</ListItem>
+        <ListItem>Continue until the target node is found or the queue becomes empty.</ListItem>
+      </List>
+      </Callout>
+
+      <Heading>Why BFS Instead of DFS?</Heading>
+      <Paragraph>
+        <strong>BFS</strong> and <strong>DFS</strong> (Depth-First Search) are both fundamental graph traversal algorithms, but they serve different goals:
+      </Paragraph>
+
+      <List>
+        <ListItem>
+          <strong>BFS</strong> explores level by level — perfect for finding the <em>shortest path</em> in an unweighted graph or determining the minimum number of steps from one node to another.
+        </ListItem>
+        <ListItem>
+          <strong>DFS</strong> dives deep into one path before backtracking — it’s more suitable for detecting cycles, topological sorting, or exploring all possible paths.
+        </ListItem>
+        <ListItem>
+          <strong>BFS</strong> guarantees the shortest path in terms of edge count because it searches closest nodes first, while <strong>DFS</strong> does not.
+        </ListItem>
+        <ListItem>
+          Because BFS uses a <em>queue</em> instead of recursion or a stack, it maintains predictable order and avoids deep recursion.
+        </ListItem>
+      </List>
 
       <Callout type="info">
-        This is an <strong>info Callout</strong>. Use it for general information or helpful notes.
+        <Paragraph>
+          In short, <strong>BFS</strong> is preferred when the goal is to reach the target in the fewest steps or to explore the graph evenly outward from a source.
+        </Paragraph>
       </Callout>
 
-      <Callout type="warning">
-        This is a <strong>warning Callout</strong>. Use it to highlight potential pitfalls or things to watch out for.
-      </Callout>
 
-      <Callout type="tip">
-        This is a <strong>tip Callout</strong>. Use it for optimization suggestions or best practices.
-      </Callout>
+      <Heading>BFS Algorithm Walkthrough</Heading>
 
-      <Heading>Data Structure Diagrams</Heading>
-      
-      <Paragraph>
-        <strong>GraphDiagram</strong> - Visualize directed graphs with configurable node states:
-      </Paragraph>
-      <div className="grid md:grid-cols-3 gap-4">
-        <div>
-          <Paragraph>
-            <strong>BFS Algorithm Walkthrough</strong>
-          </Paragraph>
-          <Paragraph>
-            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
-          </Paragraph>
-          <Callout type="info">
-            Notice how the graph state and queue update together as we process each node.
-          </Callout>
-          <Paragraph>
-            The current node (B) is being explored, while C is queued for later processing.
-          </Paragraph>
-        </div>
-        
-        <DiagramWrapper title="Step 1: Graph" compact>
-          <GraphDiagram
-            graphData={BASE_GRAPH}
-            nodeStates={{ S: "current" }} 
-            width={300}
-            height={200}
-            contentOffset={{ y: -50, x: -50 }}
-          />
-        </DiagramWrapper>
-        
-        <DiagramWrapper title="Step 1: Queue" compact>
-          <QueueDiagram
-            items={[{ value: "S", state: "current" }]}
-            width={400}
-            height={200}
-          />
-        </DiagramWrapper>
-      </div>
-      <div className="grid md:grid-cols-3 gap-4">
-        <div>
-          <Paragraph>
-            <strong>BFS Algorithm Walkthrough</strong>
-          </Paragraph>
-          <Paragraph>
-            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
-          </Paragraph>
-          <Callout type="info">
-            Notice how the graph state and queue update together as we process each node.
-          </Callout>
-          <Paragraph>
-            The current node (B) is being explored, while C is queued for later processing.
-          </Paragraph>
-        </div>
-        
-        <DiagramWrapper title="Step 2: Graph" compact>
-          <GraphDiagram
-            graphData={BASE_GRAPH}
-            nodeStates={{ S: "current", A: "newlyQueued", C: "newlyQueued" }}
-            width={300}
-            height={200}
-            contentOffset={{ y: -50, x: -50 }}
-          />
-        </DiagramWrapper>
-        
-        <DiagramWrapper title="Step 2: Queue" compact>
-          <QueueDiagram
-            items={[{ value: "S", state: "current" }, { value: "A", state: "highlighted" }, { value: "C", state: "highlighted" }]}
-            width={400}
-            height={200}
-          />
-        </DiagramWrapper>
-      </div>
+      <VisualizationStep
+        title="Step 1"
+        description={
+          <>
+            <Paragraph>
+              We initialise a queue to track the nodes we have visited.
+              We start BFS from the source node <strong>S</strong>. It's marked as <em>current</em>.
+              At each step, we add the neighbours of the node at the end of the queue. We also track which nodes have been visited to prevent cycles.
+            </Paragraph>
+            {/* <Callout type="info">
+              The queue initially contains only the starting node. */}
+            <Code>
+{`Queue ← ["S"]
+Visited ← { "S" }        // S marked visited (starting node)
+Target ← "D"`}
+            </Code>
 
-       <div className="grid md:grid-cols-3 gap-4">
-        <div>
-          <Paragraph>
-            <strong>BFS Algorithm Walkthrough</strong>
-          </Paragraph>
-          <Paragraph>
-            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
-          </Paragraph>
-          <Callout type="info">
-            Notice how the graph state and queue update together as we process each node.
-          </Callout>
-          <Paragraph>
-            The current node (B) is being explored, while C is queued for later processing.
-          </Paragraph>
-        </div>
-        
-        <DiagramWrapper title="Step 3: Graph" compact>
-          <GraphDiagram
-            graphData={BASE_GRAPH}
-            nodeStates={{S: "visited", A: "current", "C": "queued", "B": "queued", "E": "newlyQueued"}}
-            width={300}
-            height={200}
-            contentOffset={{ y: -50, x: -50 }}
-          />
-        </DiagramWrapper>
-        
-        <DiagramWrapper title="Step 3: Queue" compact>
-          <QueueDiagram
-            items={[{ value: "A", state: "current" }, { value: "C", state: "unvisited" }, { value: "B", state: "unvisited" },  { value: "E", state: "highlighted" }]}
-            width={400}
-            height={200}
-          />
-        </DiagramWrapper>
-      </div>
+            {/* </Callout> */}
+          </>
+        }
+        graph={{
+          data: BASE_GRAPH,
+          nodeStates: { S: "current" },
+        }}
+        queue={[
+          { value: "S", state: "current" },
+        ]}
+      />
 
-       <div className="grid md:grid-cols-3 gap-4">
-        <div>
-          <Paragraph>
-            <strong>BFS Algorithm Walkthrough</strong>
-          </Paragraph>
-          <Paragraph>
-            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
-          </Paragraph>
-          <Callout type="info">
-            Notice how the graph state and queue update together as we process each node.
-          </Callout>
-          <Paragraph>
-            The current node (B) is being explored, while C is queued for later processing.
-          </Paragraph>
-        </div>
-        
-        <DiagramWrapper title="Step 4: Graph" compact>
-          <GraphDiagram
-            graphData={BASE_GRAPH}
-            nodeStates={{S: "visited", A: "visited", "C": "current", "B": "queued", "E": "queued"}}
-            width={300}
-            height={200}
-            contentOffset={{ y: -50, x: -50 }}
-          />
-        </DiagramWrapper>
-        
-        <DiagramWrapper title="Step 4: Queue" compact>
-          <QueueDiagram
-            items={[{ value: "C", state: "current" }, { value: "B", state: "unvisited" },  { value: "E", state: "unvisited" }]}
-            width={400}
-            height={200}
-          />
-        </DiagramWrapper>
-      </div>
+      <VisualizationStep
+        title="Step 2"
+        description={
+          <>
+            <Paragraph>
+              We explore the neighbours of node <strong>S</strong>. 
+              Node <strong>S</strong>’s neighbors (<strong>A</strong> and <strong>C</strong>) are discovered and <em>queued</em>.
+            </Paragraph>
+<Code>
+{`current ← dequeue(Queue)    // "S"
+for each neighbor in neighbors("S"):   // "A", "C"
+    if neighbour is Target:
+        return true
+    if neighbor not in Visited:
+        enqueue(neighbor)
+        add neighbor to Visited
 
-       <div className="grid md:grid-cols-3 gap-4">
-        <div>
-          <Paragraph>
-            <strong>BFS Algorithm Walkthrough</strong>
-          </Paragraph>
-          <Paragraph>
-            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
-          </Paragraph>
-          <Callout type="info">
-            Notice how the graph state and queue update together as we process each node.
-          </Callout>
-          <Paragraph>
-            The current node (B) is being explored, while C is queued for later processing.
-          </Paragraph>
-        </div>
-        
-        <DiagramWrapper title="Step 5: Graph" compact>
-          <GraphDiagram
-            graphData={BASE_GRAPH}
-            nodeStates={{S: "visited", A: "visited", "C": "visited", "B": "current", "E": "queued", "D": "newlyQueued"}}
-            width={300}
-            height={200}
-            contentOffset={{ y: -50, x: -50 }}
-          />
-        </DiagramWrapper>
-        
-        <DiagramWrapper title="Step 5: Queue" compact>
-          <QueueDiagram
-            items={[{ value: "B", state: "current" },  { value: "E", state: "unvisited" },  { value: "D", state: "highlighted" }]}
-            width={400}
-            height={200}
-          />
-        </DiagramWrapper>
-      </div>
+// Visited: { "S", "A", "C" }`}
+</Code>
+          </>
+        }
+        graph={{
+          data: BASE_GRAPH,
+          nodeStates: { S: "current", A: "newlyQueued", C: "newlyQueued" },
+        }}
+        queue={[
+          { value: "S", state: "current" },
+          { value: "A", state: "highlighted" },
+          { value: "C", state: "highlighted" },
+        ]}
+      />
 
-      <Paragraph>
-        <strong>TreeDiagram</strong> - Display binary trees with node state highlighting:
-      </Paragraph>
-      <TreeDiagram
-        root={{
-          value: 10,
-          state: "visited",
-          left: {
-            value: 5,
-            state: "current",
-            left: { value: 3, state: "visited" },
-            right: { value: 7, state: "unvisited" },
-          },
-          right: {
-            value: 15,
-            state: "highlighted",
-            left: { value: 12, state: "unvisited" },
-            right: { value: 20, state: "unvisited" },
+      <VisualizationStep
+        title="Step 3"
+        description={
+          <>
+            <Paragraph>
+              <strong>S</strong> is now visited. We process <strong>A</strong> and enqueue its unvisited neighbors.
+            </Paragraph>
+<Code>
+{`current ← dequeue(Queue)    // "A"
+for each neighbor in neighbors("A"):   // "B", "E"
+    if neighbour is Target:
+        return true
+    if neighbor not in Visited:
+        enqueue(neighbor)
+        add neighbor to Visited
+
+// Visited: { "S", "A", "C", "B", "E" }`}
+</Code>
+
+          </>
+        }
+        graph={{
+          data: BASE_GRAPH,
+          nodeStates: {
+            S: "visited",
+            A: "current",
+            C: "queued",
+            B: "queued",
+            E: "newlyQueued",
           },
         }}
-        showLegend={true}
-      />
-
-      <Paragraph>
-        <strong>LinkedListDiagram</strong> - Show linked lists (singly or doubly):
-      </Paragraph>
-      <LinkedListDiagram
-        nodes={[
-          { value: 1, state: "visited" },
-          { value: 2, state: "current" },
-          { value: 3, state: "highlighted" },
-          { value: 4, state: "unvisited" },
-          { value: 5, state: "unvisited" },
+        queue={[
+          { value: "A", state: "current" },
+          { value: "C", state: "unvisited" },
+          { value: "B", state: "unvisited" },
+          { value: "E", state: "highlighted" },
         ]}
-        doublyLinked={true}
-        showLegend={true}
       />
 
-      <Paragraph>
-        <strong>ArrayDiagram</strong> - Visualize arrays with indices and cell states:
-      </Paragraph>
-      <ArrayDiagram
-        cells={[
-          { value: 5, state: "sorted" },
-          { value: 3, state: "sorted" },
-          { value: 8, state: "current" },
-          { value: 1, state: "highlighted" },
-          { value: 9, state: "unvisited" },
-          { value: 2, state: "unvisited" },
+      <VisualizationStep
+        title="Step 4"
+        description={
+          <>
+          <Paragraph>
+            We move on to <strong>C</strong>, marking it as current. Its neighbors are already visited or queued.
+          </Paragraph>
+        <Callout type="warning">
+           This is important. In a directed graph, if we do not avoid retraversing visited nodes, we end up with an infinite loop.
+      </Callout>
+<Code>
+{`current ← dequeue(Queue)    // "C"
+for each neighbor in neighbors("C"):   // "A"
+    if neighbour is Target:
+        return true
+    if neighbor not in Visited:
+        enqueue(neighbor)
+        add neighbor to Visited
+
+// Visited: { "S", "A", "C", "B", "E" }   // unchanged`}
+</Code>
+</>
+        }
+        graph={{
+          data: BASE_GRAPH,
+          nodeStates: {
+            S: "visited",
+            A: "visited",
+            C: "current",
+            B: "queued",
+            E: "queued",
+          },
+        }}
+        queue={[
+          { value: "C", state: "current" },
+          { value: "B", state: "unvisited" },
+          { value: "E", state: "unvisited" },
         ]}
-        showIndices={true}
-        showLegend={true}
       />
 
-      <Paragraph>
-        <strong>MapDiagram</strong> - Display hash maps / dictionaries:
-      </Paragraph>
-      <MapDiagram
-        entries={[
-          { key: "name", value: "Alice", state: "visited" },
-          { key: "age", value: 30, state: "current" },
-          { key: "city", value: "NYC", state: "highlighted" },
-          { key: "role", value: "Dev", state: "unvisited" },
-        ]}
-        title="User Info Map"
-        showLegend={true}
-      />
+      <VisualizationStep
+        title="Step 5"
+        description={
+          <>
+          <Paragraph>
+            Finally, <strong>B</strong> is processed, discovering <strong>D</strong> as newly queued.
+          </Paragraph>
+<Code>
+{`current ← dequeue(Queue)    // "B"
+for each neighbor in neighbors("B"):   // "D"
+    if neighbour is Target:
+        return true         // returns true!
+    if neighbor not in Visited:
+        enqueue(neighbor)
+        add neighbor to Visited
 
-      <Paragraph>
-        <strong>StackDiagram</strong> - Show stack data structure (LIFO):
-      </Paragraph>
-      <StackDiagram
-        items={[
-          { value: 10, state: "unvisited" },
-          { value: 20, state: "visited" },
-          { value: 30, state: "current" },
-        ]}
-        title="Call Stack"
-        showLegend={true}
-      />
+// Visited: { "S", "A", "C", "B", "E" } // unchanged`}
+</Code>
 
-      <Paragraph>
-        <strong>QueueDiagram</strong> - Show queue data structure (FIFO):
-      </Paragraph>
-      <QueueDiagram
-        items={[
-          { value: "A", state: "visited" },
+          </>
+        }
+        graph={{
+          data: BASE_GRAPH,
+          nodeStates: {
+            S: "visited",
+            A: "visited",
+            C: "visited",
+            B: "current",
+            E: "queued",
+            D: "newlyQueued",
+          },
+        }}
+        queue={[
           { value: "B", state: "current" },
-          { value: "C", state: "highlighted" },
-          { value: "D", state: "unvisited" },
+          { value: "E", state: "unvisited" },
         ]}
-        title="BFS Queue"
-        showLegend={true}
       />
     </>
   ),
