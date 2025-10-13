@@ -111,7 +111,7 @@ export const alg4: Algorithm = {
         <DiagramWrapper title="Step 1: Graph" compact>
           <GraphDiagram
             graphData={BASE_GRAPH}
-            nodeStates={{}}
+            nodeStates={{ S: "current" }} 
             width={300}
             height={200}
             contentOffset={{ y: -50, x: -50 }}
@@ -120,10 +120,146 @@ export const alg4: Algorithm = {
         
         <DiagramWrapper title="Step 1: Queue" compact>
           <QueueDiagram
-            items={[
-              { value: "C", state: "unvisited" },
-              { value: "D", state: "highlighted" },
-            ]}
+            items={[{ value: "S", state: "current" }]}
+            width={400}
+            height={200}
+          />
+        </DiagramWrapper>
+      </div>
+      <div className="grid md:grid-cols-3 gap-4">
+        <div>
+          <Paragraph>
+            <strong>BFS Algorithm Walkthrough</strong>
+          </Paragraph>
+          <Paragraph>
+            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+          </Paragraph>
+          <Callout type="info">
+            Notice how the graph state and queue update together as we process each node.
+          </Callout>
+          <Paragraph>
+            The current node (B) is being explored, while C is queued for later processing.
+          </Paragraph>
+        </div>
+        
+        <DiagramWrapper title="Step 2: Graph" compact>
+          <GraphDiagram
+            graphData={BASE_GRAPH}
+            nodeStates={{ S: "current", A: "newlyQueued", C: "newlyQueued" }}
+            width={300}
+            height={200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        </DiagramWrapper>
+        
+        <DiagramWrapper title="Step 2: Queue" compact>
+          <QueueDiagram
+            items={[{ value: "S", state: "current" }, { value: "A", state: "highlighted" }, { value: "C", state: "highlighted" }]}
+            width={400}
+            height={200}
+          />
+        </DiagramWrapper>
+      </div>
+
+       <div className="grid md:grid-cols-3 gap-4">
+        <div>
+          <Paragraph>
+            <strong>BFS Algorithm Walkthrough</strong>
+          </Paragraph>
+          <Paragraph>
+            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+          </Paragraph>
+          <Callout type="info">
+            Notice how the graph state and queue update together as we process each node.
+          </Callout>
+          <Paragraph>
+            The current node (B) is being explored, while C is queued for later processing.
+          </Paragraph>
+        </div>
+        
+        <DiagramWrapper title="Step 3: Graph" compact>
+          <GraphDiagram
+            graphData={BASE_GRAPH}
+            nodeStates={{S: "visited", A: "current", "C": "queued", "B": "queued", "E": "newlyQueued"}}
+            width={300}
+            height={200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        </DiagramWrapper>
+        
+        <DiagramWrapper title="Step 3: Queue" compact>
+          <QueueDiagram
+            items={[{ value: "A", state: "current" }, { value: "C", state: "unvisited" }, { value: "B", state: "unvisited" },  { value: "E", state: "highlighted" }]}
+            width={400}
+            height={200}
+          />
+        </DiagramWrapper>
+      </div>
+
+       <div className="grid md:grid-cols-3 gap-4">
+        <div>
+          <Paragraph>
+            <strong>BFS Algorithm Walkthrough</strong>
+          </Paragraph>
+          <Paragraph>
+            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+          </Paragraph>
+          <Callout type="info">
+            Notice how the graph state and queue update together as we process each node.
+          </Callout>
+          <Paragraph>
+            The current node (B) is being explored, while C is queued for later processing.
+          </Paragraph>
+        </div>
+        
+        <DiagramWrapper title="Step 4: Graph" compact>
+          <GraphDiagram
+            graphData={BASE_GRAPH}
+            nodeStates={{S: "visited", A: "visited", "C": "current", "B": "queued", "E": "queued"}}
+            width={300}
+            height={200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        </DiagramWrapper>
+        
+        <DiagramWrapper title="Step 4: Queue" compact>
+          <QueueDiagram
+            items={[{ value: "C", state: "current" }, { value: "B", state: "unvisited" },  { value: "E", state: "unvisited" }]}
+            width={400}
+            height={200}
+          />
+        </DiagramWrapper>
+      </div>
+
+       <div className="grid md:grid-cols-3 gap-4">
+        <div>
+          <Paragraph>
+            <strong>BFS Algorithm Walkthrough</strong>
+          </Paragraph>
+          <Paragraph>
+            Starting from node A, we explore neighbors level by level. The queue helps us keep track of nodes to visit next.
+          </Paragraph>
+          <Callout type="info">
+            Notice how the graph state and queue update together as we process each node.
+          </Callout>
+          <Paragraph>
+            The current node (B) is being explored, while C is queued for later processing.
+          </Paragraph>
+        </div>
+        
+        <DiagramWrapper title="Step 5: Graph" compact>
+          <GraphDiagram
+            graphData={BASE_GRAPH}
+            nodeStates={{S: "visited", A: "visited", "C": "visited", "B": "current", "E": "queued", "D": "newlyQueued"}}
+            width={300}
+            height={200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        </DiagramWrapper>
+        
+        <DiagramWrapper title="Step 5: Queue" compact>
+          <QueueDiagram
+            items={[{ value: "B", state: "current" },  { value: "E", state: "unvisited" },  { value: "D", state: "highlighted" }]}
             width={400}
             height={200}
           />

@@ -19,7 +19,7 @@ const itemStateColors = {
   unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
-  highlighted: "fill-info/30 stroke-info",
+  highlighted: "fill-green-600/30 stroke-green-600",
 };
 
 const itemStateTextColors = {
@@ -52,7 +52,7 @@ export const QueueDiagram = ({
 
         {/* Labels */}
         <text x={startX} y={50} textAnchor="start" className="text-xs fill-muted-foreground">
-          Front →
+          {/* Front → */}
         </text>
         <text
           x={startX + items.length * (itemWidth + gap) - gap}
@@ -60,7 +60,7 @@ export const QueueDiagram = ({
           textAnchor="end"
           className="text-xs fill-muted-foreground"
         >
-          ← Rear
+          {/* ← Rear */}
         </text>
 
         {/* Queue items */}

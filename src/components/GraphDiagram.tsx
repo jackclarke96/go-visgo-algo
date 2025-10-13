@@ -19,14 +19,15 @@ const nodeStateColors = {
   unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
-  queued: "fill-info/30 stroke-info",
+  queued: "fill-orange-500/25 stroke-orange-600",
+  newlyQueued: "fill-green-500/25 stroke-green-600"
 };
-
 const nodeStateTextColors = {
   unvisited: "fill-foreground",
   current: "fill-primary-foreground font-bold",
   visited: "fill-accent-foreground",
   queued: "fill-foreground",
+  newlyQueued:  "fill-foreground",
 };
 
 export const GraphDiagram = ({
