@@ -7,6 +7,8 @@ import {
   Paragraph, 
   Heading, 
   Code,
+  DiagramWrapper,
+  GraphDiagram,
 } from "@/components/AlgorithmContent";
 import { VisualizationStep } from "@/components/algorithm-content/VisualizationStepThreeDSLayout";
 
@@ -57,6 +59,26 @@ export const alg4: Algorithm = {
   category: "examples",
   
   problem: (
+    <>
+    Given a directed graph and two nodes (S and E), determine if there exists a route from S to E.
+    <div className="grid lg:grid-cols-3 gap-4 lg:items-stretch">
+            {/* Visualization (Graph) */}
+            <div className="space-y-2 flex flex-col">
+              <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
+              <DiagramWrapper title={``} compact className="flex-1">
+                <GraphDiagram
+                  graphData={ BASE_GRAPH}
+                  nodeStates={{S: "current", E: "current" }}
+                  width={300}
+                  height={200}
+                  contentOffset={{ y: -50, x: -50 }}
+                />
+              </DiagramWrapper>
+            </div>
+          </div>
+    </>
+  ),
+  algorithm: (
     <>
       <Paragraph>
         To solve this problem, we need to find the shortest path (or reachability) from a starting node <strong>S</strong> to a target node <strong>D</strong> in a graph. 
@@ -315,24 +337,23 @@ for each neighbor in neighbors("B"):   // "D"
         ]}
       />
     </>
-  ),
-  algorithm: (
-    <>
-      <Callout type="algorithm">
-        This is an <strong>algorithm Callout</strong>. Use it to describe the main algorithmic approach.
-        Great for explaining high-level strategy.
-      </Callout>
+    
+    // <>
+    //   <Callout type="algorithm">
+    //     This is an <strong>algorithm Callout</strong>. Use it to describe the main algorithmic approach.
+    //     Great for explaining high-level strategy.
+    //   </Callout>
 
-      <Callout type="definition">
-        This is a <strong>definition Callout</strong>. Use it to define technical terms, data structures,
-        or show type definitions.
-      </Callout>
+    //   <Callout type="definition">
+    //     This is a <strong>definition Callout</strong>. Use it to define technical terms, data structures,
+    //     or show type definitions.
+    //   </Callout>
 
-      <Heading>This is a Heading Component</Heading>
-      <Paragraph>
-        Use Heading components to create subsections within your content.
-      </Paragraph>
-    </>
+    //   <Heading>This is a Heading Component</Heading>
+    //   <Paragraph>
+    //     Use Heading components to create subsections within your content.
+    //   </Paragraph>
+    // </>
   ),
   
   solution: (
