@@ -8,7 +8,7 @@ import {
   Heading, 
   Code,
 } from "@/components/AlgorithmContent";
-import { VisualizationStep } from "@/components/algorithm-content/VisualizationStepTwoOfThreeCols";
+import { VisualizationStep } from "@/components/algorithm-content/VisualizationStepThreeDSLayout";
 
 /**
  * This file demonstrates how to use all available components for creating algorithm content.
