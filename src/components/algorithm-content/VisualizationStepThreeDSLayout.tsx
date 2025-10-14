@@ -45,11 +45,11 @@ export function VisualizationStep({
       </div>
 
       {/* Row 2: Three Diagrams Side by Side */}
-      <div className="grid lg:grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4 lg:items-stretch">
         {/* Visualization (Graph) */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex flex-col">
           <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
-          <DiagramWrapper title={`${title} - Graph`} compact>
+          <DiagramWrapper title={`${title} - Graph`} compact className="flex-1">
             <GraphDiagram
               graphData={graph.data}
               nodeStates={graph.nodeStates}
@@ -62,9 +62,9 @@ export function VisualizationStep({
 
         {/* Queue */}
         {queue && (
-          <div className="space-y-2">
+          <div className="space-y-2 flex flex-col">
             <h4 className="text-sm font-semibold text-muted-foreground">Queue</h4>
-            <DiagramWrapper title="Queue" compact>
+            <DiagramWrapper title="Queue" compact className="flex-1">
               <QueueDiagram items={queue} width={400} height={200} />
             </DiagramWrapper>
           </div>
@@ -72,9 +72,9 @@ export function VisualizationStep({
 
         {/* Map */}
         {map && (
-          <div className="space-y-2">
+          <div className="space-y-2 flex flex-col">
             <h4 className="text-sm font-semibold text-muted-foreground">Visited Map</h4>
-            <DiagramWrapper title="Visited Map" compact>
+            <DiagramWrapper title="Visited Map" compact className="flex-1">
               <MapDiagram entries={map} width={400} height={200} />
             </DiagramWrapper>
           </div>
