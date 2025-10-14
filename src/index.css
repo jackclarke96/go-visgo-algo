@@ -77,10 +77,10 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 25% 12%;
+    --background: 250 35% 12%;
     --foreground: 210 20% 90%;
 
-    --card: 220 25% 14%;
+    --card: 250 30% 16%;
     --card-foreground: 210 20% 90%;
 
     --popover: 220 25% 14%;
@@ -110,7 +110,7 @@ All colors MUST be HSL.
     --input: 220 20% 22%;
     --ring: 195 80% 55%;
 
-    --sidebar-background: 220 25% 10%;
+    --sidebar-background: 250 35% 10%;
     --sidebar-foreground: 210 20% 75%;
     --sidebar-primary: 195 80% 55%;
     --sidebar-primary-foreground: 220 25% 10%;
@@ -119,7 +119,7 @@ All colors MUST be HSL.
     --sidebar-border: 220 20% 22%;
     --sidebar-ring: 195 80% 55%;
 
-    --code-background: 220 25% 8%;
+    --code-background: 250 35% 8%;
     --tab-border: 220 20% 25%;
     
     --callout-info: 210 100% 15%;
