@@ -21,6 +21,7 @@ export interface VisualizationStepProps {
   stack?: { value: string; state: string }[];
   array?: { value: string; state: string }[];
   map?: MapEntry[];
+  textOnRight?: boolean; // If true, text on right, diagrams on left
 }
 
 export function VisualizationStep({
@@ -29,61 +30,22 @@ export function VisualizationStep({
   graph,
   queue,
   map,
+  textOnRight = false,
 }: VisualizationStepProps) {
   const hasMultipleDS = queue && map;
 
-  if (hasMultipleDS) {
-    // Layout for 3 data structures + text:
-    // Row 1: Text (col 1) | Graph (col 2-3)
-    // Row 2: Queue (col 1-1.5) | Map (col 1.5-3)
-    return (
-      <div className="my-8 space-y-4">
-        {/* Top row: Text + Graph */}
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-          <div>
-            <Paragraph>
-              <strong>{title}</strong>
-            </Paragraph>
-            {description}
-          </div>
+  const textContent = (
+    <div>
+      <Paragraph>
+        <strong>{title}</strong>
+      </Paragraph>
+      {description}
+    </div>
+  );
 
-          <div className="lg:col-span-2">
-            <DiagramWrapper title={`${title} - Graph`} compact>
-              <GraphDiagram
-                graphData={graph.data}
-                nodeStates={graph.nodeStates}
-                width={graph.width ?? 300}
-                height={graph.height ?? 200}
-                contentOffset={{ y: -50, x: -50 }}
-              />
-            </DiagramWrapper>
-          </div>
-        </div>
-
-        {/* Bottom row: Queue + Map */}
-        <div className="grid lg:grid-cols-2 gap-4">
-          <DiagramWrapper title={`${title} - Queue`} compact>
-            <QueueDiagram items={queue} width={400} height={200} />
-          </DiagramWrapper>
-
-          <DiagramWrapper title={`${title} - Map`} compact>
-            <MapDiagram entries={map} width={400} height={200} />
-          </DiagramWrapper>
-        </div>
-      </div>
-    );
-  }
-
-  // Original 3-column layout for fewer data structures
-  return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 my-8">
-      <div>
-        <Paragraph>
-          <strong>{title}</strong>
-        </Paragraph>
-        {description}
-      </div>
-
+  const diagramContent = (
+    <div className="space-y-4">
+      {/* Graph - full width */}
       <DiagramWrapper title={`${title} - Graph`} compact>
         <GraphDiagram
           graphData={graph.data}
@@ -94,16 +56,46 @@ export function VisualizationStep({
         />
       </DiagramWrapper>
 
-      {queue && (
+      {/* Queue and Map side by side */}
+      {hasMultipleDS && (
+        <div className="grid grid-cols-2 gap-4">
+          <DiagramWrapper title={`${title} - Queue`} compact>
+            <QueueDiagram items={queue} width={400} height={200} />
+          </DiagramWrapper>
+
+          <DiagramWrapper title={`${title} - Map`} compact>
+            <MapDiagram entries={map} width={400} height={200} />
+          </DiagramWrapper>
+        </div>
+      )}
+
+      {/* Single data structure - full width */}
+      {!hasMultipleDS && queue && (
         <DiagramWrapper title={`${title} - Queue`} compact>
           <QueueDiagram items={queue} width={400} height={200} />
         </DiagramWrapper>
       )}
 
-      {map && (
+      {!hasMultipleDS && map && (
         <DiagramWrapper title={`${title} - Map`} compact>
           <MapDiagram entries={map} width={400} height={200} />
         </DiagramWrapper>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-6 my-8">
+      {textOnRight ? (
+        <>
+          {diagramContent}
+          {textContent}
+        </>
+      ) : (
+        <>
+          {textContent}
+          {diagramContent}
+        </>
       )}
     </div>
   );
