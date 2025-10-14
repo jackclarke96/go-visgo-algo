@@ -44,8 +44,8 @@ export function VisualizationStep({
         {description}
       </div>
 
-      {/* Row 2: Diagrams Side by Side */}
-      <div className="grid lg:grid-cols-2 gap-4">
+      {/* Row 2: Three Diagrams Side by Side */}
+      <div className="grid lg:grid-cols-3 gap-4">
         {/* Visualization (Graph) */}
         <div className="border border-border rounded-lg p-4 bg-muted/30 space-y-2">
           <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
@@ -60,23 +60,25 @@ export function VisualizationStep({
           </DiagramWrapper>
         </div>
 
-        {/* State (Queue + Map) */}
-        <div className="border border-border rounded-lg p-4 bg-muted/30 space-y-2">
-          <h4 className="text-sm font-semibold text-muted-foreground">State</h4>
-          <div className="space-y-4">
-            {queue && (
-              <DiagramWrapper title="Queue" compact>
-                <QueueDiagram items={queue} width={400} height={200} />
-              </DiagramWrapper>
-            )}
-
-            {map && (
-              <DiagramWrapper title="Visited Map" compact>
-                <MapDiagram entries={map} width={400} height={200} />
-              </DiagramWrapper>
-            )}
+        {/* Queue */}
+        {queue && (
+          <div className="border border-border rounded-lg p-4 bg-muted/30 space-y-2">
+            <h4 className="text-sm font-semibold text-muted-foreground">Queue</h4>
+            <DiagramWrapper title="Queue" compact>
+              <QueueDiagram items={queue} width={400} height={200} />
+            </DiagramWrapper>
           </div>
-        </div>
+        )}
+
+        {/* Map */}
+        {map && (
+          <div className="border border-border rounded-lg p-4 bg-muted/30 space-y-2">
+            <h4 className="text-sm font-semibold text-muted-foreground">Visited Map</h4>
+            <DiagramWrapper title="Visited Map" compact>
+              <MapDiagram entries={map} width={400} height={200} />
+            </DiagramWrapper>
+          </div>
+        )}
       </div>
     </div>
   );
