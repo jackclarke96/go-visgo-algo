@@ -121,15 +121,11 @@ export const alg4: Algorithm = {
               We start BFS from the source node <strong>S</strong>. It's marked as <em>current</em>.
               At each step, we add the neighbours of the node at the end of the queue. We also track which nodes have been visited to prevent cycles.
             </Paragraph>
-            {/* <Callout type="info">
-              The queue initially contains only the starting node. */}
             <Code>
 {`Queue ← ["S"]
 Visited ← { "S" }        // S marked visited (starting node)
 Target ← "D"`}
             </Code>
-
-            {/* </Callout> */}
           </>
         }
         graph={{
@@ -138,6 +134,9 @@ Target ← "D"`}
         }}
         queue={[
           { value: "S", state: "current" },
+        ]}
+        map={[
+          { key: "S", value: "true", state: "visited" },
         ]}
       />
 
@@ -170,6 +169,11 @@ for each neighbor in neighbors("S"):   // "A", "C"
           { value: "S", state: "current" },
           { value: "A", state: "highlighted" },
           { value: "C", state: "highlighted" },
+        ]}
+        map={[
+          { key: "S", value: "true", state: "visited" },
+          { key: "A", value: "true", state: "highlighted" },
+          { key: "C", value: "true", state: "highlighted" },
         ]}
       />
 
@@ -209,6 +213,13 @@ for each neighbor in neighbors("A"):   // "B", "E"
           { value: "C", state: "unvisited" },
           { value: "B", state: "unvisited" },
           { value: "E", state: "highlighted" },
+        ]}
+        map={[
+          { key: "S", value: "true", state: "visited" },
+          { key: "A", value: "true", state: "current" },
+          { key: "C", value: "true", state: "visited" },
+          { key: "B", value: "true", state: "visited" },
+          { key: "E", value: "true", state: "highlighted" },
         ]}
       />
 
@@ -250,6 +261,13 @@ for each neighbor in neighbors("C"):   // "A"
           { value: "B", state: "unvisited" },
           { value: "E", state: "unvisited" },
         ]}
+        map={[
+          { key: "S", value: "true", state: "visited" },
+          { key: "A", value: "true", state: "visited" },
+          { key: "C", value: "true", state: "current" },
+          { key: "B", value: "true", state: "visited" },
+          { key: "E", value: "true", state: "visited" },
+        ]}
       />
 
       <VisualizationStep
@@ -287,6 +305,13 @@ for each neighbor in neighbors("B"):   // "D"
         queue={[
           { value: "B", state: "current" },
           { value: "E", state: "unvisited" },
+        ]}
+        map={[
+          { key: "S", value: "true", state: "visited" },
+          { key: "A", value: "true", state: "visited" },
+          { key: "C", value: "true", state: "visited" },
+          { key: "B", value: "true", state: "current" },
+          { key: "E", value: "true", state: "visited" },
         ]}
       />
     </>
