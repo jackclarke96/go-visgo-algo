@@ -29,17 +29,17 @@ const BASE_GRAPH: GraphData = Object.freeze({
     { id: "A", label: "A", x: 200, y: 100 },
     { id: "B", label: "B", x: 300, y: 100 },
     { id: "C", label: "C", x: 100, y: 200 },
-    { id: "E", label: "E", x: 200, y: 200 },
-    { id: "D", label: "D", x: 300, y: 200 },
+    { id: "D", label: "D", x: 200, y: 200 },
+    { id: "E", label: "E", x: 300, y: 200 },
   ],
   edges: [
     { from: "S", to: "A" },
     { from: "A", to: "B" },
     { from: "S", to: "C" },
     { from: "C", to: "A" },
-    { from: "A", to: "E" },
-    { from: "B", to: "D" },
-    { from: "E", to: "C" },
+    { from: "A", to: "D" },
+    { from: "B", to: "E" },
+    { from: "D", to: "C" },
   ],
 });
 
@@ -146,7 +146,7 @@ export const alg4: Algorithm = {
             <Code>
 {`Queue ← ["S"]
 Visited ← { "S" }        // S marked visited (starting node)
-Target ← "D"`}
+Target ← "E"`}
             </Code>
           </>
         }
@@ -208,14 +208,14 @@ for each neighbor in neighbors("S"):   // "A", "C"
             </Paragraph>
 <Code>
 {`current ← dequeue(Queue)    // "A"
-for each neighbor in neighbors("A"):   // "B", "E"
+for each neighbor in neighbors("A"):   // "B", "D"
     if neighbour is Target:
         return true
     if neighbor not in Visited:
         enqueue(neighbor)
         add neighbor to Visited
 
-// Visited: { "S", "A", "C", "B", "E" }`}
+// Visited: { "S", "A", "C", "B", "D" }`}
 </Code>
 
           </>
@@ -227,21 +227,21 @@ for each neighbor in neighbors("A"):   // "B", "E"
             A: "current",
             C: "queued",
             B: "queued",
-            E: "newlyQueued",
+            D: "newlyQueued",
           },
         }}
         queue={[
           { value: "A", state: "current" },
           { value: "C", state: "unvisited" },
           { value: "B", state: "unvisited" },
-          { value: "E", state: "highlighted" },
+          { value: "D", state: "highlighted" },
         ]}
         map={[
           { key: "S", value: "true", state: "visited" },
           { key: "A", value: "true", state: "current" },
           { key: "C", value: "true", state: "visited" },
           { key: "B", value: "true", state: "visited" },
-          { key: "E", value: "true", state: "highlighted" },
+          { key: "D", value: "true", state: "highlighted" },
         ]}
       />
 
@@ -264,7 +264,7 @@ for each neighbor in neighbors("C"):   // "A"
         enqueue(neighbor)
         add neighbor to Visited
 
-// Visited: { "S", "A", "C", "B", "E" }   // unchanged`}
+// Visited: { "S", "A", "C", "B", "D" }   // unchanged`}
 </Code>
 </>
         }
@@ -275,20 +275,20 @@ for each neighbor in neighbors("C"):   // "A"
             A: "visited",
             C: "current",
             B: "queued",
-            E: "queued",
+            D: "queued",
           },
         }}
         queue={[
           { value: "C", state: "current" },
           { value: "B", state: "unvisited" },
-          { value: "E", state: "unvisited" },
+          { value: "D", state: "unvisited" },
         ]}
         map={[
           { key: "S", value: "true", state: "visited" },
           { key: "A", value: "true", state: "visited" },
           { key: "C", value: "true", state: "current" },
           { key: "B", value: "true", state: "visited" },
-          { key: "E", value: "true", state: "visited" },
+          { key: "D", value: "true", state: "visited" },
         ]}
       />
 
@@ -297,11 +297,11 @@ for each neighbor in neighbors("C"):   // "A"
         description={
           <>
           <Paragraph>
-            Finally, <strong>B</strong> is processed, discovering <strong>D</strong> as newly queued.
+            Finally, <strong>B</strong> is processed, discovering <strong>E</strong> as newly queued.
           </Paragraph>
 <Code>
 {`current ← dequeue(Queue)    // "B"
-for each neighbor in neighbors("B"):   // "D"
+for each neighbor in neighbors("B"):   // "E"
     if neighbour is Target:
         return true         // returns true!
     if neighbor not in Visited:
@@ -320,20 +320,20 @@ for each neighbor in neighbors("B"):   // "D"
             A: "visited",
             C: "visited",
             B: "current",
-            E: "queued",
-            D: "newlyQueued",
+            D: "queued",
+            E: "newlyQueued",
           },
         }}
         queue={[
           { value: "B", state: "current" },
-          { value: "E", state: "unvisited" },
+          { value: "D", state: "unvisited" },
         ]}
         map={[
           { key: "S", value: "true", state: "visited" },
           { key: "A", value: "true", state: "visited" },
           { key: "C", value: "true", state: "visited" },
           { key: "B", value: "true", state: "current" },
-          { key: "E", value: "true", state: "visited" },
+          { key: "D", value: "true", state: "visited" },
         ]}
       />
     </>
