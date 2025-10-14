@@ -15,7 +15,7 @@ export interface GraphData {
   edges: GraphEdge[];
 }
 
-export type NodeState = "unvisited" | "current" | "visited" | "queued";
+export type NodeState = "unvisited" | "current" | "visited" | "queued" | "newlyQueued";
 
 export interface VisualizationStep {
   line: number;

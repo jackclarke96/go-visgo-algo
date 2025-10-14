@@ -1,5 +1,6 @@
-import { Paragraph, Callout, DiagramWrapper, GraphDiagram, QueueDiagram } from "@/components/AlgorithmContent";
+import { Paragraph, Callout, DiagramWrapper, GraphDiagram, QueueDiagram, MapDiagram } from "@/components/AlgorithmContent";
 import { QueueItemState } from "../QueueDiagram";
+import { MapEntry } from "../MapDiagram";
 import { NodeState } from "@/types/visualizer";
 
 interface QueueItem {
@@ -19,15 +20,27 @@ export interface VisualizationStepProps {
   queue?: QueueItem[];
   stack?: { value: string; state: string }[];
   array?: { value: string; state: string }[];
+  map?: MapEntry[];
 }
 export function VisualizationStep({
   title,
   description,
   graph,
   queue,
+  map,
 }: VisualizationStepProps) {
+  // Count how many data structures we're showing
+  const dataStructureCount = [queue, map].filter(Boolean).length;
+  
+  // Determine grid layout based on number of data structures
+  // For 1 data structure: text + graph + data structure = 3 columns
+  // For 2 data structures: text + graph + ds1 + ds2 = 4 columns
+  const gridCols = dataStructureCount === 2 
+    ? "grid lg:grid-cols-4 md:grid-cols-2 gap-4"
+    : "grid lg:grid-cols-3 md:grid-cols-2 gap-4";
+
   return (
-    <div className="grid md:grid-cols-3 gap-4 my-8">
+    <div className={`${gridCols} my-8`}>
       <div>
         <Paragraph>
           <strong>{title}</strong>
@@ -48,6 +61,12 @@ export function VisualizationStep({
       {queue && (
         <DiagramWrapper title={`${title} - Queue`} compact>
           <QueueDiagram items={queue} width={400} height={200} />
+        </DiagramWrapper>
+      )}
+
+      {map && (
+        <DiagramWrapper title={`${title} - Map`} compact>
+          <MapDiagram entries={map} width={400} height={200} />
         </DiagramWrapper>
       )}
     </div>
