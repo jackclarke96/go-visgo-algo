@@ -5,6 +5,7 @@ interface GraphDiagramProps {
   graphData: GraphData;
   nodeStates?: Record<string, NodeState>;
   highlightEdge?: { from: string; to: string };
+  highlightEdges?: { from: string; to: string }[];
   width?: number;
   height?: number;
   showLegend?: boolean;
@@ -34,6 +35,7 @@ export const GraphDiagram = ({
   graphData,
   nodeStates = {},
   highlightEdge,
+  highlightEdges,
   width = 600,
   height = 400,
   showLegend = false,
@@ -59,7 +61,9 @@ export const GraphDiagram = ({
               const toNode = graphData.nodes.find(n => n.id === edge.to);
               if (!fromNode || !toNode) return null;
 
-              const isHighlighted = highlightEdge?.from === edge.from && highlightEdge?.to === edge.to;
+              const isHighlighted = 
+                (highlightEdge?.from === edge.from && highlightEdge?.to === edge.to) ||
+                (highlightEdges?.some(e => e.from === edge.from && e.to === edge.to) ?? false);
 
               const dx = toNode.x - fromNode.x;
               const dy = toNode.y - fromNode.y;

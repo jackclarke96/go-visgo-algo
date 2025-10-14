@@ -69,6 +69,11 @@ export const alg4: Algorithm = {
                 <GraphDiagram
                   graphData={ BASE_GRAPH}
                   nodeStates={{S: "current", E: "current" }}
+                  highlightEdges={[
+                    { from: "S", to: "A" },
+                    { from: "A", to: "B" },
+                    { from: "B", to: "E" }
+                  ]}
                   width={300}
                   height={200}
                   contentOffset={{ y: -50, x: -50 }}
