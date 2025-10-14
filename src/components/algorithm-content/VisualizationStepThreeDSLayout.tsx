@@ -34,69 +34,47 @@ export function VisualizationStep({
 }: VisualizationStepProps) {
   const hasMultipleDS = queue && map;
 
-  const textContent = (
-    <div>
-      <Paragraph>
-        <strong>{title}</strong>
-      </Paragraph>
-      {description}
-    </div>
-  );
-
-  const diagramContent = (
-    <div className="space-y-4">
-      {/* Graph - full width */}
-      <DiagramWrapper title={`${title} - Graph`} compact>
-        <GraphDiagram
-          graphData={graph.data}
-          nodeStates={graph.nodeStates}
-          width={graph.width ?? 300}
-          height={graph.height ?? 200}
-          contentOffset={{ y: -50, x: -50 }}
-        />
-      </DiagramWrapper>
-
-      {/* Queue and Map side by side */}
-      {hasMultipleDS && (
-        <div className="grid grid-cols-2 gap-4">
-          <DiagramWrapper title={`${title} - Queue`} compact>
-            <QueueDiagram items={queue} width={400} height={200} />
-          </DiagramWrapper>
-
-          <DiagramWrapper title={`${title} - Map`} compact>
-            <MapDiagram entries={map} width={400} height={200} />
-          </DiagramWrapper>
-        </div>
-      )}
-
-      {/* Single data structure - full width */}
-      {!hasMultipleDS && queue && (
-        <DiagramWrapper title={`${title} - Queue`} compact>
-          <QueueDiagram items={queue} width={400} height={200} />
-        </DiagramWrapper>
-      )}
-
-      {!hasMultipleDS && map && (
-        <DiagramWrapper title={`${title} - Map`} compact>
-          <MapDiagram entries={map} width={400} height={200} />
-        </DiagramWrapper>
-      )}
-    </div>
-  );
-
   return (
-    <div className="grid lg:grid-cols-2 gap-6 my-8">
-      {textOnRight ? (
-        <>
-          {diagramContent}
-          {textContent}
-        </>
-      ) : (
-        <>
-          {textContent}
-          {diagramContent}
-        </>
-      )}
+    <div className="grid lg:grid-cols-3 gap-6 my-8">
+      {/* Column 1: Text Description */}
+      <div>
+        <Paragraph>
+          <strong>{title}</strong>
+        </Paragraph>
+        {description}
+      </div>
+
+      {/* Column 2: Visualization (Graph) */}
+      <div className="space-y-2">
+        <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
+        <DiagramWrapper title={`${title} - Graph`} compact>
+          <GraphDiagram
+            graphData={graph.data}
+            nodeStates={graph.nodeStates}
+            width={graph.width ?? 300}
+            height={graph.height ?? 200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        </DiagramWrapper>
+      </div>
+
+      {/* Column 3: State (Queue + Map) */}
+      <div className="space-y-2">
+        <h4 className="text-sm font-semibold text-muted-foreground">State</h4>
+        <div className="space-y-4">
+          {queue && (
+            <DiagramWrapper title="Queue" compact>
+              <QueueDiagram items={queue} width={400} height={200} />
+            </DiagramWrapper>
+          )}
+
+          {map && (
+            <DiagramWrapper title="Visited Map" compact>
+              <MapDiagram entries={map} width={400} height={200} />
+            </DiagramWrapper>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
