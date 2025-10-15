@@ -20,7 +20,7 @@ const entryStateColors = {
   unvisited: "fill-card stroke-border",
   current: "fill-primary stroke-primary",
   visited: "fill-accent stroke-accent-foreground",
-  highlighted: "fill-info/30 stroke-info",
+  highlighted: "fill-green-600/30 stroke-green-600",
 };
 
 const entryStateTextColors = {

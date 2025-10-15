@@ -243,7 +243,7 @@ for each neighbor in neighbors("A"):   // "B", "D"
         ]}
         map={[
           { key: "S", value: "true", state: "visited" },
-          { key: "A", value: "true", state: "current" },
+          { key: "A", value: "true", state: "visited" },
           { key: "C", value: "true", state: "visited" },
           { key: "B", value: "true", state: "visited" },
           { key: "D", value: "true", state: "highlighted" },
@@ -291,7 +291,7 @@ for each neighbor in neighbors("C"):   // "A"
         map={[
           { key: "S", value: "true", state: "visited" },
           { key: "A", value: "true", state: "visited" },
-          { key: "C", value: "true", state: "current" },
+          { key: "C", value: "true", state: "visited" },
           { key: "B", value: "true", state: "visited" },
           { key: "D", value: "true", state: "visited" },
         ]}
@@ -337,7 +337,7 @@ for each neighbor in neighbors("B"):   // "E"
           { key: "S", value: "true", state: "visited" },
           { key: "A", value: "true", state: "visited" },
           { key: "C", value: "true", state: "visited" },
-          { key: "B", value: "true", state: "current" },
+          { key: "B", value: "true", state: "visited" },
           { key: "D", value: "true", state: "visited" },
         ]}
       />
