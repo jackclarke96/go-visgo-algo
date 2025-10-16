@@ -33,17 +33,17 @@ export const Solution = () => (
             </li>
             
             <li className="text-foreground">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="inline-flex items-center gap-2">
                 <IterationCw className="h-4 w-4 text-primary flex-shrink-0" />
                 <strong>Loop while queue is not empty:</strong>
               </div>
               <List>
                 <ListItem>Dequeue the current node</ListItem>
                 <ListItem>
-                  <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-flex items-center gap-2">
                     <IterationCw className="h-3.5 w-3.5 text-primary flex-shrink-0" />
                     <strong>Loop for each neighbor of current node:</strong>
-                  </div>
+                  </span>
                   <List>
                     <ListItem>If neighbor is the target node E → return true</ListItem>
                     <ListItem>If neighbor hasn't been visited → add to queue and mark as visited</ListItem>
