@@ -115,6 +115,6 @@ export const Solution = () => (
 }
 `}
       </Code>
-
+    </Section>
   </>
 );
