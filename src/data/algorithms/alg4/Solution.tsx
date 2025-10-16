@@ -7,38 +7,51 @@ import {
   Callout, 
   Heading 
 } from "@/components/AlgorithmContent";
+import { IterationCw } from "lucide-react";
 
 export const Solution = () => (
   <>
     <Section title="Algorithm Overview">
       <Callout type="algorithm">
           <Heading>Algorithm Steps</Heading>
-          <List>
-            <ListItem>Check input parameters to cut the algorithm short where possible:</ListItem>
+          <ol className="space-y-4 list-decimal list-inside marker:font-semibold marker:text-primary">
+            <li className="text-foreground">
+              <strong>Validate inputs</strong> — Early returns for edge cases:
               <List>
-                <ListItem>If the start Node does not appear in the graph, return false</ListItem>
-                <ListItem>If the end Node does not appear in the graph, return false</ListItem>
-                <ListItem>If the start Node is the same as the end node, return true</ListItem>
+                <ListItem>Return false if start node doesn't exist in graph</ListItem>
+                <ListItem>Return false if end node doesn't exist in graph</ListItem>
+                <ListItem>Return true if start and end are the same node</ListItem>
               </List>
-            <ListItem>Initialize data structures:
+            </li>
+            
+            <li className="text-foreground">
+              <strong>Initialize data structures:</strong>
               <List>
-              <ListItem>A queue to track nodes graph nodes to explore. Add S to the queue</ListItem>
-              <ListItem>A map to track nodes we have already visited in order to avoid re-exploring explored nodes. Add S to the map</ListItem>
+                <ListItem><strong>Queue:</strong> Track nodes to explore (start with S)</ListItem>
+                <ListItem><strong>Visited map:</strong> Avoid re-exploring nodes (mark S as visited)</ListItem>
               </List>
-            </ListItem>
-            <ListItem>While the queue is not empty:
+            </li>
+            
+            <li className="text-foreground flex items-start gap-2">
+              <div className="flex items-center gap-2">
+                <IterationCw className="h-4 w-4 text-primary flex-shrink-0 mt-1" />
+                <strong>While queue is not empty:</strong>
+              </div>
               <List>
-              <ListItem>Explore neighbours, of the first element in the queue. For each neighbour:
-                    <List>
-                <ListItem>If the neighbour is E, we have found the target node! return true</ListItem>
-                <ListItem>If the neighbour is not in the visited queue we have not explored it yet. Add it to the queue and mark it as visited</ListItem>
-                <ListItem>Select the next item in the queue.</ListItem>
-                </List>
-              </ListItem>
+                <ListItem>Dequeue the current node</ListItem>
+                <ListItem>For each neighbor of the current node:
+                  <List>
+                    <ListItem>If neighbor is the target node E → return true</ListItem>
+                    <ListItem>If neighbor hasn't been visited → add to queue and mark as visited</ListItem>
+                  </List>
+                </ListItem>
               </List>
-            </ListItem>
-            <ListItem>If we exit the loop, we have explored all possible paths without finding the target node. There is no path to the target node. Return false.</ListItem>
-          </List>
+            </li>
+            
+            <li className="text-foreground">
+              <strong>Return false</strong> — No path exists (queue exhausted without finding target)
+            </li>
+          </ol>
         </Callout>
     </Section>
     <Section title="Choosing Data Structures">
