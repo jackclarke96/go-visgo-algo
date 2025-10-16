@@ -1,8 +1,8 @@
 import { Category } from "@/types/algorithms";
 import binaryTreeImg from "@/assets/binary-tree-example.png";
 import { componentShowcase } from "./componentExamples";
-import { alg4 } from "./algorithms/component-showcase";
-import { exampleAlgorithm } from "./algorithms/example";
+import { alg4 } from "./algorithms/alg4";
+import { exampleAlgorithm } from "./algorithms/example-showcase";
 
 export const algorithmCategories: Category[] = [
   {
