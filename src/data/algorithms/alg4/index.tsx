@@ -14,28 +14,4 @@ export const alg4: Algorithm = {
   algorithm: <AlgorithmSection />,
   solution: <Solution />,
   improvements: <Improvements />,
-
-
-  detailedExplanations: [
-    {
-      trigger: "deep dive example",
-      section: "solution",
-      content: (
-        <>
-          <Heading>Deep Dive Content</Heading>
-          <Paragraph>
-            Detailed explanations (triggered by clicking info buttons) can use all the same components.
-          </Paragraph>
-          
-          <Section title="Example Section in Modal">
-            <List>
-              <ListItem>All components work here too</ListItem>
-              <ListItem>Use them to provide detailed explanations</ListItem>
-              <ListItem>Keep main content concise, put details in deep dives</ListItem>
-            </List>
-          </Section>
-        </>
-      ),
-    },
-  ],
 };

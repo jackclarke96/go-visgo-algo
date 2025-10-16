@@ -8,6 +8,7 @@ import {
   Heading 
 } from "@/components/AlgorithmContent";
 import { IterationCw } from "lucide-react";
+import { DeepDiveModal } from "@/components/DeepDiveModal";
 
 export const Solution = () => (
   <>
@@ -60,7 +61,50 @@ export const Solution = () => (
     </Section>
     <Section title="Choosing Data Structures">
       <Paragraph>
-      We choose a slice of pointers to the graph's nodes. The pointers allow for quick comparison of neighbours to end node.
+      We choose a slice of pointers to the{" "}
+      <DeepDiveModal 
+        trigger="graph's nodes" 
+        title="Directed Graph Structure"
+        content={
+          <>
+            <Heading>Directed Graph Structure</Heading>
+            <Paragraph>
+              The directed graph is implemented using two Go structs that work together:
+            </Paragraph>
+            
+            <Section title="nodeDirectedGraph">
+              <Paragraph>
+                Represents a single node in the graph with two fields:
+              </Paragraph>
+              <List>
+                <ListItem><strong>name</strong>: A string identifier for the node</ListItem>
+                <ListItem><strong>neighbours</strong>: A slice of pointers to other nodes this node connects to</ListItem>
+              </List>
+            </Section>
+
+            <Section title="directedGraph">
+              <Paragraph>
+                The main graph structure that contains:
+              </Paragraph>
+              <List>
+                <ListItem><strong>nodes</strong>: A map from node names (strings) to node pointers, allowing O(1) node lookup</ListItem>
+              </List>
+            </Section>
+
+            <Section title="Why Pointers?">
+              <Paragraph>
+                Using pointers (<code>*nodeDirectedGraph</code>) provides several benefits:
+              </Paragraph>
+              <List>
+                <ListItem>Fast equality comparison - we can compare pointer addresses directly</ListItem>
+                <ListItem>Memory efficiency - nodes aren't duplicated when referenced multiple times</ListItem>
+                <ListItem>Easy navigation - following neighbours is just dereferencing a pointer</ListItem>
+              </List>
+            </Section>
+          </>
+        }
+      />
+      . The pointers allow for quick comparison of neighbours to end node.
  <Code>
 {`queue := []*nodeDirectedGraph{}`}
 </Code>
