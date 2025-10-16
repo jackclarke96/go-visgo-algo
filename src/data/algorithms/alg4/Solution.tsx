@@ -33,14 +33,14 @@ export const Solution = () => (
             </li>
             
             <li className="text-foreground">
-              <div className="inline-flex items-center gap-2">
+              <div className="inline-flex items-center gap-2 -mt-0.5">
                 <IterationCw className="h-4 w-4 text-primary flex-shrink-0" />
                 <strong>Loop while queue is not empty:</strong>
               </div>
               <List>
                 <ListItem>Dequeue the current node</ListItem>
                 <ListItem>
-                  <span className="inline-flex items-center gap-2">
+                  <span className="inline-flex items-center gap-2 -mt-0.5">
                     <IterationCw className="h-3.5 w-3.5 text-primary flex-shrink-0" />
                     <strong>Loop for each neighbor of current node:</strong>
                   </span>
