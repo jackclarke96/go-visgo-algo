@@ -78,40 +78,39 @@ export const Solution = () => (
 {`func (d *directedGraph) routeBetweenNodes(startNode, endNode *nodeDirectedGraph) bool {
 
   // 1: Validate inputs — Early returns for edge cases:
-	if startNode == endNode {
-		return true
-	}
-	if _, found := d.nodes[startNode.name]; !found {
-		return false
-	}
-	if _, found := d.nodes[endNode.name]; !found {
-		return false
-	}
+  if startNode == endNode {
+    return true
+  }
+  if _, found := d.nodes[startNode.name]; !found {
+    return false
+  }
+  if _, found := d.nodes[endNode.name]; !found {
+    return false
+  }
 
   // 2: Initialize data structures:
-	queue := []*nodeDirectedGraph{startNode}
-	visited := map[*nodeDirectedGraph]bool{startNode: true}
+  queue := []*nodeDirectedGraph{startNode}
+  visited := map[*nodeDirectedGraph]bool{startNode: true}
 
   // 3: Loop while queue is not empty
-	for len(queue) > 0 {
+  for len(queue) > 0 {
     // explore neighbours of first node in queue
-		current := queue[0]
-		for _, n := range current.neighbours {
-    // if we have found the end node we are done
-			if n == endNode {
-				return true
-			}
-      // otherwise, if we have not seen the neighbour before, add it to the
-      // queue
-			if !visited[n] {
-				queue = append(queue, n)
-				visited[n] = true
-			}
-		}
-      // dequeue the first element
-		queue = queue[1:]
-	}
-	return false
+    current := queue[0]
+    for _, n := range current.neighbours {
+      // if we have found the end node we are done
+      if n == endNode {
+        return true
+      }
+      // otherwise, if we have not seen the neighbour before, add it to the queue
+      if !visited[n] {
+        queue = append(queue, n)
+        visited[n] = true
+      }
+    }
+    // dequeue the first element
+    queue = queue[1:]
+  }
+  return false
 }
 `}
       </Code>
