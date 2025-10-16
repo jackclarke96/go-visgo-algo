@@ -138,8 +138,11 @@ export const Solution = () => (
 
   // 3: Loop while queue is not empty
   for len(queue) > 0 {
-    // explore neighbours of first node in queue
+    // dequeue the first element
     current := queue[0]
+    queue = queue[1:]
+
+    // explore neighbours of first node in queue
     for _, n := range current.neighbours {
       // if we have found the end node we are done
       if n == endNode {
@@ -151,8 +154,6 @@ export const Solution = () => (
         visited[n] = true
       }
     }
-    // dequeue the first element
-    queue = queue[1:]
   }
   return false
 }

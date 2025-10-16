@@ -1,44 +1,24 @@
 import { 
   Callout, 
   Paragraph, 
-  Section, 
-  List, 
-  ListItem, 
-  Heading 
 } from "@/components/AlgorithmContent";
 
 export const Improvements = () => (
   <>
     <Callout type="tip">
-      <Paragraph>
-        <strong>Performance Optimization</strong>: You can nest Paragraphs, Headings, Lists,
-        and Code blocks inside Callouts for rich, structured content.
-      </Paragraph>
+      Consider using a bidirectional BFS for improved performance on large graphs. 
+      This searches from both start and end simultaneously, reducing the search space.
     </Callout>
 
-    <Section title="Advanced Techniques">
-      <List>
-        <ListItem>Use multiple Sections to organize complex solutions</ListItem>
-        <ListItem>Combine Callouts of different types to highlight different aspects</ListItem>
-        <ListItem>Use Code blocks with different languages as needed</ListItem>
-        <ListItem>Include inline code snippets within Paragraphs using HTML <code>&lt;code&gt;</code> tags</ListItem>
-      </List>
-    </Section>
-
-    <Heading>Quick Reference</Heading>
-    
-    <Callout type="info">
+    <Callout type="algorithm" title="Queue Implementation Recommendations">
       <Paragraph>
-        <strong>Available Components:</strong>
+        <strong>For Small to Medium Graphs</strong> (hundreds / low thousands of nodes)
+        → Slices win (simpler, faster, cache-friendly)
       </Paragraph>
-      <List>
-        <ListItem><code>&lt;Paragraph&gt;</code> - Regular text content</ListItem>
-        <ListItem><code>&lt;Heading&gt;</code> - Subsection headings</ListItem>
-        <ListItem><code>&lt;Section title="..."&gt;</code> - Grouped content with optional title</ListItem>
-        <ListItem><code>&lt;List&gt;</code> + <code>&lt;ListItem&gt;</code> - Bulleted lists</ListItem>
-        <ListItem><code>&lt;Code language="..."&gt;</code> - Syntax-highlighted code blocks</ListItem>
-        <ListItem><code>&lt;Callout type="..."&gt;</code> - Special highlighted boxes (info, warning, tip, definition, algorithm)</ListItem>
-      </List>
+      <Paragraph>
+        <strong>For Huge Graphs</strong> (millions of nodes)
+        → Ring buffer or container/list for stable O(1) operations
+      </Paragraph>
     </Callout>
   </>
 );
