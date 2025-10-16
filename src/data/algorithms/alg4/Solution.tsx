@@ -60,25 +60,24 @@ export const Solution = () => (
     </Section>
     <Section title="Choosing Data Structures">
       <Paragraph>
-        The <strong>Section</strong> component groups related content together with an optional title.
+      We choose a slice of pointers to the graph's nodes. The pointers allow for quick comparison of neighbours to end node.
+ <Code>
+{`queue := []*nodeDirectedGraph{}`}
+</Code>
       </Paragraph>
-
-      <List>
-        <ListItem>This is a <strong>List</strong> component with <strong>ListItem</strong> children</ListItem>
-        <ListItem>Use it to create bulleted lists of related information</ListItem>
-        <ListItem>Each ListItem gets proper spacing and styling automatically</ListItem>
-        <ListItem>You can include <strong>bold</strong>, <em>italic</em>, or <code>inline code</code> in list items</ListItem>
-      </List>
+            <Paragraph>
+      We also choose a map of pointers to the graph's nodes to `bool`. This allows for O(1) lookup of whether a node has been visited
+ <Code>
+{`visited := map[*nodeDirectedGraph]bool`}
+</Code>
+      </Paragraph>       
     </Section>
 
     <Section title="Code">
-      <Paragraph>
-        Use the <strong>Code</strong> component to display syntax-highlighted code blocks.
-        Default language is Go, but you can specify any language.
-      </Paragraph>
-
       <Code language="go">
 {`func (d *directedGraph) routeBetweenNodes(startNode, endNode *nodeDirectedGraph) bool {
+
+  // 1: Validate inputs — Early returns for edge cases:
 	if startNode == endNode {
 		return true
 	}
@@ -88,19 +87,28 @@ export const Solution = () => (
 	if _, found := d.nodes[endNode.name]; !found {
 		return false
 	}
+
+  // 2: Initialize data structures:
 	queue := []*nodeDirectedGraph{startNode}
 	visited := map[*nodeDirectedGraph]bool{startNode: true}
+
+  // 3: Loop while queue is not empty
 	for len(queue) > 0 {
+    // explore neighbours of first node in queue
 		current := queue[0]
 		for _, n := range current.neighbours {
+    // if we have found the end node we are done
 			if n == endNode {
 				return true
 			}
+      // otherwise, if we have not seen the neighbour before, add it to the
+      // queue
 			if !visited[n] {
 				queue = append(queue, n)
 				visited[n] = true
 			}
 		}
+      // dequeue the first element
 		queue = queue[1:]
 	}
 	return false
@@ -108,54 +116,5 @@ export const Solution = () => (
 `}
       </Code>
 
-      <Code language="javascript">
-{`function example() {
-  // This is JavaScript code
-  console.log("Hello, World!");
-}`}
-      </Code>
-
-      <Code language="python">
-{`def example():
-    # This is Python code
-    print("Hello, World!")`}
-      </Code>
-    </Section>
-
-    <Section title="Combining Components">
-      <Paragraph>
-        You can combine components in creative ways to structure your content effectively.
-      </Paragraph>
-
-      <Callout type="definition">
-        <Heading>Data Structures</Heading>
-        <Code language="go">
-{`type Node struct {
-    Value int
-    Left  *Node
-    Right *Node
-}`}
-        </Code>
-        <Paragraph>
-          You can put code blocks inside callouts for emphasis.
-        </Paragraph>
-      </Callout>
-
-      <Callout type="algorithm">
-        <Heading>Algorithm Steps</Heading>
-        <List>
-          <ListItem>Initialize data structures</ListItem>
-          <ListItem>Process input and build initial state</ListItem>
-          <ListItem>Execute main algorithm loop</ListItem>
-          <ListItem>Return results</ListItem>
-        </List>
-      </Callout>
-    </Section>
-
-    <Section>
-      <Paragraph>
-        Sections don't need titles - you can omit the title prop for untitled sections.
-      </Paragraph>
-    </Section>
   </>
 );
