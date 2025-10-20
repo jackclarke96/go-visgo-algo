@@ -80,6 +80,13 @@ export const Solution = () => (
                 <ListItem><strong>name</strong>: A string identifier for the node</ListItem>
                 <ListItem><strong>neighbours</strong>: A slice of pointers to other nodes this node connects to</ListItem>
               </List>
+              <Code>
+                {`type nodeDirectedGraph struct {
+	name       string
+	neighbours []*nodeDirectedGraph
+}
+`}
+              </Code>
             </Section>
 
             <Section title="directedGraph">
@@ -89,6 +96,56 @@ export const Solution = () => (
               <List>
                 <ListItem><strong>nodes</strong>: A map from node names (strings) to node pointers, allowing O(1) node lookup</ListItem>
               </List>
+                            <Code>
+                {`type directedGraph struct {
+	nodes map[string]*nodeDirectedGraph
+}
+`}
+              </Code>
+            </Section>
+
+            <Section title="helper methids">
+              <Paragraph>
+                Then, some helper functions to help build out the graphs in a consistent way
+              </Paragraph>
+                            <Code>
+                {`func newDirectedGraph() *directedGraph {
+	return &directedGraph{nodes: make(map[string]*nodeDirectedGraph)}
+}
+
+func (d *directedGraph) getOrCreate(name string) *nodeDirectedGraph {
+	if d.nodes == nil {
+		d.nodes = make(map[string]*nodeDirectedGraph)
+	}
+	if n, ok := d.nodes[name]; ok {
+		return n
+	}
+	n := &nodeDirectedGraph{name: name}
+	d.nodes[name] = n
+	return n
+}
+
+func (d *directedGraph) CreateNode(name string) *nodeDirectedGraph {
+	return d.getOrCreate(name)
+}
+
+// AddEdge creates nodes if absent and adds a single edge from -> to.
+// Returns true if the edge was newly added, false if it already existed.
+func (d *directedGraph) AddEdge(from, to string) bool {
+	u := d.getOrCreate(from)
+	v := d.getOrCreate(to)
+
+	// dedupe: check existing neighbour pointers
+	for _, nb := range u.neighbours {
+		if nb == v {
+			return false
+		}
+	}
+	u.neighbours = append(u.neighbours, v)
+	return true
+}
+`}
+              </Code>
             </Section>
 
             <Section title="Why Pointers?">
@@ -96,15 +153,26 @@ export const Solution = () => (
                 Using pointers (<code>*nodeDirectedGraph</code>) provides several benefits:
               </Paragraph>
               <List>
-                <ListItem>Fast equality comparison - we can compare pointer addresses directly</ListItem>
-                <ListItem>Memory efficiency - nodes aren't duplicated when referenced multiple times</ListItem>
-                <ListItem>Easy navigation - following neighbours is just dereferencing a pointer</ListItem>
+                <ListItem><strong>Shared State</strong> - we want all functions to operate directly on a shared state. Updates to a node (e.g., adding neighbors) are visible everywhere it’s referenced.</ListItem>
+                <ListItem><strong>Fast equality comparison</strong> - we can compare pointer addresses directly. This is O(1)</ListItem>
+                <ListItem><strong>Memory efficiency</strong> - nodes aren't duplicated when referenced multiple times</ListItem>
+                <ListItem><strong>Easy navigation</strong> - following neighbours is just dereferencing a pointer</ListItem>
+              </List>
+            </Section>
+
+             <Section title="Why Pointers?">
+              <Paragraph>
+                What if we didn't use pointers?
+              </Paragraph>
+              <List>
+                <ListItem><strong>No map/set for visited</strong> - In Go, any type containing a slice is not comparable, so you can’t use nodeDirectedGraph as a map key or in a set.</ListItem>
+                <ListItem><strong>Identity vs copies (aliasing)</strong> - Storing by value means every time you append a “neighbor,” you copy the whole node value. Those copies are different instances, so mutating a node somewhere won’t update all the copies stored elsewhere. You lose a single canonical instance per node, which breaks graph invariants.</ListItem>
+                <ListItem><strong>Updates don’t propagate</strong> - Add a neighbor to a node “A” after you already copied “A” into someone else’s neighbours and the other places won’t see the change. Your graph representation silently diverges.</ListItem>
               </List>
             </Section>
           </>
         }
       />
-      . The pointers allow for quick comparison of neighbours to end node.
  <Code>
 {`queue := []*nodeDirectedGraph{}`}
 </Code>

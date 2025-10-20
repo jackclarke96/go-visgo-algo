@@ -34,11 +34,12 @@ const BFS_CODE = `func hasRoute(graph map[string][]string, start, end string) bo
 }`;
 
 const DEFAULT_GRAPH = {
-  A: ["B", "C"],
-  B: ["D"],
-  C: ["D", "E"],
-  D: ["E"],
-  E: [],
+  S: ["A", "C"],
+  A: ["B", "D"],
+  B: ["E"],
+  C: ["A"],
+  D: ["C"],
+  E: [""],
 };
 
 export const AlgorithmVisualizer = () => {
