@@ -76,7 +76,17 @@ func buildTree(arr []int, left, right int) *TreeNode {
   node.Right = buildTree(arr, mid+1, right)
   
   return node
-}`}
+}
+
+// Example usage with arr = [2, 5, 6, 10, 13, 21, 24]:
+//
+// buildTree(arr, 0, 6)           → creates node 10 (mid=3)
+//   buildTree(arr, 0, 2)         → creates node 5  (mid=1)
+//     buildTree(arr, 0, 0)       → creates node 2  (mid=0)
+//     buildTree(arr, 2, 2)       → creates node 6  (mid=2)
+//   buildTree(arr, 4, 6)         → creates node 21 (mid=5)
+//     buildTree(arr, 4, 4)       → creates node 13 (mid=4)
+//     buildTree(arr, 6, 6)       → creates node 24 (mid=6)`}
       </Code>
     </Section>
 

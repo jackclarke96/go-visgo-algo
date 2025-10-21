@@ -24,17 +24,17 @@ interface ArrayDiagramProps {
 }
 
 const cellStateColors = {
-  unvisited: "fill-card stroke-border",
+  unvisited: "fill-accent stroke-accent-foreground",
   current: "fill-primary stroke-primary",
-  visited: "fill-accent stroke-accent-foreground",
+  visited: "fill-card stroke-border",
   highlighted: "fill-info/30 stroke-info",
   sorted: "fill-green-500/20 stroke-green-500",
 };
 
 const cellStateTextColors = {
-  unvisited: "fill-foreground",
+  unvisited: "fill-accent-foreground",
   current: "fill-primary-foreground font-bold",
-  visited: "fill-accent-foreground",
+  visited: "fill-foreground",
   highlighted: "fill-foreground",
   sorted: "fill-green-700 dark:fill-green-300",
 };
