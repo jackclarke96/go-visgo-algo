@@ -1,24 +1,77 @@
 import { 
   Callout, 
-  Paragraph, 
+  Paragraph,
+  Code,
+  Section,
+  List,
+  ListItem
 } from "@/components/AlgorithmContent";
 
 export const Improvements = () => (
   <>
     <Callout type="tip">
-      Consider using a bidirectional BFS for improved performance on large graphs. 
-      This searches from both start and end simultaneously, reducing the search space.
+      The algorithm naturally creates a balanced tree because we always choose the middle element. 
+      The height is guaranteed to be O(log n).
     </Callout>
 
-    <Callout type="algorithm" title="Queue Implementation Recommendations">
+    <Section title="Alternative: Iterative Approach">
       <Paragraph>
-        <strong>For Small to Medium Graphs</strong> (hundreds / low thousands of nodes)
-        → Slices win (simpler, faster, cache-friendly)
+        While recursion is elegant, you can also build the tree iteratively using a queue to track subarrays and parent nodes:
       </Paragraph>
-      <Paragraph>
-        <strong>For Huge Graphs</strong> (millions of nodes)
-        → Ring buffer or container/list for stable O(1) operations
-      </Paragraph>
-    </Callout>
+      <Code language="go">
+{`func minimalTreeIterative(arr []int) *TreeNode {
+  if len(arr) == 0 {
+    return nil
+  }
+  
+  mid := len(arr) / 2
+  root := &TreeNode{Val: arr[mid]}
+  
+  type task struct {
+    node        *TreeNode
+    left, right int
+    isLeft      bool
+  }
+  
+  queue := []task{
+    {root, 0, mid - 1, true},
+    {root, mid + 1, len(arr) - 1, false},
+  }
+  
+  for len(queue) > 0 {
+    t := queue[0]
+    queue = queue[1:]
+    
+    if t.left > t.right {
+      continue
+    }
+    
+    mid := (t.left + t.right) / 2
+    newNode := &TreeNode{Val: arr[mid]}
+    
+    if t.isLeft {
+      t.node.Left = newNode
+    } else {
+      t.node.Right = newNode
+    }
+    
+    queue = append(queue, 
+      task{newNode, t.left, mid - 1, true},
+      task{newNode, mid + 1, t.right, false},
+    )
+  }
+  
+  return root
+}`}
+      </Code>
+    </Section>
+
+    <Section title="Why This Works">
+      <List>
+        <ListItem><strong>Minimal height:</strong> By always choosing the middle element, we ensure the tree is as balanced as possible</ListItem>
+        <ListItem><strong>BST property maintained:</strong> The sorted array guarantees all elements to the left are smaller and all to the right are larger</ListItem>
+        <ListItem><strong>Optimal time:</strong> We must visit every element at least once, so O(n) is optimal</ListItem>
+      </List>
+    </Section>
   </>
 );

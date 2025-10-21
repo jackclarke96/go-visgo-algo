@@ -6,9 +6,9 @@ import { Solution } from "./Solution";
 import { Improvements } from "./Improvements";
 
 export const alg4pt2: Algorithm = {
-  id: "component-showcase",
-  title: "Component Showcase - How to Use All Components",
-  category: "examples",
+  id: "4.2-minimal-tree",
+  title: "4.2 Minimal Tree",
+  category: "trees-and-graphs",
   
   problem: <Problem />,
   algorithm: <AlgorithmSection />,
