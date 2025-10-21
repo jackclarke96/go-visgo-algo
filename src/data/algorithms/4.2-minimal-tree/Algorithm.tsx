@@ -161,7 +161,7 @@ midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
       all three pointers (L, M, R) point to the same index, creating a leaf node:
     </Paragraph>
     
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+    <div className="grid grid-cols-2 gap-4 mt-4">
       <DiagramWrapper title="Node 2" compact>
         <ArrayDiagram
           cells={[
