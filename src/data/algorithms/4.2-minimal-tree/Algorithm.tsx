@@ -23,25 +23,32 @@ export const AlgorithmSection = () => (
       A traditional insertion compares each value and goes left if smaller, right if larger:
     </Paragraph>
     <Code>
-{`insert(node, value):
-  IF node = NULL THEN
-    RETURN new TreeNode(value)
-  END IF
+{`function insert(node, value):
+  if node is null:
+    return new TreeNode(value)
   
-  IF value < node.val THEN
-    node.left ← insert(node.left, value)   // go left if smaller
-  ELSE
-    node.right ← insert(node.right, value) // go right if larger
-  END IF
+  if value < node.val:
+    node.left = insert(node.left, value)   // go left if smaller
+  else:
+    node.right = insert(node.right, value) // go right if larger
   
-  RETURN node
+  return node
 
-// Inserting [2, 5, 6, 10, 13, 21, 24] in order:
-// insert(root, 2)  → creates root
-// insert(root, 5)  → goes right of 2
-// insert(root, 6)  → goes right of 2, right of 5
-// insert(root, 10) → goes right of 2, right of 5, right of 6
-// ... creates a linked list with O(n) height!`}
+// Inserting [2, 5, 6, 10, 13, 21, 24] in order creates an unbalanced tree:
+//     2
+//      \\
+//       5
+//        \\
+//         6
+//          \\
+//           10
+//            \\
+//             13
+//              \\
+//               21
+//                \\
+//                 24
+// This creates O(n) height - essentially a linked list!`}
     </Code>
     
     <Callout type="info">
@@ -66,9 +73,7 @@ export const AlgorithmSection = () => (
 {`arr ← [2, 5, 6, 10, 13, 21, 24]
 leftPtr ← 0    // arr[0] = 2
 rightPtr ← 6   // arr[6] = 24
-midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10
-
-root ← buildTree(arr, 0, 6)  // creates node with value 10`}
+midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
@@ -115,9 +120,7 @@ root ← buildTree(arr, 0, 6)  // creates node with value 10`}
     <Code>
 {`leftPtr ← 0    // arr[0] = 2
 rightPtr ← 2   // arr[2] = 6
-midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5
-
-root.left ← buildTree(arr, 0, 2)  // creates node with value 5`}
+midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
@@ -158,9 +161,7 @@ root.left ← buildTree(arr, 0, 2)  // creates node with value 5`}
     <Code>
 {`leftPtr ← 4    // arr[4] = 13
 rightPtr ← 6   // arr[6] = 24
-midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21
-
-root.right ← buildTree(arr, 4, 6)  // creates node with value 21`}
+midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
@@ -200,13 +201,6 @@ root.right ← buildTree(arr, 4, 6)  // creates node with value 21`}
       Continue the process for the remaining subarrays. When we reach single-element arrays, 
       all three pointers (L, M, R) point to the same index, creating a leaf node:
     </Paragraph>
-    <Code>
-{`// Each leaf node is created by a buildTree call:
-node5.left ← buildTree(arr, 0, 0)   // creates node 2
-node5.right ← buildTree(arr, 2, 2)  // creates node 6
-node21.left ← buildTree(arr, 4, 4)  // creates node 13
-node21.right ← buildTree(arr, 6, 6) // creates node 24`}
-    </Code>
     
     <div className="grid grid-cols-2 gap-4 mt-4">
       <DiagramWrapper title="Node 2" compact>
