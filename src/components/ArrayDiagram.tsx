@@ -8,12 +8,19 @@ export interface ArrayCell {
   index?: number;
 }
 
+export interface ArrayPointer {
+  index: number;
+  label: string;
+  color?: string;
+}
+
 interface ArrayDiagramProps {
   cells: readonly ArrayCell[];
   width?: number;
   height?: number;
   showLegend?: boolean;
   showIndices?: boolean;
+  pointers?: ArrayPointer[];
 }
 
 const cellStateColors = {
@@ -38,6 +45,7 @@ export const ArrayDiagram = ({
   height = 150,
   showLegend = false,
   showIndices = true,
+  pointers = [],
 }: ArrayDiagramProps) => {
   const cellWidth = 50;
   const cellHeight = 50;
@@ -45,6 +53,7 @@ export const ArrayDiagram = ({
   const totalWidth = cells.length * (cellWidth + gap) - gap;
   const startX = (width - totalWidth) / 2;
   const centerY = height / 2;
+  const pointerOffset = showIndices ? 35 : 20;
 
   return (
     <div className="w-full bg-card border border-border rounded-lg p-4 my-4">
@@ -88,7 +97,55 @@ export const ArrayDiagram = ({
               </g>
             );
           })}
+          
+          {pointers.map((pointer, idx) => {
+            const x = startX + pointer.index * (cellWidth + gap);
+            const arrowY = centerY + cellHeight / 2 + pointerOffset;
+            const color = pointer.color || "hsl(var(--primary))";
+            
+            return (
+              <g key={`pointer-${idx}`}>
+                {/* Arrow line */}
+                <line
+                  x1={x + cellWidth / 2}
+                  y1={arrowY - 8}
+                  x2={x + cellWidth / 2}
+                  y2={centerY + cellHeight / 2 + 8}
+                  stroke={color}
+                  strokeWidth="2"
+                  markerEnd="url(#arrowhead)"
+                />
+                {/* Arrow label */}
+                <text
+                  x={x + cellWidth / 2}
+                  y={arrowY}
+                  textAnchor="middle"
+                  className="text-xs font-semibold"
+                  fill={color}
+                >
+                  {pointer.label}
+                </text>
+              </g>
+            );
+          })}
         </g>
+        
+        {/* Arrow marker definition */}
+        <defs>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="10"
+            refX="5"
+            refY="5"
+            orient="auto"
+          >
+            <polygon
+              points="0 0, 10 5, 0 10"
+              fill="hsl(var(--primary))"
+            />
+          </marker>
+        </defs>
       </svg>
 
       {showLegend && (

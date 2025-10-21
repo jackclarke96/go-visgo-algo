@@ -48,6 +48,11 @@ midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
             { value: 24, state: "unvisited" },
           ]}
           showIndices={true}
+          pointers={[
+            { index: 0, label: "L", color: "hsl(var(--info))" },
+            { index: 3, label: "M", color: "hsl(var(--primary))" },
+            { index: 6, label: "R", color: "hsl(var(--warning))" },
+          ]}
         />
       </DiagramWrapper>
       <DiagramWrapper title="Tree (Root: 10)" compact>
@@ -69,7 +74,7 @@ midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
 
     <Heading>Step 2A: Build Left Subtree</Heading>
     <Paragraph>
-      Process the left half [2, 5, 6] using indices 0-2. The middle is index 1, giving us value 5.
+      Process the left half using indices 0-2. The middle is index 1, giving us value 5.
     </Paragraph>
     <Code>
 {`leftPtr ← 0    // arr[0] = 2
@@ -78,14 +83,23 @@ midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
-      <DiagramWrapper title="Left Subarray" compact>
+      <DiagramWrapper title="Array (processing left subtree)" compact>
         <ArrayDiagram
           cells={[
             { value: 2, state: "unvisited" },
             { value: 5, state: "current" },
             { value: 6, state: "unvisited" },
+            { value: 10, state: "visited" },
+            { value: 13, state: "unvisited" },
+            { value: 21, state: "unvisited" },
+            { value: 24, state: "unvisited" },
           ]}
           showIndices={true}
+          pointers={[
+            { index: 0, label: "L", color: "hsl(var(--info))" },
+            { index: 1, label: "M", color: "hsl(var(--primary))" },
+            { index: 2, label: "R", color: "hsl(var(--warning))" },
+          ]}
         />
       </DiagramWrapper>
       <DiagramWrapper title="Tree" compact>
@@ -101,7 +115,7 @@ midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
 
     <Heading>Step 2B: Build Right Subtree</Heading>
     <Paragraph>
-      Process the right half [13, 21, 24] using indices 4-6. The middle is index 5, giving us value 21.
+      Process the right half using indices 4-6. The middle is index 5, giving us value 21.
     </Paragraph>
     <Code>
 {`leftPtr ← 4    // arr[4] = 13
@@ -110,14 +124,23 @@ midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
-      <DiagramWrapper title="Right Subarray" compact>
+      <DiagramWrapper title="Array (processing right subtree)" compact>
         <ArrayDiagram
           cells={[
+            { value: 2, state: "visited" },
+            { value: 5, state: "visited" },
+            { value: 6, state: "visited" },
+            { value: 10, state: "visited" },
             { value: 13, state: "unvisited" },
             { value: 21, state: "current" },
             { value: 24, state: "unvisited" },
           ]}
           showIndices={true}
+          pointers={[
+            { index: 4, label: "L", color: "hsl(var(--info))" },
+            { index: 5, label: "M", color: "hsl(var(--primary))" },
+            { index: 6, label: "R", color: "hsl(var(--warning))" },
+          ]}
         />
       </DiagramWrapper>
       <DiagramWrapper title="Tree" compact>
