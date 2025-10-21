@@ -157,18 +157,86 @@ midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
 
     <Heading>Step 3: Recursively Fill Remaining Nodes</Heading>
     <Paragraph>
-      Continue the process for the remaining subarrays. For node 5's left child (index 0), we process [2]:
+      Continue the process for the remaining subarrays. When we reach single-element arrays, 
+      all three pointers (L, M, R) point to the same index, creating a leaf node:
     </Paragraph>
-    <Code>
-{`leftPtr ← 0    // arr[0] = 2
-rightPtr ← 0   // arr[0] = 2
-midPtr ← (0 + 0) / 2 = 0   // arr[0] = 2
-// L, M, and R all point to index 0 - this becomes a leaf node`}
-    </Code>
+    
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+      <DiagramWrapper title="Node 2" compact>
+        <ArrayDiagram
+          cells={[
+            { value: 2, state: "current" },
+            { value: 5, state: "visited" },
+            { value: 6, state: "visited" },
+            { value: 10, state: "visited" },
+            { value: 13, state: "visited" },
+            { value: 21, state: "visited" },
+            { value: 24, state: "visited" },
+          ]}
+          showIndices={true}
+          pointers={[
+            { index: 0, label: "L/M/R" },
+          ]}
+        />
+      </DiagramWrapper>
+      
+      <DiagramWrapper title="Node 6" compact>
+        <ArrayDiagram
+          cells={[
+            { value: 2, state: "visited" },
+            { value: 5, state: "visited" },
+            { value: 6, state: "current" },
+            { value: 10, state: "visited" },
+            { value: 13, state: "visited" },
+            { value: 21, state: "visited" },
+            { value: 24, state: "visited" },
+          ]}
+          showIndices={true}
+          pointers={[
+            { index: 2, label: "L/M/R" },
+          ]}
+        />
+      </DiagramWrapper>
+      
+      <DiagramWrapper title="Node 13" compact>
+        <ArrayDiagram
+          cells={[
+            { value: 2, state: "visited" },
+            { value: 5, state: "visited" },
+            { value: 6, state: "visited" },
+            { value: 10, state: "visited" },
+            { value: 13, state: "current" },
+            { value: 21, state: "visited" },
+            { value: 24, state: "visited" },
+          ]}
+          showIndices={true}
+          pointers={[
+            { index: 4, label: "L/M/R" },
+          ]}
+        />
+      </DiagramWrapper>
+      
+      <DiagramWrapper title="Node 24" compact>
+        <ArrayDiagram
+          cells={[
+            { value: 2, state: "visited" },
+            { value: 5, state: "visited" },
+            { value: 6, state: "visited" },
+            { value: 10, state: "visited" },
+            { value: 13, state: "visited" },
+            { value: 21, state: "visited" },
+            { value: 24, state: "current" },
+          ]}
+          showIndices={true}
+          pointers={[
+            { index: 6, label: "L/M/R" },
+          ]}
+        />
+      </DiagramWrapper>
+    </div>
     
     <Paragraph>
-      Similarly for node 5's right child (index 2), and all remaining nodes.
-      When <Code>leftPtr &gt; rightPtr</Code>, we've exhausted the subarray and stop recursing.
+      When <Code>leftPtr &gt; rightPtr</Code>, we've exhausted the subarray and return nil, stopping the recursion.
     </Paragraph>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
