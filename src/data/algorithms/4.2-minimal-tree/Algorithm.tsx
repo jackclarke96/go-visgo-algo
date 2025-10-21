@@ -18,6 +18,47 @@ export const AlgorithmSection = () => (
       </Paragraph>
     </Callout>
     
+    <Heading>Traditional BST Insert (Not Optimal)</Heading>
+    <Paragraph>
+      A traditional insertion compares each value and goes left if smaller, right if larger:
+    </Paragraph>
+    <Code>
+{`function insert(node, value):
+  if node is null:
+    return new TreeNode(value)
+  
+  if value < node.val:
+    node.left = insert(node.left, value)   // go left if smaller
+  else:
+    node.right = insert(node.right, value) // go right if larger
+  
+  return node
+
+// Inserting [2, 5, 6, 10, 13, 21, 24] in order creates an unbalanced tree:
+//     2
+//      \\
+//       5
+//        \\
+//         6
+//          \\
+//           10
+//            \\
+//             13
+//              \\
+//               21
+//                \\
+//                 24
+// This creates O(n) height - essentially a linked list!`}
+    </Code>
+    
+    <Callout type="info">
+      <Paragraph>
+        Traditional insertion on a sorted array creates a completely unbalanced tree.
+        We need a different approach to create a minimal-height tree.
+      </Paragraph>
+    </Callout>
+    
+    <Heading>Optimal Approach: Divide and Conquer</Heading>
     <Paragraph>
       To create a BST with minimal height from a sorted array, choose the middle element as the root. 
       The left half forms the left subtree, and the right half forms the right subtree. 
