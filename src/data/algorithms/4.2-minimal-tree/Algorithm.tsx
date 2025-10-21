@@ -157,7 +157,18 @@ midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
 
     <Heading>Step 3: Recursively Fill Remaining Nodes</Heading>
     <Paragraph>
-      Continue the process for the remaining subarrays until all elements are inserted.
+      Continue the process for the remaining subarrays. For node 5's left child (index 0), we process [2]:
+    </Paragraph>
+    <Code>
+{`leftPtr ← 0    // arr[0] = 2
+rightPtr ← 0   // arr[0] = 2
+midPtr ← (0 + 0) / 2 = 0   // arr[0] = 2
+// L, M, and R all point to index 0 - this becomes a leaf node`}
+    </Code>
+    
+    <Paragraph>
+      Similarly for node 5's right child (index 2), and all remaining nodes.
+      When <Code>leftPtr &gt; rightPtr</Code>, we've exhausted the subarray and stop recursing.
     </Paragraph>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
