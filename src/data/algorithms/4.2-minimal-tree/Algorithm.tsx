@@ -73,7 +73,8 @@ export const AlgorithmSection = () => (
 {`arr ← [2, 5, 6, 10, 13, 21, 24]
 leftPtr ← 0    // arr[0] = 2
 rightPtr ← 6   // arr[6] = 24
-midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
+midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10
+insert(tree.route, 10)`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
@@ -120,7 +121,8 @@ midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
     <Code>
 {`leftPtr ← 0    // arr[0] = 2
 rightPtr ← 2   // arr[2] = 6
-midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
+midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5
+insert(tree.route, 5)`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
@@ -161,7 +163,8 @@ midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
     <Code>
 {`leftPtr ← 4    // arr[4] = 13
 rightPtr ← 6   // arr[6] = 24
-midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
+midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21
+insert(tree.route, 21)`}
     </Code>
     
     <div className="grid lg:grid-cols-2 gap-4 mt-4">
