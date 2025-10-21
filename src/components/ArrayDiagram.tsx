@@ -107,7 +107,7 @@ export const ArrayDiagram = ({
                 {/* Arrow line */}
                 <line
                   x1={x + cellWidth / 2}
-                  y1={arrowY - 8}
+                  y1={arrowY - 15}
                   x2={x + cellWidth / 2}
                   y2={centerY + cellHeight / 2 + 8}
                   stroke="hsl(var(--foreground))"
@@ -119,7 +119,7 @@ export const ArrayDiagram = ({
                   x={x + cellWidth / 2}
                   y={arrowY}
                   textAnchor="middle"
-                  className="text-xs font-semibold fill-foreground"
+                  className="text-base font-bold fill-foreground"
                 >
                   {pointer.label}
                 </text>
