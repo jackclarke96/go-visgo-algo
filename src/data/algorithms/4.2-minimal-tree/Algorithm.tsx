@@ -49,9 +49,9 @@ midPtr ← (0 + 6) / 2 = 3   // arr[3] = 10`}
           ]}
           showIndices={true}
           pointers={[
-            { index: 0, label: "L", color: "hsl(var(--info))" },
-            { index: 3, label: "M", color: "hsl(var(--primary))" },
-            { index: 6, label: "R", color: "hsl(var(--warning))" },
+            { index: 0, label: "L" },
+            { index: 3, label: "M" },
+            { index: 6, label: "R" },
           ]}
         />
       </DiagramWrapper>
@@ -96,9 +96,9 @@ midPtr ← (0 + 2) / 2 = 1   // arr[1] = 5`}
           ]}
           showIndices={true}
           pointers={[
-            { index: 0, label: "L", color: "hsl(var(--info))" },
-            { index: 1, label: "M", color: "hsl(var(--primary))" },
-            { index: 2, label: "R", color: "hsl(var(--warning))" },
+            { index: 0, label: "L" },
+            { index: 1, label: "M" },
+            { index: 2, label: "R" },
           ]}
         />
       </DiagramWrapper>
@@ -137,9 +137,9 @@ midPtr ← (4 + 6) / 2 = 5   // arr[5] = 21`}
           ]}
           showIndices={true}
           pointers={[
-            { index: 4, label: "L", color: "hsl(var(--info))" },
-            { index: 5, label: "M", color: "hsl(var(--primary))" },
-            { index: 6, label: "R", color: "hsl(var(--warning))" },
+            { index: 4, label: "L" },
+            { index: 5, label: "M" },
+            { index: 6, label: "R" },
           ]}
         />
       </DiagramWrapper>

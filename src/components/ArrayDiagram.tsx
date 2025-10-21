@@ -53,7 +53,7 @@ export const ArrayDiagram = ({
   const totalWidth = cells.length * (cellWidth + gap) - gap;
   const startX = (width - totalWidth) / 2;
   const centerY = height / 2;
-  const pointerOffset = showIndices ? 35 : 20;
+  const pointerOffset = showIndices ? 45 : 30;
 
   return (
     <div className="w-full bg-card border border-border rounded-lg p-4 my-4">
@@ -101,7 +101,6 @@ export const ArrayDiagram = ({
           {pointers.map((pointer, idx) => {
             const x = startX + pointer.index * (cellWidth + gap);
             const arrowY = centerY + cellHeight / 2 + pointerOffset;
-            const color = pointer.color || "hsl(var(--primary))";
             
             return (
               <g key={`pointer-${idx}`}>
@@ -111,7 +110,7 @@ export const ArrayDiagram = ({
                   y1={arrowY - 8}
                   x2={x + cellWidth / 2}
                   y2={centerY + cellHeight / 2 + 8}
-                  stroke={color}
+                  stroke="hsl(var(--foreground))"
                   strokeWidth="2"
                   markerEnd="url(#arrowhead)"
                 />
@@ -120,8 +119,7 @@ export const ArrayDiagram = ({
                   x={x + cellWidth / 2}
                   y={arrowY}
                   textAnchor="middle"
-                  className="text-xs font-semibold"
-                  fill={color}
+                  className="text-xs font-semibold fill-foreground"
                 >
                   {pointer.label}
                 </text>
@@ -142,7 +140,7 @@ export const ArrayDiagram = ({
           >
             <polygon
               points="0 0, 10 5, 0 10"
-              fill="hsl(var(--primary))"
+              fill="hsl(var(--foreground))"
             />
           </marker>
         </defs>
