@@ -9,7 +9,7 @@ export interface ArrayCell {
 }
 
 interface ArrayDiagramProps {
-  cells: ArrayCell[];
+  cells: readonly ArrayCell[];
   width?: number;
   height?: number;
   showLegend?: boolean;
