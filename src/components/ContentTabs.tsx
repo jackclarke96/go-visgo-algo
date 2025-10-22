@@ -245,49 +245,51 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto">
-        <TabsTrigger 
-          value="problem"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
-        >
-          Problem
-        </TabsTrigger>
-        <TabsTrigger 
-          value="algorithm"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
-        >
-          Algorithm
-        </TabsTrigger>
-        <TabsTrigger 
-          value="solution"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
-        >
-          Solution
-        </TabsTrigger>
-        <TabsTrigger 
-          value="improvements"
-          className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
-        >
-          Improvements
-        </TabsTrigger>
-        {showVisualizer && (
+      <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+        <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto inline-flex md:flex w-max md:w-full">
           <TabsTrigger 
-            value="visualizer"
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 py-2"
+            value="problem"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"
           >
-            Visualizer
+            Problem
           </TabsTrigger>
-        )}
-      </TabsList>
+          <TabsTrigger 
+            value="algorithm"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"
+          >
+            Algorithm
+          </TabsTrigger>
+          <TabsTrigger 
+            value="solution"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"
+          >
+            Solution
+          </TabsTrigger>
+          <TabsTrigger 
+            value="improvements"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"
+          >
+            Improvements
+          </TabsTrigger>
+          {showVisualizer && (
+            <TabsTrigger 
+              value="visualizer"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"
+            >
+              Visualizer
+            </TabsTrigger>
+          )}
+        </TabsList>
+      </div>
 
-      <TabsContent value="problem" className="mt-6 prose max-w-none">
-        <div className="text-base leading-relaxed">
+      <TabsContent value="problem" className="mt-6 prose prose-sm md:prose-base max-w-none overflow-x-hidden">
+        <div className="text-base leading-relaxed break-words">
           {renderContent(algorithm.problem, "problem")}
         </div>
       </TabsContent>
 
-      <TabsContent value="algorithm" className="mt-6 prose max-w-none">
-        <div className="text-base leading-relaxed">
+      <TabsContent value="algorithm" className="mt-6 prose prose-sm md:prose-base max-w-none overflow-x-hidden">
+        <div className="text-base leading-relaxed break-words">
           {renderContent(algorithm.algorithm, "algorithm")}
           
           {algorithm.images && algorithm.images.length > 0 && (
@@ -297,10 +299,10 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                   <img 
                     src={image.url} 
                     alt={image.alt}
-                    className="w-full max-w-2xl mx-auto"
+                    className="w-full max-w-full mx-auto"
                   />
                   {image.caption && (
-                    <figcaption className="text-sm text-muted-foreground mt-3 text-center">
+                    <figcaption className="text-sm text-muted-foreground mt-3 text-center break-words">
                       {image.caption}
                     </figcaption>
                   )}
@@ -311,15 +313,15 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
         </div>
       </TabsContent>
 
-      <TabsContent value="solution" className="mt-6 prose max-w-none">
-        <div className="text-base leading-relaxed mb-6">
+      <TabsContent value="solution" className="mt-6 prose prose-sm md:prose-base max-w-none overflow-x-hidden">
+        <div className="text-base leading-relaxed mb-6 break-words">
           {renderContent(algorithm.solution, "solution")}
         </div>
         
         {algorithm.codeBlocks && algorithm.codeBlocks.length > 0 && (
           <div className="mt-6 space-y-6">
             <h3 className="font-bold text-lg mb-3">Complexity</h3>
-            <p className="mb-2">
+            <p className="mb-2 break-words">
               <strong>Time:</strong>{" "}
               {algorithm.detailedExplanations?.find(exp => exp.trigger.includes("O(")) ? (
                 <TechTooltip 
@@ -337,14 +339,14 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
               )}
               {" "}— each vertex visited once, each edge considered once.
             </p>
-            <p className="mb-4">
+            <p className="mb-4 break-words">
               <strong>Space:</strong> O(V) — queue + visited set.
             </p>
             
             {algorithm.codeBlocks.map((block, idx) => (
               <div key={idx} className="mt-6">
                 {block.description && (
-                  <div className="mb-3">
+                  <div className="mb-3 break-words">
                     {typeof block.description === "string" ? (
                       <RichText content={block.description} />
                     ) : (
@@ -352,14 +354,14 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
                     )}
                   </div>
                 )}
-                <div className="rounded-md overflow-hidden border border-border">
+                <div className="rounded-md overflow-hidden border border-border overflow-x-auto">
                   <SyntaxHighlighter
                     language={block.language || "go"}
                     style={isDark ? vscDarkPlus : vs}
                     customStyle={{
                       margin: 0,
-                      padding: "1rem",
-                      fontSize: "0.875rem",
+                      padding: "0.75rem",
+                      fontSize: "0.75rem",
                       lineHeight: "1.5",
                     }}
                   >
@@ -372,8 +374,8 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
         )}
       </TabsContent>
 
-      <TabsContent value="improvements" className="mt-6 prose max-w-none">
-        <div className="text-base leading-relaxed">
+      <TabsContent value="improvements" className="mt-6 prose prose-sm md:prose-base max-w-none overflow-x-hidden">
+        <div className="text-base leading-relaxed break-words">
           {renderContent(algorithm.improvements, "improvements")}
         </div>
       </TabsContent>
