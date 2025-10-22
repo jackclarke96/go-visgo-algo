@@ -51,42 +51,27 @@ export const Solution = () => (
 
     <Section title="Code">
       <Code language="go">
-{`type TreeNode struct {
-  Val   int
-  Left  *TreeNode
-  Right *TreeNode
+{`type bstNode struct {
+	left  *bstNode
+	right *bstNode
+	value int
 }
 
-func minimalTree(arr []int) *TreeNode {
-  return buildTree(arr, 0, len(arr)-1)
+func createBST(a []int) *bstNode {
+	return build(a, 0, len(a)-1)
 }
 
-func buildTree(arr []int, left, right int) *TreeNode {
-  // base case: invalid range
-  if left > right {
-    return nil
-  }
-  
-  // find middle element and create node
-  mid := (left + right) / 2
-  node := &TreeNode{Val: arr[mid]}
-  
-  // recursively build left and right subtrees
-  node.Left = buildTree(arr, left, mid-1)
-  node.Right = buildTree(arr, mid+1, right)
-  
-  return node
-}
-
-// Example usage with arr = [2, 5, 6, 10, 13, 21, 24]:
-//
-// buildTree(arr, 0, 6)           → creates node 10 (mid=3)
-//   buildTree(arr, 0, 2)         → creates node 5  (mid=1)
-//     buildTree(arr, 0, 0)       → creates node 2  (mid=0)
-//     buildTree(arr, 2, 2)       → creates node 6  (mid=2)
-//   buildTree(arr, 4, 6)         → creates node 21 (mid=5)
-//     buildTree(arr, 4, 4)       → creates node 13 (mid=4)
-//     buildTree(arr, 6, 6)       → creates node 24 (mid=6)`}
+func build(a []int, lo, hi int) *bstNode {
+	if lo > hi {
+		return nil
+	}
+	mid := (lo + hi) / 2
+	return &bstNode{
+		value: a[mid],
+		left:  build(a, lo, mid-1),
+		right: build(a, mid+1, hi),
+	}
+}`}
       </Code>
     </Section>
 

@@ -104,7 +104,7 @@ export const Solution = () => (
               </Code>
             </Section>
 
-            <Section title="helper methids">
+            <Section title="helper methods">
               <Paragraph>
                 Then, some helper functions to help build out the graphs in a consistent way
               </Paragraph>
