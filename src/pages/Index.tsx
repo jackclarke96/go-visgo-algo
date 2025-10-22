@@ -20,9 +20,12 @@ const Index = () => {
       <main className="flex-1 p-8 overflow-y-auto">
         {selectedAlgorithm && (
           <article>
-            <h1 className="text-4xl font-bold mb-6 text-foreground">
+            <h1 className="text-4xl font-bold mb-2 text-foreground">
               {selectedAlgorithm.title}
             </h1>
+            <p className="text-sm text-muted-foreground mb-6">
+              Problems from <em>Cracking the Coding Interview</em> by Gayle Laakmann McDowell
+            </p>
             <ContentTabs algorithm={selectedAlgorithm} />
           </article>
         )}
