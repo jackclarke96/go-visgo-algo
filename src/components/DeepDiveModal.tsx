@@ -223,12 +223,12 @@ export const DeepDiveModal = ({ trigger, title, content }: DeepDiveModalProps) =
           <span className="underline decoration-dotted">{trigger}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{title}</DialogTitle>
+          <DialogTitle className="text-xl md:text-2xl">{title}</DialogTitle>
         </DialogHeader>
         <DialogDescription asChild>
-          <div className="mt-4 space-y-2 text-foreground">
+          <div className="mt-4 space-y-2 text-foreground overflow-x-hidden">
             {renderContent()}
           </div>
         </DialogDescription>

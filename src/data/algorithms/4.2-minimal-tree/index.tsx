@@ -7,7 +7,7 @@ import { Improvements } from "./Improvements";
 
 export const alg4pt2: Algorithm = {
   id: "4.2-minimal-tree",
-  title: "4.2 Minimal Tree",
+  title: "4.2 Minimal BST",
   category: "trees-and-graphs",
   
   problem: <Problem />,

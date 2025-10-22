@@ -246,7 +246,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
-        <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto inline-flex md:flex w-max md:w-full">
+        <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto inline-flex md:flex w-max md:w-full md:justify-start">
           <TabsTrigger 
             value="problem"
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-3 md:px-4 py-2 text-sm whitespace-nowrap"

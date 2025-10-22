@@ -22,9 +22,9 @@ const graphsAlgorithms = [
 const treesAlgorithms = [
   {
     ...alg4pt2,
-    id: "route-between-nodes-2",
-    title: "4.2 Path from S to E",
-    category: "graphs",
+    id: "minimal-bst",
+    title: "4.2 Minimal BST",
+    category: "trees",
   },
   ...(FEATURES.SHOW_EXAMPLES ? [{
     ...componentShowcase,
