@@ -9,6 +9,7 @@ import { RichText } from "./RichText";
 import { DeepDiveModal } from "./DeepDiveModal";
 import { AlgorithmVisualizer } from "./visualizer/AlgorithmVisualizer";
 import { PathSumVisualizer } from "./visualizer/PathSumVisualizer";
+import { FEATURES } from "@/config/features";
 
 interface ContentTabsProps {
   algorithm: Algorithm;
@@ -231,9 +232,9 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     return elements;
   };
 
-  // Show visualizer for specific algorithms
-  const showBFSVisualizer = algorithm.id === "route-between-nodes";
-  const showPathSumVisualizer = algorithm.id === "path-sum";
+  // Show visualizer for specific algorithms (only if feature flag is enabled)
+  const showBFSVisualizer = FEATURES.SHOW_VISUALIZERS && algorithm.id === "route-between-nodes";
+  const showPathSumVisualizer = FEATURES.SHOW_VISUALIZERS && algorithm.id === "path-sum";
   const showVisualizer = showBFSVisualizer || showPathSumVisualizer;
 
   return (
