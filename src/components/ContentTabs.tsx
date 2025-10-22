@@ -17,6 +17,7 @@ interface ContentTabsProps {
 
 export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
   const [isDark, setIsDark] = useState(false);
+  const [activeTab, setActiveTab] = useState("problem");
 
   useEffect(() => {
     const checkDarkMode = () => {
@@ -29,6 +30,11 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
     
     return () => observer.disconnect();
   }, []);
+
+  // Reset to "problem" tab when algorithm changes
+  useEffect(() => {
+    setActiveTab("problem");
+  }, [algorithm.id]);
 
   const parseCalloutContent = (text: string) => {
     const lines = text.split("\n");
@@ -238,7 +244,7 @@ export const ContentTabs = ({ algorithm }: ContentTabsProps) => {
   const showVisualizer = showBFSVisualizer || showPathSumVisualizer;
 
   return (
-    <Tabs defaultValue="problem" className="w-full">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className="border-b border-tab-border rounded-none bg-transparent p-0 h-auto">
         <TabsTrigger 
           value="problem"
