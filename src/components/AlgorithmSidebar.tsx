@@ -20,7 +20,7 @@ export const AlgorithmSidebar = ({ selectedId, onSelect }: AlgorithmSidebarProps
   };
 
   return (
-    <aside className="w-64 border-r border-sidebar-border bg-sidebar-background p-6 overflow-y-auto">
+    <aside className="w-64 h-[calc(100vh-3.5rem)] md:h-screen border-r border-sidebar-border bg-sidebar-background p-6 overflow-y-auto">
       <h2 className="text-2xl font-bold mb-6 text-sidebar-foreground">Topics</h2>
       
       <nav>
