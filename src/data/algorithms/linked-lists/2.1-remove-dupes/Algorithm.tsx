@@ -84,7 +84,7 @@ seen := map[int]bool{head.value: true}`}
 curr = curr.next`}
           </Code>
           <Callout type="warning">
-            We don't advance `prev` when deleting. If we did, `prev` would point to the deleted node - a common mistake!
+            We don't advance `prev` when deleting. If we did, `prev` would point to the deleted node. This is the most common place to trip up.
           </Callout>
         </>
       }
@@ -173,7 +173,7 @@ curr = curr.next`}
       title="Step 6: Complete"
       description={
         <Paragraph>
-          Continue until the end. All duplicates removed!
+          Continue until the end, and all duplicates will be removed.
         </Paragraph>
       }
       linkedList={[
