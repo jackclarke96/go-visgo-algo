@@ -24,34 +24,28 @@ const BASE_LIST: ListNode[] = [
 export const AlgorithmSection = () => (
   <>
     <Paragraph>
-      To solve this problem, we need to find the shortest path (or reachability) from a starting node <strong>S</strong> to a target node <strong>D</strong> in a graph. 
-      Breadth-First Search (BFS) is an ideal choice for this kind of problem because it explores the graph level by level, guaranteeing that the first time we reach the target node, we have found the shortest path.
+      To solve this problem, we walk the list and store the values of the nodes in a hashmap. At each node, we check whether we have seen it's value before.
+      The tricky part is doing the rewiring.
     </Paragraph>
 
     <Heading>Algorithm Overview</Heading>
 
     <Callout type="definition">
       <Paragraph>
-        <strong>Breadth-First Search (BFS)</strong> systematically explores all nodes at the current depth before moving deeper into the graph. 
-        It uses a <strong>queue</strong> to track the order in which nodes are visited, ensuring that we visit every neighbor of a node before progressing to the next level.
+       To remove a node from a linked list, we essentially need to take the node prior to the current node, and link it to the node directly after the current node.
+       However, in a singly linked list, there is no backwards link to the previous node. This means we need to keep the previous node in memory.
+       So we need to do something like the below
+        <Code language="go">
+{`prev.next = curr.next`}
+        </Code>
+
+        This means there is no longer any node linking to curr, so the Go Garbage Collector will remove curr from memory
       </Paragraph>
 
       <Paragraph>
-        The key idea is to:
+        The classic place to trip up is in reassignment of the previous node.
       </Paragraph>
 
-      <List>
-        <ListItem>Start from a source node and enqueue it.</ListItem>
-        <ListItem>Dequeue nodes one by one and explore all their unvisited neighbors.</ListItem>
-        <ListItem>Mark neighbors as visited and enqueue them for later exploration.</ListItem>
-        <ListItem>Continue until the target node is found or the queue becomes empty.</ListItem>
-      </List>
-    </Callout>
-
-    <Heading>Why BFS Instead of DFS?</Heading>
-    <Paragraph>
-      <strong>BFS</strong> and <strong>DFS</strong> (Depth-First Search) are both fundamental graph traversal algorithms, but they serve different goals:
-    </Paragraph>
 
     <List>
       <ListItem>
