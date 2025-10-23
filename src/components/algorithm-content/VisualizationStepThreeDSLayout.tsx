@@ -2,6 +2,7 @@ import { Paragraph, Callout, DiagramWrapper, GraphDiagram, QueueDiagram, MapDiag
 import { QueueItemState } from "../QueueDiagram";
 import { MapEntry } from "../MapDiagram";
 import { NodeState } from "@/types/visualizer";
+import { LinkedListDiagram, ListNode } from "../LinkedListDiagram";
 
 interface QueueItem {
   value: string;
@@ -11,12 +12,13 @@ interface QueueItem {
 export interface VisualizationStepProps {
   title: string;
   description: React.ReactNode;
-  graph: {
+  graph?: {
     data: any;
     nodeStates: Record<string, NodeState>;
     width?: number;
     height?: number;
   };
+  linkedList?: ListNode[]
   queue?: QueueItem[];
   stack?: { value: string; state: string }[];
   array?: { value: string; state: string }[];
@@ -28,6 +30,7 @@ export function VisualizationStep({
   title,
   description,
   graph,
+  linkedList,
   queue,
   map,
   textOnRight = false,
@@ -50,13 +53,21 @@ export function VisualizationStep({
         <div className="space-y-2 flex flex-col">
           <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
           <DiagramWrapper title={`${title} - Graph`} compact className="flex-1">
+            {graph && (
             <GraphDiagram
               graphData={graph.data}
               nodeStates={graph.nodeStates}
               width={graph.width ?? 300}
               height={graph.height ?? 200}
               contentOffset={{ y: -50, x: -50 }}
-            />
+            />)}
+             {linkedList && (
+              <LinkedListDiagram
+                nodes={linkedList}
+              />
+             )
+             
+             }
           </DiagramWrapper>
         </div>
 

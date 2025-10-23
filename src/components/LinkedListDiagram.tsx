@@ -36,9 +36,9 @@ export const LinkedListDiagram = ({
   showLegend = false,
   doublyLinked = false,
 }: LinkedListDiagramProps) => {
-  const nodeWidth = 60;
-  const nodeHeight = 40;
-  const gap = 40;
+  const nodeWidth = 30;
+  const nodeHeight = 30;
+  const gap = 30;
   const startX = 50;
   const centerY = height / 2;
 

@@ -3,7 +3,12 @@ import { componentShowcase } from "./componentExamples";
 import { alg4pt1 } from "./algorithms/4.1-bfs";
 import { alg4pt2 } from "./algorithms/4.2-minimal-tree";
 import { FEATURES } from "@/config/features";
+import { alg2pt1 } from "./algorithms/linked-lists/2.1-remove-dupes";
 
+
+const linkedListsAlgorithms = [
+  alg2pt1
+]
 const graphsAlgorithms = [
   {
     ...alg4pt1,
@@ -18,6 +23,7 @@ const graphsAlgorithms = [
     category: "graphs",
   }] : []),
 ];
+
 
 const treesAlgorithms = [
   {
@@ -35,6 +41,11 @@ const treesAlgorithms = [
 ];
 
 export const algorithmCategories: Category[] = [
+  {
+    id: "linkedlists",
+    name: "Linked Lists",
+    algorithms: linkedListsAlgorithms,
+  },
   {
     id: "graphs",
     name: "Graphs",
