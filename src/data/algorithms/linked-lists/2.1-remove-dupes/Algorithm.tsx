@@ -24,33 +24,28 @@ const BASE_LIST: ListNode[] = [
 export const AlgorithmSection = () => (
   <>
     <Paragraph>
-      To solve this problem, we walk the list and store the values of the nodes in a hashmap. At each node, we check whether we have seen its value before.
-      The tricky part is doing the rewiring.
+      We walk the list and store node values in a hashmap. At each node, we check if we've seen its value before. The tricky part is the rewiring.
     </Paragraph>
 
-    <Heading>Algorithm Overview</Heading>
+    <Heading>Key Concept: Node Removal</Heading>
 
     <Callout type="definition">
       <Paragraph>
-       To remove a node from a linked list, we essentially need to take the node prior to the current node, and link it to the node directly after the current node.
-       However, in a singly linked list, there is no backwards link to the previous node. This means we need to keep the previous node in memory.
+       To remove a node, link the previous node to the next node: `prev.next = curr.next`. Since there's no backwards link in a singly linked list, we must keep `prev` in memory.
       </Paragraph>
       <Code language="go">
-{`prev.next = curr.next`}
+{`prev.next = curr.next  // curr is now unreferenced and will be garbage collected`}
       </Code>
-      <Paragraph>
-        This means there is no longer any node linking to curr, so the Go Garbage Collector will remove curr from memory.
-      </Paragraph>
     </Callout>
 
-    <Heading>Deduplication Walkthrough</Heading>
+    <Heading>Walkthrough</Heading>
 
     <VisualizationStep
       title="Step 1: Initialize"
       description={
         <>
           <Paragraph>
-            Start with <code>prev</code> and <code>curr</code> pointers. We also initialize a hashmap to track seen values.
+            Start with `prev` and `curr` pointers, plus a hashmap to track seen values.
           </Paragraph>
           <Code language="go">
 {`prev := head
@@ -77,7 +72,7 @@ seen := map[int]bool{head.value: true}`}
       description={
         <>
           <Paragraph>
-            <code>curr.value</code> is 1, which we've seen. We need to remove this node by rewiring <code>prev.next</code> to <code>curr.next</code>.
+            `curr.value` is 1, which we've seen before. Remove this node by rewiring `prev.next` to `curr.next`.
           </Paragraph>
           <Code language="go">
 {`if seen[curr.value] {
@@ -89,7 +84,7 @@ seen := map[int]bool{head.value: true}`}
 curr = curr.next`}
           </Code>
           <Callout type="warning">
-            Note that we don't advance "prev" when curr is deleted. If we did, prev would become the deleted node. This is the most common place to trip up in this algorithm.
+            We don't advance `prev` when deleting. If we did, `prev` would point to the deleted node - a common mistake!
           </Callout>
         </>
       }
@@ -110,13 +105,11 @@ curr = curr.next`}
     />
 
     <VisualizationStep
-      title="Step 3: Node Removed"
+      title="Step 3: Garbage Collection"
       description={
-        <>
-          <Paragraph>
-            The duplicate node is no longer referenced and will be garbage collected. Nothing to do here. Go does this automatically. We move forward.
-          </Paragraph>
-        </>
+        <Paragraph>
+          The duplicate node is unreferenced and will be garbage collected automatically. We advance `curr`.
+        </Paragraph>
       }
       linkedList={[
         { value: 1, state: "visited" },
@@ -137,11 +130,9 @@ curr = curr.next`}
     <VisualizationStep
       title="Step 4: Another Duplicate"
       description={
-        <>
-          <Paragraph>
-            Found another 1. Same process - rewire around it.
-          </Paragraph>
-        </>
+        <Paragraph>
+          Another 1 found. Same process - rewire around it.
+        </Paragraph>
       }
       linkedList={[
         { value: 1, state: "visited" },
@@ -162,11 +153,9 @@ curr = curr.next`}
     <VisualizationStep
       title="Step 5: New Value"
       description={
-        <>
-          <Paragraph>
-            Value 4 hasn't been seen before. Add it to the map and move <code>prev</code> forward.
-          </Paragraph>
-        </>
+        <Paragraph>
+          Value 4 hasn't been seen. Add it to the map and advance `prev`.
+        </Paragraph>
       }
       linkedList={[
         { value: 1, state: "visited" },
@@ -181,13 +170,11 @@ curr = curr.next`}
     />
 
     <VisualizationStep
-      title="Step 6: Final Result"
+      title="Step 6: Complete"
       description={
-        <>
-          <Paragraph>
-            Continue until the end. All duplicates are removed!
-          </Paragraph>
-        </>
+        <Paragraph>
+          Continue until the end. All duplicates removed!
+        </Paragraph>
       }
       linkedList={[
         { value: 1, state: "visited" },

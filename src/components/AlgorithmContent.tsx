@@ -7,6 +7,7 @@ import { ArrayDiagram } from "./ArrayDiagram";
 import { MapDiagram } from "./MapDiagram";
 import { StackDiagram } from "./StackDiagram";
 import { QueueDiagram } from "./QueueDiagram";
+import { RichText } from "./RichText";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -60,6 +61,10 @@ export const ListItem = ({ children }: { children: ReactNode }) => {
 };
 
 export const Paragraph = ({ children }: { children: ReactNode }) => {
+  // Support inline code rendering with backticks
+  if (typeof children === 'string') {
+    return <p className="text-sm leading-relaxed mb-4"><RichText content={children} /></p>;
+  }
   return <p className="text-sm leading-relaxed mb-4">{children}</p>;
 };
 
