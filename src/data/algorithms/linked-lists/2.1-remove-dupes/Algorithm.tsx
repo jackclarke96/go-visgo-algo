@@ -92,10 +92,7 @@ Target ← "E"`}
           </Code>
         </>
       }
-      graph={{
-        data: BASE_LIST,
-        nodeStates: { S: "current" },
-      }}
+      linkedList={BASE_LIST}
       queue={[
         { value: "S", state: "current" },
       ]}
@@ -125,10 +122,7 @@ for each neighbor in neighbors("S"):   // "A", "C"
           </Code>
         </>
       }
-      graph={{
-        data: BASE_GRAPH,
-        nodeStates: { S: "current", A: "newlyQueued", C: "newlyQueued" },
-      }}
+      linkedList={BASE_LIST}
       queue={[
         { value: "S", state: "current" },
         { value: "A", state: "highlighted" },
@@ -161,16 +155,7 @@ for each neighbor in neighbors("A"):   // "B", "D"
           </Code>
         </>
       }
-      graph={{
-        data: BASE_GRAPH,
-        nodeStates: {
-          S: "visited",
-          A: "current",
-          C: "queued",
-          B: "queued",
-          D: "newlyQueued",
-        },
-      }}
+      linkedList={BASE_LIST}
       queue={[
         { value: "A", state: "current" },
         { value: "C", state: "unvisited" },
@@ -209,16 +194,7 @@ for each neighbor in neighbors("C"):   // "A"
           </Code>
         </>
       }
-      graph={{
-        data: BASE_GRAPH,
-        nodeStates: {
-          S: "visited",
-          A: "visited",
-          C: "current",
-          B: "queued",
-          D: "queued",
-        },
-      }}
+      linkedList={BASE_LIST}
       queue={[
         { value: "C", state: "current" },
         { value: "B", state: "unvisited" },
@@ -253,17 +229,7 @@ for each neighbor in neighbors("B"):   // "E"
           </Code>
         </>
       }
-      graph={{
-        data: BASE_GRAPH,
-        nodeStates: {
-          S: "visited",
-          A: "visited",
-          C: "visited",
-          B: "current",
-          D: "queued",
-          E: "newlyQueued",
-        },
-      }}
+      linkedList={BASE_LIST}
       queue={[
         { value: "B", state: "current" },
         { value: "D", state: "unvisited" },

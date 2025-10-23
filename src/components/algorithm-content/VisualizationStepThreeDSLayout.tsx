@@ -9,33 +9,71 @@ interface QueueItem {
   state: QueueItemState;
 }
 
+interface DataStructure {
+  type: 'graph' | 'linkedList' | 'queue' | 'stack' | 'array' | 'map';
+  label: string;
+  data: any;
+}
+
 export interface VisualizationStepProps {
   title: string;
   description: React.ReactNode;
+  dataStructures?: DataStructure[];
+  // Legacy props for backward compatibility
   graph?: {
     data: any;
     nodeStates: Record<string, NodeState>;
     width?: number;
     height?: number;
   };
-  linkedList?: ListNode[]
+  linkedList?: ListNode[];
   queue?: QueueItem[];
   stack?: { value: string; state: string }[];
   array?: { value: string; state: string }[];
   map?: MapEntry[];
-  textOnRight?: boolean; // If true, text on right, diagrams on left
+  textOnRight?: boolean;
 }
 
 export function VisualizationStep({
   title,
   description,
+  dataStructures,
   graph,
   linkedList,
   queue,
   map,
   textOnRight = false,
 }: VisualizationStepProps) {
-  const hasMultipleDS = queue && map;
+  // Build data structures array from legacy props if dataStructures not provided
+  const structures = dataStructures || [
+    ...(graph ? [{ type: 'graph' as const, label: 'Visualization', data: graph }] : []),
+    ...(linkedList ? [{ type: 'linkedList' as const, label: 'Linked List', data: linkedList }] : []),
+    ...(queue ? [{ type: 'queue' as const, label: 'Queue', data: queue }] : []),
+    ...(map ? [{ type: 'map' as const, label: 'Visited Map', data: map }] : []),
+  ];
+
+  const renderDataStructure = (ds: DataStructure) => {
+    switch (ds.type) {
+      case 'graph':
+        return (
+          <GraphDiagram
+            graphData={ds.data.data}
+            nodeStates={ds.data.nodeStates}
+            width={ds.data.width ?? 300}
+            height={ds.data.height ?? 200}
+            contentOffset={{ y: -50, x: -50 }}
+          />
+        );
+      case 'linkedList':
+        return <LinkedListDiagram nodes={ds.data} />;
+      case 'queue':
+        return <QueueDiagram items={ds.data} width={400} height={200} />;
+      case 'map':
+        return <MapDiagram entries={ds.data} width={400} height={200} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="border border-border rounded-lg p-6 my-8 bg-accent/30 space-y-4">
@@ -47,49 +85,20 @@ export function VisualizationStep({
         {description}
       </div>
 
-      {/* Row 2: Three Diagrams Side by Side */}
-      <div className="grid lg:grid-cols-3 gap-4 lg:items-stretch">
-        {/* Visualization (Graph) */}
-        <div className="space-y-2 flex flex-col">
-          <h4 className="text-sm font-semibold text-muted-foreground">Visualization</h4>
-          <DiagramWrapper title={`${title} - Graph`} compact className="flex-1">
-            {graph && (
-            <GraphDiagram
-              graphData={graph.data}
-              nodeStates={graph.nodeStates}
-              width={graph.width ?? 300}
-              height={graph.height ?? 200}
-              contentOffset={{ y: -50, x: -50 }}
-            />)}
-             {linkedList && (
-              <LinkedListDiagram
-                nodes={linkedList}
-              />
-             )
-             
-             }
-          </DiagramWrapper>
-        </div>
-
-        {/* Queue */}
-        {queue && (
-          <div className="space-y-2 flex flex-col">
-            <h4 className="text-sm font-semibold text-muted-foreground">Queue</h4>
-            <DiagramWrapper title="Queue" compact className="flex-1">
-              <QueueDiagram items={queue} width={400} height={200} />
+      {/* Row 2: Data Structures Side by Side */}
+      <div className={`grid gap-4 lg:items-stretch ${
+        structures.length === 1 ? 'lg:grid-cols-1' : 
+        structures.length === 2 ? 'lg:grid-cols-2' : 
+        'lg:grid-cols-3'
+      }`}>
+        {structures.map((ds, idx) => (
+          <div key={idx} className="space-y-2 flex flex-col">
+            <h4 className="text-sm font-semibold text-muted-foreground">{ds.label}</h4>
+            <DiagramWrapper title={ds.label} compact className="flex-1">
+              {renderDataStructure(ds)}
             </DiagramWrapper>
           </div>
-        )}
-
-        {/* Map */}
-        {map && (
-          <div className="space-y-2 flex flex-col">
-            <h4 className="text-sm font-semibold text-muted-foreground">Visited Map</h4>
-            <DiagramWrapper title="Visited Map" compact className="flex-1">
-              <MapDiagram entries={map} width={400} height={200} />
-            </DiagramWrapper>
-          </div>
-        )}
+        ))}
       </div>
     </div>
   );
