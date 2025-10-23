@@ -19,42 +19,38 @@ export const Solution = () => (
             <li className="text-foreground">
               <strong>Validate inputs</strong> — Early returns for edge cases:
               <List>
-                <ListItem>Return false if start node doesn't exist in graph</ListItem>
-                <ListItem>Return false if end node doesn't exist in graph</ListItem>
-                <ListItem>Return true if start and end are the same node</ListItem>
+                <ListItem>Return if the linked list head is nil</ListItem>
+                <ListItem>Return if the head's successor is nil</ListItem>
               </List>
             </li>
-            
+
             <li className="text-foreground">
               <strong>Initialize data structures:</strong>
               <List>
-                <ListItem><strong>Queue:</strong> Track nodes to explore (start with S)</ListItem>
-                <ListItem><strong>Visited map:</strong> Avoid re-exploring nodes (mark S as visited)</ListItem>
+                <ListItem><strong>seen:</strong> A map to track values of visited nodes. We map seen keys to 'true' for O(1) lookup</ListItem>
+                <ListItem><strong>prev:</strong> Initialise prev as the head of the linked list</ListItem>
+                <ListItem><strong>curr:</strong> Initialise curr as the successor of the head of the linked list</ListItem>
               </List>
             </li>
             
             <li className="text-foreground">
               <div className="inline-flex items-center gap-2 -mt-0.5">
                 <IterationCw className="h-4 w-4 text-primary flex-shrink-0" />
-                <strong>Loop while queue is not empty:</strong>
+                <strong>Loop while curr is not nil</strong>
               </div>
               <List>
-                <ListItem>Dequeue the current node</ListItem>
-                <ListItem>
-                  <span className="inline-flex items-center gap-2 -mt-0.5">
-                    <IterationCw className="h-3.5 w-3.5 text-primary flex-shrink-0" />
-                    <strong>Loop for each neighbor of current node:</strong>
-                  </span>
-                  <List>
-                    <ListItem>If neighbor is the target node E → return true</ListItem>
-                    <ListItem>If neighbor hasn't been visited → add to queue and mark as visited</ListItem>
-                  </List>
-                </ListItem>
+                <ListItem>check whether the value of curr has been seen before</ListItem>
+                <ListItem>If value has been seen before:</ListItem>
+                <List>
+                  <ListItem>Link prev to curr.next</ListItem>
+                </List>
+                <ListItem>If value has not been seen before:</ListItem>
+                 <List>
+                  <ListItem>Set the value in seen for the current node's value to true</ListItem>
+                  <ListItem>Move prev to prev.next</ListItem>
+                </List>
+                <ListItem>Move curr to curr.next</ListItem>
               </List>
-            </li>
-            
-            <li className="text-foreground">
-              <strong>Return false</strong> — No path exists (queue exhausted without finding target)
             </li>
           </ol>
         </Callout>

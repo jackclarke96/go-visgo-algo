@@ -40,7 +40,6 @@ export const AlgorithmSection = () => (
       </Code>
       <Paragraph>
         This means there is no longer any node linking to curr, so the Go Garbage Collector will remove curr from memory.
-        The classic place to trip up is in reassignment of the previous node.
       </Paragraph>
     </Callout>
 
@@ -89,6 +88,9 @@ seen := map[int]bool{head.value: true}`}
 }
 curr = curr.next`}
           </Code>
+          <Callout type="warning">
+            Note that we don't advance "prev" when curr is deleted. If we did, prev would become the deleted node. This is the most common place to trip up in this algorithm.
+          </Callout>
         </>
       }
       linkedList={[
@@ -112,7 +114,7 @@ curr = curr.next`}
       description={
         <>
           <Paragraph>
-            The duplicate node is no longer referenced and will be garbage collected. We move forward.
+            The duplicate node is no longer referenced and will be garbage collected. Nothing to do here. Go does this automatically. We move forward.
           </Paragraph>
         </>
       }
