@@ -2,7 +2,7 @@ import { Paragraph, Callout, DiagramWrapper, GraphDiagram, QueueDiagram, MapDiag
 import { QueueItemState } from "../QueueDiagram";
 import { MapEntry } from "../MapDiagram";
 import { NodeState } from "@/types/visualizer";
-import { LinkedListDiagram, ListNode } from "../LinkedListDiagram";
+import { LinkedListDiagram, ListNode, CustomArrow, BrokenLink } from "../LinkedListDiagram";
 
 interface QueueItem {
   value: string;
@@ -27,6 +27,8 @@ export interface VisualizationStepProps {
     height?: number;
   };
   linkedList?: ListNode[];
+  customArrows?: CustomArrow[];
+  brokenLinks?: BrokenLink[];
   queue?: QueueItem[];
   stack?: { value: string; state: string }[];
   array?: { value: string; state: string }[];
@@ -40,6 +42,8 @@ export function VisualizationStep({
   dataStructures,
   graph,
   linkedList,
+  customArrows,
+  brokenLinks,
   queue,
   map,
   textOnRight = false,
@@ -65,7 +69,13 @@ export function VisualizationStep({
           />
         );
       case 'linkedList':
-        return <LinkedListDiagram nodes={ds.data} />;
+        return (
+          <LinkedListDiagram 
+            nodes={ds.data} 
+            customArrows={customArrows}
+            brokenLinks={brokenLinks}
+          />
+        );
       case 'queue':
         return <QueueDiagram items={ds.data} width={400} height={200} />;
       case 'map':
