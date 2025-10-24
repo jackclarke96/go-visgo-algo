@@ -92,5 +92,13 @@ export const Solution = () => (
 }`}
       </Code>
     </Section>
+     <Section title="Time & Space Complexity">
+      <Paragraph>
+        <strong>Time Complexity:</strong> O(n) — We visit each node exactly once. As the linked list grows, our time grows linearly.
+      </Paragraph>
+      <Paragraph>
+        <strong>Space Complexity:</strong> O(n) — The extra space for prev, vurr and next pointers is constant O(1), but the hash map can grow up to n entries in the worst case (when all node values are unique).
+      </Paragraph>
+    </Section>
   </>
 );
