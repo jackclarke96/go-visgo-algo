@@ -71,9 +71,9 @@ export function VisualizationStep({
       case 'linkedList':
         return (
           <LinkedListDiagram 
-            nodes={ds.data} 
-            customArrows={customArrows}
-            brokenLinks={brokenLinks}
+            nodes={Array.isArray(ds.data) ? ds.data : ds.data.nodes}
+            customArrows={ds.data.customArrows || customArrows}
+            brokenLinks={ds.data.brokenLinks || brokenLinks}
           />
         );
       case 'queue':
