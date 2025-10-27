@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { AlgorithmSidebar } from "@/components/AlgorithmSidebar";
 import { ContentTabs } from "@/components/ContentTabs";
 import { algorithmCategories } from "@/data/algorithms";
@@ -6,16 +7,35 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const [selectedAlgorithmId, setSelectedAlgorithmId] = useState("route-between-nodes");
+  const { category, algorithmId } = useParams();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const defaultAlgorithm = algorithmCategories[0]?.algorithms[0]?.id || "";
+  const selectedAlgorithmId = algorithmId || defaultAlgorithm;
 
   const selectedAlgorithm = algorithmCategories
     .flatMap((cat) => cat.algorithms)
     .find((alg) => alg.id === selectedAlgorithmId);
 
+  useEffect(() => {
+    if (!category && !algorithmId) {
+      const firstCategory = algorithmCategories[0];
+      const firstAlgorithm = firstCategory?.algorithms[0];
+      if (firstAlgorithm) {
+        navigate(`/${firstCategory.id}/${firstAlgorithm.id}`, { replace: true });
+      }
+    }
+  }, [category, algorithmId, navigate]);
+
   const handleAlgorithmSelect = (id: string) => {
-    setSelectedAlgorithmId(id);
-    setIsMobileMenuOpen(false); // Close menu on mobile after selection
+    const targetCategory = algorithmCategories.find(cat =>
+      cat.algorithms.some(alg => alg.id === id)
+    );
+    if (targetCategory) {
+      navigate(`/${targetCategory.id}/${id}`);
+    }
+    setIsMobileMenuOpen(false);
   };
 
   return (

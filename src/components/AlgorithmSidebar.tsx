@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { algorithmCategories } from "@/data/algorithms";
 import { cn } from "@/lib/utils";
@@ -45,17 +46,18 @@ export const AlgorithmSidebar = ({ selectedId, onSelect }: AlgorithmSidebarProps
                 <ul className="ml-2 space-y-1">
                   {category.algorithms.map((algorithm) => (
                     <li key={algorithm.id}>
-                      <button
+                      <Link
+                        to={`/${category.id}/${algorithm.id}`}
                         onClick={() => onSelect(algorithm.id)}
                         className={cn(
-                          "w-full text-left px-3 py-2 rounded text-sm transition-colors",
+                          "block w-full text-left px-3 py-2 rounded text-sm transition-colors",
                           selectedId === algorithm.id
                             ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
                             : "text-sidebar-foreground hover:bg-sidebar-accent/50"
                         )}
                       >
                         {algorithm.title}
-                      </button>
+                      </Link>
                     </li>
                   ))}
                 </ul>
